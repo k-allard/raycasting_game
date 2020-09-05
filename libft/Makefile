@@ -6,7 +6,7 @@
 #    By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/30 22:32:54 by kallard           #+#    #+#              #
-#    Updated: 2020/07/15 09:53:23 by kallard          ###   ########.fr        #
+#    Updated: 2020/09/05 15:50:34 by kallard          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,8 +21,10 @@ SRC = ft_memset.c \
 		ft_memcmp.c \
 		ft_strlen.c \
 		ft_strlcpy.c \
+		ft_strcpy.c \
 		ft_strlcat.c \
 		ft_strchr.c \
+		locate_n.c \
 		ft_strrchr.c \
 		ft_strnstr.c \
 		ft_strncmp.c \
@@ -47,9 +49,8 @@ SRC = ft_memset.c \
 		ft_putchar_fd.c \
 		ft_putstr_fd.c \
 		ft_putendl_fd.c \
-		ft_putnbr_fd.c
-
-BONUS = ft_lstnew.c \
+		ft_putnbr_fd.c \
+		ft_lstnew.c \
 		ft_lstadd_front.c \
 		ft_lstsize.c \
 		ft_lstlast.c \
@@ -57,11 +58,10 @@ BONUS = ft_lstnew.c \
 		ft_lstdelone.c \
 		ft_lstclear.c \
 		ft_lstiter.c \
-		ft_lstmap.c
+		ft_lstmap.c \
+		ft_gnl.c
 		
 OBJS = $(SRC:.c=.o)
-
-OBJSBONUS = $(BONUS:.c=.o)
 
 FLAGS = -Wall -Wextra -Werror
 
@@ -75,12 +75,8 @@ $(NAME): $(OBJS)
 	@ar r $(NAME) $(OBJS)
 	@ranlib $(NAME)
 
-bonus:	$(OBJS) $(OBJSBONUS)
-	@ar r $(NAME) $(OBJS) $(OBJSBONUS)
-	@ranlib $(NAME)
-
 clean:
-	@rm -rf $(OBJS) $(OBJSBONUS)
+	@rm -rf $(OBJS)
 
 fclean: clean
 	@rm -f $(NAME)

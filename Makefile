@@ -6,7 +6,7 @@
 #    By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/30 22:32:54 by kallard           #+#    #+#              #
-#    Updated: 2020/08/31 18:47:47 by kallard          ###   ########.fr        #
+#    Updated: 2020/09/05 20:14:41 by kallard          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = cub3D
 
 SRCS = main.c
 
-HEADER = ./cub3D.h
+HEADER = ./cub.h
 
 OBJS = $(SRCS:.c=.o)
 
@@ -26,15 +26,15 @@ FLAGS = -Wall -Werror -Wextra -fsanitize=address -Lmlx -lmlx -framework OpenGL -
 	
 $(NAME): $(OBJS) $(HEADER)
 	@make -C libft
-	@make -C minilibx
-	@gcc -o $(NAME) $(OBJS) libft/*.o minilibx/libmlx.a $(FLAGS)
+	@make -C mlx
+	@gcc -o $(NAME) $(OBJS) libft/*.o mlx/mlx.a $(FLAGS)
 
 all: $(NAME)
 
 clean:
 	@rm -rf $(OBJS)
 	@make -C libft clean
-	@make -C minilibx clean
+	@make -C mlx clean
 
 # также надо будет удалить скриншот
 fclean: clean

@@ -1,31 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3D.h                                            :+:      :+:    :+:   */
+/*   locate_n.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/08/31 16:35:02 by kallard           #+#    #+#             */
-/*   Updated: 2020/08/31 18:42:27 by kallard          ###   ########.fr       */
+/*   Created: 2020/09/05 15:11:42 by kallard           #+#    #+#             */
+/*   Updated: 2020/09/05 15:12:01 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB_H
-# define CUB_H
+#include "libft.h"
 
-# include "libft/libft.h"
+char	*locate_n(const char *str)
+{
+	int i;
 
-# include <stdlib.h>
-# include <unistd.h>
-# include <math.h>
-# include <fcntl.h>
-# include <errno.h>
-# include "minilibx/mlx.h"
-
-
-
-
-
-
-
-#endif
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '\n')
+			return (char *)(str + i);
+		i++;
+	}
+	return (NULL);
+}

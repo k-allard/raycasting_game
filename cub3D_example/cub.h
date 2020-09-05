@@ -55,7 +55,7 @@ typedef struct	s_player
 
 typedef struct	s_mlxparam
 {
-	void		*mlx_ptr;		// mlx.1	CONNECTION IDENTIFIER
+	void		*mlx_ptr;		// mlx.1	CONNECTION IDENTIFIER ptr->m->mlx_ptr
 	void		*win_ptr;		// 			WINDOW IDENTIFIER	
 }				t_mlxparam;
 
