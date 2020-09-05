@@ -19,7 +19,7 @@ HEADER = ./cub3D.h
 OBJS = $(SRCS:.c=.o)
 
 #-Wall -Wextra -Werror
-FLAGS = -framework OpenGL -framework AppKit
+FLAGS = -Wall -Werror -Wextra -fsanitize=address -Lmlx -lmlx -framework OpenGL -framework AppKit
 
 %.o: %.c
 	@$(CC) $(FLAGS) -c $< -o $@
