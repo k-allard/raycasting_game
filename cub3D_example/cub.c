@@ -117,7 +117,7 @@ int				main(int ac, char **av)
 		if (check_filename(av[1]))
 		{
 			init_check_struct(&ptr);
-			get_param_objects(open(av[1], O_RDONLY), &ptr);
+			get_param_objects(open(av[1], O_RDONLY), &ptr);	//my file_parsing()
 			before_game_init(&ptr);
 			start_game(&ptr);
 		}

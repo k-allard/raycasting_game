@@ -11,16 +11,16 @@
 
 typedef struct	s_check
 {
-	short int	r;
-	short int	no;
-	short int	so;
-	short int	we;
-	short int	ea;
-	short int	s;
-	short int	f;
-	short int	c;
-	short int	map;
-	short int	pos_player;
+	short int	r;		//permission
+	short int	no;		//path north
+	short int	so;		//path south
+	short int	we;		//path west
+	short int	ea;		//path east
+	short int	s;		//path sprite
+	short int	f;		//RGB floor
+	short int	c;		//RGB ceilling
+	short int	map;	//param map
+	short int	pos_player;	//pos_player
 }				t_check;
 
 typedef struct	s_paramobj

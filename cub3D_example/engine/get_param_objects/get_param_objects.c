@@ -22,7 +22,7 @@ void			get_param_objects(int fd, t_ptr *ptr)
 		if (line[i] == '1' || line[i] == '0' || line[i] == '2')
 		{
 			ptr->c->map++;
-			get_param_map(fd, line, ptr);
+			get_param_map(fd, line, ptr);		//my map_parsing()
 			break ;
 		}
 		sort_param_objects(&line[i], ptr);
