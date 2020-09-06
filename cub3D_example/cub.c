@@ -40,8 +40,8 @@ static void		push_img_to_bmp(t_ptr *ptr, int fd)
 static void		before_game_init(t_ptr *p)
 {
 	check_player(p->p->split_map);
-	p->p->space_map = transform_space_map(p->p->split_map);
-	check_space_map(p->p->space_map);
+	// p->p->space_map = transform_space_map(p->p->split_map);
+	// check_space_map(p->p->space_map);
 	init_match_struct(p);
 	match_to_match(p->p->split_map, p);
 	p->p->trans_map = transform_split_map(p->p->split_map);

@@ -1,5 +1,10 @@
 #include "cub.h"
 
+void check_player(char **map)
+{
+/*need to check if the player is placed correctly*/
+}
+
 void			check_line_map(char *line, t_all *all)
 {
 	int i;

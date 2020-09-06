@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/a.out",
-            "args": ["map.cub"],
+            "args": ["map.cub", "--sava"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

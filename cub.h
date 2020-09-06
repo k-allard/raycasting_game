@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 16:35:02 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/06 14:14:28 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/06 19:10:16 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,16 @@
 
 typedef struct s_checks
 {
-	int	r;		//resolution
-	int	n;		//path north
-	int	s;		//path south
-	int	w;		//path west
-	int	e;		//path east
-	int	sp;		//path sprite
-	int	f;		//установлен цвет пола?
-	int	c;		//установлен цвет потолка?
-	int	map;	//есть карта в файле?
-	int	pos_player;	//нашли месторасположение игрока?
+	int	r;			//разрешение картинки установлено?
+	int	n;			//текстура для севера установлена?
+	int	s;			//текстура для юга установлена?
+	int	w;			//текстура для запада установлена?
+	int	e;			//текстура для востока установлена?
+	int	sp;			//текстура для спрайта установлена?
+	int	f;			//установлен цвет пола?
+	int	c;			//установлен цвет потолка?
+	int	map;		//есть карта в файле?
+	int	pos_player;	//нашли игрока на карте?
 }				t_checks;
 
 typedef struct s_param
@@ -48,13 +48,28 @@ typedef struct s_param
 	char		*w;
 	char		*e;
 	char		*sp;
-	int			f_rgb;		//цвет пола
-	int			c_rgb;		//цвет потолка
-	char		pl_dir;		//направление игрока
-	char		*line_map;	//спарсенная карта в виде 1 строки с межстроковым разделителем |
+	int			f_rgb;			//цвет пола
+	int			c_rgb;			//цвет потолка
+	char		pl_dir;			//направление игрока
+	char		*line_map;		//спарсенная карта в виде 1 строки с межстроковым разделителем
 	char		**split_map;	//карта в виде двумерного массива
 
 }				t_param;
+
+typedef struct	s_dda
+{
+	double		cam_x;
+
+}				t_dda;
+
+typedef	struct	s_sprite
+{
+	int			nb_sprite;
+	double		*buffer;
+	double		spritex;
+	double		spritey;
+
+}				t_sprite;
 
 typedef struct    s_win     //структура для окна
 {
@@ -66,6 +81,17 @@ typedef struct    s_win     //структура для окна
 	int            bpp;     //bits_per_pixel
 	int            en;		//endian
 }                  t_win;
+
+typedef struct    s_img 
+{
+	void		*img;
+	char		*data_addr;
+	int			width;
+	int			height;
+	int			bpp;
+	int			size_line;
+	int			endian;
+}                  t_img;
 
 typedef struct    s_point   // структура для точки
 {
@@ -82,13 +108,23 @@ typedef struct    s_plr        //структура для игрока и лу�
 	float        end;
 }                  t_plr;
 
+typedef struct	s_mlx
+{
+	void		*mlx;		// mlx.1	CONNECTION IDENTIFIER all->mlx->mlx
+	void		*win;		// 			WINDOW IDENTIFIER	
+}				t_mlx;
+
 typedef struct    s_all // структура для всего вместе
 {
 	t_checks	*ch;
 	t_param		*p;
 	t_win        *win;
+	t_img		**img;
 	t_plr        *plr;
+	t_mlx		*mlx;
+	t_sprite	*sp;
 	char        **map;
+	t_dda		*dda;
 }                  t_all;
 
 
@@ -107,6 +143,8 @@ void			error(char *message);
 /*INIT*/
 void   			init_check_struct(t_all *all);
 void			init_param_struct(t_all *all);
+void			init_game(t_all *all)
+
 
 /*PARSING*/
 void			file_parsing(int fd, t_all *all);
