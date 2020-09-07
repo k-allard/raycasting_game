@@ -1,13 +1,7 @@
 R 900 680
-NO ./texture/WALL46.xpm
-SO ./texture/WALL2.xpm
-WE ./texture/WALL0.xpm
-EA ./texture/WALL4.xpm
-S ./texture/cat.xpm
-F 100,100,100
-C 80,80,80
-
-
+NO ./texture/1.xpm
+SO ./texture/2.xpm
+WE ./texture/3.xpm
         1111111111111111111111111
         1000000000110000000000001
         1011000001110002002002001
@@ -22,3 +16,7 @@ C 80,80,80
 11000001111101011111011110001
 11110000000000000001111010001
 11111111111111111111111111111
+EA ./texture/4.xpm
+F 101,121,48
+S ./texture/sprite.xpm
+C 80,150,200

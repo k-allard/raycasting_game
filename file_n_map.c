@@ -2,13 +2,33 @@
 
 static void floor_n_c(char *line, int *rgb, char flag, t_all *all)
 {
-/*
-** Функция для парсинга цвета пола и потолка
-** Your program must be able to set the floor and ceilling colors to two different ones.
-Floor/Ceilling color:
-F 220,100,0
-· R,G,B colors in range [0,255]: 0, 255, 255
-*/
+	int r;
+	int g;
+	int b;
+	int i;
+
+	i = 0;
+	r = ft_atoi(&line[i]);
+	while (line[i] != ',')
+		i++;
+	i++;
+	g = ft_atoi(&line[i]);
+	while (line[i] != ',')
+		i++;
+	i++;
+	b = ft_atoi(&line[i]);
+	if (!((r >= 0 && r <= 255) && ((g >= 0 && g <= 255)) &&
+	((b >= 0 && b <= 255))))
+		error("Floor and ceilling RGB should be in range [0; 255]");
+	//в структуру param цвета пола и потолка сохраняются в hex виде:
+	*rgb = r;					
+	*rgb = (*rgb << 8) + g;
+	*rgb = (*rgb << 8) + b;
+
+	if (flag == 'F')
+		all->ch->f++;
+	else if (flag == 'C')
+		all->ch->c++;
 }
 
 static void resolution_pars(char *line, t_all *all)
@@ -17,24 +37,21 @@ static void resolution_pars(char *line, t_all *all)
 	int i;
 
 	i = 0;
-	while (line[i] == ' ' || line[i] == '\t')
+	while (line[i] == ' ')
 		i++;
 	all->p->width = ft_atoi(&line[i]);
 	if (all->p->width <= 0)
 		error("Width is less than or equals zero");
-	/*
-	** If the declared screen size in the map is greater than the display resolution, 
-	** the window size will be set depending to the current display resolution.
-	*/
+	mlx_get_screen_size(all->mlx->mlx, &(all->ch->screen_w), &(all->ch->screen_h));
+	if (all->p->width > all->ch->screen_w)
+		all->p->width = all->ch->screen_w; 		//the window width will be set depending to the current display resolution
 	while (line[i] >= '0' && line[i] <= '9')
 		i++;
 	all->p->hight = ft_atoi(&line[i]);
 	if (all->p->hight <= 0)
 		error("Hight is less than or equals zero");
-	/*
-	** If the declared screen size in the map is greater than the display resolution, 
-	** the window size will be set depending to the current display resolution.
-	*/
+	if (all->p->hight > all->ch->screen_h)
+		all->p->hight = all->ch->screen_h;		//the window width will be set depending to the current display resolution
 	all->ch->r++;
 }
 
@@ -85,8 +102,8 @@ static void sort_param(char *line, t_all *all)
 	int i;
 
 	i = 0;
-	if (line[i] == '\0' || line[i] == 13)		//13 - возврат каретки
-		return ;
+	// if (line[i] == '\0' || line[i] == 13)		//код 13 - возврат каретки
+	// 	return???error???;
 	if (line[i] == 'R' && (line[i + 1] == ' '))
 		resolution_pars(&line[i + 1], all);
 	else if (((line[i] == 'N' && line[i + 1] == 'O') || (line[i] == 'S' &&
@@ -137,11 +154,11 @@ void file_parsing(int fd, t_all *all)
 			error("File reading error!");
 		while(line[i] == ' ')               						//только ли пробелы возможны??
 			i++;
-		if (line[i] == '0' || line[i] == '1' || line[i] == '2')     //значит, читаем ряд с картой
+		if (line[i] == '0' || line[i] == '1' || line[i] == '2')     //значит, началась карта
 		{
 			all->ch->map++;
 			map_parsing(fd, line, all);
-			break;
+			break;													//карта - всегда последний "параметр" в файле, выходим из цикла while
 		}
 		sort_param(&line[i], all);
 	}

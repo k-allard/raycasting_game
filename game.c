@@ -27,7 +27,10 @@
 
 void			game_start(t_all *all)
 {
-	//mlx_hook и так далее
+	mlx_hook(all->mlx->win, 17, 1L << 0, ?????, (void *)0);			//закрыть игру 
+	mlx_hook(all->mlx->win, 2, 5, ?????, all);						//						mlx_loop.1
+	mlx_loop_hook(all->mlx->mlx, ?????, all);
+	mlx_loop(all->mlx->mlx);
 }
 
 
