@@ -102,8 +102,8 @@ static void sort_param(char *line, t_all *all)
 	int i;
 
 	i = 0;
-	// if (line[i] == '\0' || line[i] == 13)		//код 13 - возврат каретки
-	// 	return???error???;
+	if (line[i] == '\0' || line[i] == 13)		//код 13 - возврат каретки
+		return ;
 	if (line[i] == 'R' && (line[i + 1] == ' '))
 		resolution_pars(&line[i + 1], all);
 	else if (((line[i] == 'N' && line[i + 1] == 'O') || (line[i] == 'S' &&
