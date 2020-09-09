@@ -42,7 +42,7 @@ static void resolution_pars(char *line, t_all *all)
 	all->p->width = ft_atoi(&line[i]);
 	if (all->p->width <= 0)
 		error("Width is less than or equals zero");
-	mlx_get_screen_size(all->mlx->mlx, &(all->ch->screen_w), &(all->ch->screen_h));
+	mlx_get_screen_size(all->mlx, &(all->ch->screen_w), &(all->ch->screen_h));
 	if (all->p->width > all->ch->screen_w)
 		all->p->width = all->ch->screen_w; 		//the window width will be set depending to the current display resolution
 	while (line[i] >= '0' && line[i] <= '9')

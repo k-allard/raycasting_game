@@ -31,7 +31,7 @@ int main(int argc, char **argv)
 		init_game_struct(&all);
 		file_parsing(open(argv[1], O_RDONLY), &all);
 		init_game(&all);
-		// game_start(&all);
+		game_start(&all);
 	}
 	else if(argc == 3)
 	{

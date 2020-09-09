@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 16:35:02 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/07 16:08:02 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/09 12:48:57 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,16 +78,16 @@ typedef	struct	s_sprite
 
 }				t_sprite;
 
-typedef struct		s_win     	//структура для окна
-{
-	void        	*mlx;
-	void        	*win;
-	void        	*img;
-	void        	*addr;		//img address from mlx_get_data_addr()
-	int				line_l;  	//line_length
-	int				bpp;     	//bits_per_pixel
-	int				en;			//endian
-}					t_win;
+// typedef struct		s_win     	//структура для окна
+// {
+// 	void        	*mlx;
+// 	void        	*win;
+// 	void        	*img;
+// 	void        	*addr;		//img address from mlx_get_data_addr()
+// 	// int				line_l;  	//line_length
+// 	// int				bpp;     	//bits_per_pixel
+// 	int				en;			//endian
+// }					t_window;
 
 typedef struct		s_img 
 {
@@ -115,21 +115,22 @@ typedef struct		s_plr        //структура для игрока и луч�
 	float			end;
 }					t_plr;
 
-typedef struct		s_mlx
-{
-	void			*mlx;		// mlx.1	CONNECTION IDENTIFIER all->mlx->mlx
-	void			*win;		// 			WINDOW IDENTIFIER	
-}					t_mlx;
+// typedef struct		s_mlx
+// {
+// 	void			*mlx;		// mlx.1	CONNECTION IDENTIFIER all->mlx
+// 	void			*win;		// 			WINDOW IDENTIFIER	
+// }					t_mlx;
 
 typedef struct		s_all 		// структура для остальных структур
 {
 	t_checks		*ch;
 	t_param			*p;
-	t_win			*win;
+	// t_window		*window;
 	t_img			**img;
 	t_plr			*plr;
-	t_mlx			*mlx;
-	t_sprite		*sp;
+	t_sprite		*sprite;
+	void			*mlx;		// mlx.1	CONNECTION IDENTIFIER all->mlx
+	void			*win;		// 			WINDOW IDENTIFIER		t_sprite		*sp;
 	char			**map;
 	t_dda			*dda;
 }					t_all;
@@ -157,6 +158,9 @@ void			init_game(t_all *all);
 
 /*PARSING*/
 void			file_parsing(int fd, t_all *all);
+
+/*GAME*/
+void			game_start(t_all *all);
 
 
 #endif

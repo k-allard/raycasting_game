@@ -14,6 +14,7 @@ FLAGS = libmlx.dylib -framework OpenGL -framework AppKit
 	
 test: $(OBJS) $(HEADER)
 	@gcc -g $(SRCS) libft/libft.a $(FLAGS)
+	./a.out map.cub
 
 clean:
 	@rm -rf $(OBJS)

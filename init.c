@@ -42,12 +42,12 @@ void init_game_struct(t_all *all)
 	int i;
 
 	i = 0;
-	if (!(all->mlx = (t_mlx *)malloc(sizeof(t_mlx))))
-		error("Struct Mlx malloc error");
-	all->mlx->mlx = mlx_init(); 							// mlx.1 CONNECTION INITIALIZATION
+	// if (!(all->mlx = (t_mlx *)malloc(sizeof(t_mlx))))
+	// 	error("Struct Mlx malloc error");
+	all->mlx = mlx_init(); 							// mlx.1 CONNECTION INITIALIZATION
 	if (!(all->plr = (t_plr *)malloc(sizeof(t_plr))))
 		error("Struct Player malloc error");
-	if (!(all->sp = (t_sprite *)malloc(sizeof(t_sprite))))
+	if (!(all->sprite = (t_sprite *)malloc(sizeof(t_sprite))))
 		error("Struct Sprite malloc error");
 	/*
 	**далее надо выделить память для структуры Изображений
@@ -68,9 +68,9 @@ void init_game(t_all *all)
 	/*
 	**здесь надо инициализировать структуру Спрайт
 	*/
-	all->mlx->win = mlx_new_window(all->mlx->mlx, all->p->width,
+	all->win = mlx_new_window(all->mlx, all->p->width,
 	all->p->hight, "Kallard's Cub3D");												// man /Users/nastya/Desktop/man/man1/mlx_new_window.1
-	all->img[0]->img = mlx_new_image(all->mlx->mlx,
+	all->img[0]->img = mlx_new_image(all->mlx,
 	all->p->width, all->p->hight);													// mlx_new_image.1
 	all->img[0]->data_addr = mlx_get_data_addr(all->img[0]->img,
 	&all->img[0]->bpp, &all->img[0]->size_line, &all->img[0]->endian);				// mlx_new_image.1
@@ -98,4 +98,6 @@ void init_param_struct(t_all *all)
 {
 	if (!(all->p = (t_param *)malloc(sizeof(t_param))))
 		error("Structure of parametres MALLOC ERROR!");
+	// if (!(all->mlx = (t_mlx *)malloc(sizeof(t_mlx))))
+	// 	error("Structure of Mlx MALLOC ERROR!");
 }
