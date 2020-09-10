@@ -1,35 +1,114 @@
 #include "cub.h"
+#include <stdio.h>
+
 //gcc mlx.c libft/libft.a libmlx.dylib -framework OpenGL -framework AppKit
 //from https://harm-smits.github.io/42docs/libs/minilibx/getting_started.html
 
-void            little_square(t_all *all, int x, int y) // рисует квадратик 10*10 пикселей, принимает координару верхнего левого угла квадрата
+int		close_win(void)
+{
+	printf("Player closed the window.\nGame exited\n");
+    exit(EXIT_SUCCESS);
+	return (0);
+}
+
+int             keyhook(int keycode, t_all *all)
+{
+    printf("%d\n", keycode);
+    fflush(stdout);
+    if (keycode == 53)      //ESC
+    {
+        mlx_destroy_window(all->mlx, all->win);
+        exit(EXIT_SUCCESS);
+    }
+    if (keycode == 0)       //A -- left 
+    {
+        all->plr->x -= 4;
+    }
+    if (keycode == 2)       //D -- right 
+    {
+        all->plr->x += 4;
+    }
+    if (keycode == 1)       //S -- down 
+    {
+        all->plr->y += 4;
+    }
+    if (keycode == 13)      //W -- up 
+    {
+        all->plr->y -= 4;
+    }
+    return (0);
+}
+
+void player(t_all *all, int x, int y)           //для ИГРОКА (квадратик 4*4 пикселя)
 {
     int x_tmp = x;
     int y_tmp = y;
 
-    while (y_tmp++ < y + 10)
+    while (y_tmp++ < y + 5)
     {
         x_tmp = x;
-        while(x_tmp++ < x + 10)
-            my_pixel_put(all, x_tmp, y_tmp, 0x00FF7F);
-			// mlx_pixel_put(all->mlx, all->win, x, y, 0x00FF0000);
+        while(x_tmp++ < x + 5)
+            my_pixel_put(all, x_tmp, y_tmp, 0xff4500);
     }
+}
+
+void big_square(t_all *all)                         //для ФОНА (квадрат 200*200 пикселей)
+{
+    int x = 0;
+    int y = 0;
+    int x_tmp = x;
+    int y_tmp = y;
+
+    while (y_tmp++ < y + 200)
+    {
+        x_tmp = x;
+        while(x_tmp++ < x + 200)
+            my_pixel_put(all, x_tmp, y_tmp, 0xc1ffb6);
+    }
+}
+
+void            little_square(t_all *all, int x, int y) //для ЛАБИРИНТА (рисует 1 квадратик 15*15, принимает координару верхнего левого угла)
+{
+    x *= 20;
+    y *= 20;
+    int x_tmp = x;
+    int y_tmp = y;
+
+    while (y_tmp++ < y + 20)
+    {
+        x_tmp = x;
+        while(x_tmp++ < x + 20)
+            my_pixel_put(all, x_tmp, y_tmp, 0xffb6c1);
+    }
+}
+
+int game(t_all *all)
+{
+    int i = 0;
+    big_square(all);
+    while (all->p->split_map[i])
+    {
+        int j = 0;
+        while(all->p->split_map[i][j])
+        {
+            if (all->p->split_map[i][j] == '1')
+                little_square(all, j, i);
+            j++;
+        }
+        i++;
+    }
+    player(all, all->plr->x, all->plr->y);
+    mlx_put_image_to_window(all->mlx, all->win, all->img[0]->img, 0, 0);
+    return 0;
 }
 
 void			game_start(t_all *all)
 {
-    little_square(all, 0, 0);
-    mlx_put_image_to_window(all->mlx, all->win, all->img[0]->img, 0, 0);
+    all->plr->x = 20;
+    all->plr->y = 30;
+
+    mlx_hook(all->win, 17, 1L << 0, close_win, (void *)0);
+    mlx_hook(all->win, 2, 5, keyhook, all);
+    mlx_loop_hook(all->mlx, game, all);
     mlx_loop(all->mlx);
 }
-
-// void			game_start(t_all *all)
-// {
-// 	mlx_hook(all->win, 17, 1L << 0, ?????, (void *)0);			//закрыть игру 
-// 	mlx_hook(all->win, 2, 5, ?????, all);						//						mlx_loop.1
-// 	mlx_loop_hook(all->mlx, ?????, all);
-// 	mlx_loop(all->mlx);
-// }
-
-
-

@@ -1,10 +1,10 @@
 #include "cub.h"
 
-void		init_dda_struct(t_all *all)
-{
-	if (!(all->dda = (t_dda *)malloc(sizeof(t_dda))))
-		error("Struct Dda malloc error");
-}
+// void		init_dda_struct(t_all *all)
+// {
+// 	if (!(all->dda = (t_dda *)malloc(sizeof(t_dda))))
+// 		error("Struct Dda malloc error");
+// }
 
 static int		is_player(char c)
 {
@@ -42,15 +42,11 @@ void init_game_struct(t_all *all)
 	int i;
 
 	i = 0;
-	// if (!(all->mlx = (t_mlx *)malloc(sizeof(t_mlx))))
-	// 	error("Struct Mlx malloc error");
-	all->mlx = mlx_init(); 							// mlx.1 CONNECTION INITIALIZATION
+	all->mlx = mlx_init(); 													// mlx.1 CONNECTION INITIALIZATION
 	if (!(all->plr = (t_plr *)malloc(sizeof(t_plr))))
 		error("Struct Player malloc error");
-	if (!(all->sprite = (t_sprite *)malloc(sizeof(t_sprite))))
-		error("Struct Sprite malloc error");
 	/*
-	**далее надо выделить память для структуры Изображений
+	**далее надо выделить память для структур cпрайтов и изображений?
 	*/
 }
 
@@ -61,12 +57,12 @@ void init_game(t_all *all)
 	**здесь надо проверить карту на все возможные ошибки
 	*/
 	/*
-	**здесь надо добавить текстуры в массив изображения???
+	**здесь надо добавить текстуры в изображения???
 	*/
 	init_game_params(all);
-	init_dda_struct(all);
+	// init_dda_struct(all);
 	/*
-	**здесь надо инициализировать структуру Спрайт
+	**здесь надо инициализировать структуру спрайтов
 	*/
 	all->win = mlx_new_window(all->mlx, all->p->width,
 	all->p->hight, "Kallard's Cub3D");												// man /Users/nastya/Desktop/man/man1/mlx_new_window.1
@@ -98,6 +94,8 @@ void init_param_struct(t_all *all)
 {
 	if (!(all->p = (t_param *)malloc(sizeof(t_param))))
 		error("Structure of parametres MALLOC ERROR!");
-	// if (!(all->mlx = (t_mlx *)malloc(sizeof(t_mlx))))
-	// 	error("Structure of Mlx MALLOC ERROR!");
+	if (!(all->img = (t_img **)malloc(sizeof(t_img*))))
+		error("Structure of imgs MALLOC ERROR!");
+	if (!(all->img[0] = (t_img *)malloc(sizeof(t_img))))
+		error("Structure of img[0] MALLOC ERROR!");
 }
