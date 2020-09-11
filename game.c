@@ -38,11 +38,11 @@ int             keyhook(int keycode, t_all *all)
     }
     if (keycode == 123)   //Arrow Left
     {
-        all->ray->dir += 0,02;
+        all->ray->dir -= 0.02;
     }
     if (keycode == 124)   //Arrow Right
     {
-        all->ray->dir -= 0,02;
+        all->ray->dir += 0.02;
     }
     return (0);
 }
