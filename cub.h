@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 16:35:02 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/10 19:01:49 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/11 14:50:42 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <errno.h>
 # include "mlx/mlx.h"
 
-#define SCALE	16         	   // условный размер каждого квадратика в карте
+#define SCALE	20         	   // условный размер каждого квадратика в карте
 
 typedef struct s_checks
 {
@@ -57,7 +57,7 @@ typedef struct s_param
 
 	int			f_rgb;			//цвет пола
 	int			c_rgb;			//цвет потолка
-	char		pl_dir;			//направление игрока
+	char		pl_dir;			//направление игрока - буква
 	char		*line_map;		//спарсенная карта в виде 1 строки с межстроковым разделителем
 	char		**split_map;	//карта в виде двумерного массива
 
@@ -80,13 +80,21 @@ typedef struct		s_point   	// структура для точки
 	int				y;
 }					t_point;
 
-typedef struct		s_plr        //структура для игрока и луча
+typedef struct		s_ray        //структура для луча 
 {
-	float			x;
-	float			y;
-	float			dir;
-	float			start;
-	float			end;
+	double			x;
+	double			y;
+	double			dir;		//угол между направлением луча и осью x
+	double			start;
+	double			end;
+}					t_ray;
+
+typedef struct		s_plr        //структура для игрока 
+{
+	double			x;
+	double			y;
+	double			dir;		//угол между направлением взгляда и осью x
+	
 }					t_plr;
 
 
@@ -96,6 +104,7 @@ typedef struct		s_all 		// структура для остальных стру
 	t_param			*p;
 	t_img			**img;
 	t_plr			*plr;
+	t_ray			*ray;
 	void			*mlx;		//       	CONNECTION IDENTIFIER   all->mlx
 	void			*win;		// 			WINDOW IDENTIFIER	
 	char			**map;
@@ -127,6 +136,7 @@ void			file_parsing(int fd, t_all *all);
 
 /*GAME*/
 void			game_start(t_all *all);
+void			cast_one_ray(t_all *all);
 
 
 #endif

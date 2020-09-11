@@ -1,22 +1,26 @@
-// //Пробуем кинуть один луч
-// void	ft_cast_ray(t_all *all)
-// {
-// 	t_plr	ray = *all->plr; // задаем координаты луча равные координатам игрока
+#include "cub.h"
 
-// 	while (all->map[(int)(ray.y / SCALE)][(int)(ray.x / SCALE)] != '1')
-// 	{
-// 		ray.x += cos(ray.dir);
-// 		ray.y += sin(ray.dir);
-// 		mlx_pixel_put(all->mlx, all->win, ray.x, ray.y, 0x990099);
-// 	}
-// }
+
+//Пробуем кинуть один луч
+void	cast_one_ray(t_all *all)
+{
+	all->ray->x = all->plr->x + 2; // задаем координаты луча равные координатам середины игрока
+	all->ray->y = all->plr->y + 2;
+
+	while (all->p->split_map[(int)(all->ray->y / SCALE)][(int)(all->ray->x / SCALE)] != '1')
+	{
+		all->ray->x += cos(all->ray->dir);
+		all->ray->y += sin(all->ray->dir);
+        my_pixel_put(all, all->ray->x, all->ray->y, 0xff4500);
+	}
+}
 
 // //Пробуем кинуть много лучей
 // void	ft_cast_rays(t_all *all)
 // {
 // 	t_plr	ray = *all->plr; // задаем координаты и направление луча равные координатам игрока
-// 	float start = ray.dir - [половина угла обзора]; // начало веера лучей
-//   float end = ray.dir + [половина угла обзора]; // край веера лучей
+// 	double start = ray.dir - [половина угла обзора]; // начало веера лучей
+//   double end = ray.dir + [половина угла обзора]; // край веера лучей
 
 //   while (ray.start <= ray.end)
 // 	{

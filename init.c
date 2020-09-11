@@ -45,6 +45,8 @@ void init_game_struct(t_all *all)
 	all->mlx = mlx_init(); 													// mlx.1 CONNECTION INITIALIZATION
 	if (!(all->plr = (t_plr *)malloc(sizeof(t_plr))))
 		error("Struct Player malloc error");
+	if (!(all->ray = (t_ray *)malloc(sizeof(t_ray))))
+		error("Struct Ray malloc error");
 	/*
 	**далее надо выделить память для структур cпрайтов и изображений?
 	*/
