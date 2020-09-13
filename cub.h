@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 16:35:02 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/11 15:58:45 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/13 23:20:19 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,9 @@ void			file_parsing(int fd, t_all *all);
 
 /*GAME*/
 void			game_start(t_all *all);
-void			cast_one_ray(t_all *all);
+void			cast_rays(t_all *all);
+void			cast_rays2(t_all *all);
+void			three_dimensions(t_all *all);
 
 
 #endif
