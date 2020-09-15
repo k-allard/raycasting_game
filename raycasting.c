@@ -39,12 +39,13 @@ void	cast_rays2(t_all *all)
     double angle_max  = all->ray->dir + M_PI/4; // край веера лучей
 
 	int pixel_index = 0;
+	int step = 0;
 	while(angle <= angle_max)
 	{
 		x = all->plr->x;	// каждый раз возвращаемся в точку начала
 		y = all->plr->y;
-		double x_step = cos(angle)/10.0;
-		double y_step = sin(angle)/10.0;
+		double x_step = cos(angle)/14.0;
+		double y_step = sin(angle)/14.0;
 		while (all->p->split_map[(int)(y / SCALE)][(int)(x / SCALE)] != '1')
 		{
 			x += x_step;
@@ -57,7 +58,7 @@ void	cast_rays2(t_all *all)
 				(all->p->split_map[(int)(y / SCALE)][(int)((x + 0.1) / SCALE)] == '1') &&
 				(all->p->split_map[(int)(y / SCALE)][(int)((x - 0.1)/ SCALE)] == '1') ?
 				0xFF9999 : 0xFFCCCC;
-			double destination = (all->plr->y - y) == 0.0 ? (all->plr->x - x) : (all->plr->y - y)/(y_step*10.0);
+			double destination = (all->plr->y - y) == 0.0 ? (all->plr->x - x) : (all->plr->y - y)/(y_step*14.0);
 			if (destination < 0.0)
 				destination = - destination;
 			destination = destination * 20.0 / 200.0;
@@ -73,6 +74,145 @@ void	cast_rays2(t_all *all)
 			}
 		}
 		angle += M_PI/2.0/200.0; 	//[угол обзора] / [количество лучей]
+		pixel_index ++; //
+	}
+}
+
+
+//Пробуем кинуть один луч
+void	cast_rays3(t_all *all)
+{
+	double x = all->plr->x; // задаем координаты луча равные координатам середины игрока
+	double y = all->plr->y;
+	
+	double angle = all->ray->dir - M_PI/4; // начало веера лучей
+    double angle_max  = all->ray->dir + M_PI/4; // край веера лучей
+
+	int resolution = 1000;
+
+	int pixel_index = 0;
+	int step = 0;
+	while(angle <= angle_max)
+	{
+		x = all->plr->x * resolution;	// каждый раз возвращаемся в точку начала
+		y = all->plr->y * resolution;
+		double x_step = cos(angle) * resolution / 10.0;
+		double y_step = sin(angle) * resolution / 10.0;
+
+		while (all->p->split_map[(int)(y / resolution)][(int)(x / resolution)] != '1')
+		{
+			x += x_step; 
+			y += y_step;
+			my_pixel_put(all, \
+				x * SCALE / resolution, \
+				all->p->hight - SCALE * all->map_hight + y * SCALE / resolution, \
+				0x21de00);
+		}
+		if(all->p->split_map[(int)(y / resolution)][(int)(x / resolution)] == '1')
+		{
+			if(x >= 980 && x <= 981 && y >= 1997 && y <= 1998)
+				x = x;
+			double round_y = 1.0 * resolution * round(y / resolution);
+			double round_y_d = (round_y - all->plr->y * resolution) / sinl(angle);
+			double round_y_x = cos(angle) * round_y_d + (all->plr->x * resolution);
+			double round_y_x2 = all->plr->x * resolution - (all->plr->y * resolution - round_y) / tan(angle);
+			//round_y_d = fabs(round_y_d);
+
+			double test_angle = cos(angle);
+			double test_angle2 = cos(angle) * round_y_d;
+			//if( round_y_x >= 0 && \
+			//	round_y_x - resolution * ((int)(x / resolution) - 1) <= resolution * 3 && \
+			//	resolution * ((int)(x / resolution) + 1) - round_y_x <= resolution * 3)
+			//{
+			//	if(all->p->split_map[(int)(round_y / resolution)][(int)(round_y_x / resolution)] != '1')
+			//		round_y_d = 100000000000.0;
+			//} else
+			//{
+			//	round_y_d = 100000000000.0;
+			//}				
+
+			//round_y_d = 			round_y_d = round_y_d > 0.0 ? round_y_d : -round_y_d;
+			//if(all->p->split_map[(int)(round_y / resolution)][(int)(round_y_x / resolution)] != '1')
+			//	round_y_d = round_y_d * 1234;
+
+			double round_x = 1.0 * resolution * round(x / resolution);
+			double round_x_d = (round_x - all->plr->x * resolution) / cos(angle);
+			double round_x_y = sin(angle) * round_x_d + (all->plr->y * resolution);
+			//round_x_d = fabs(round_x_d);
+
+			//if(round_y_x <= resolution * (int)(x / resolution) || round_y_x - resolution * (int)(x / resolution) >= resolution )
+			//	round_y_d = 100000000000.0;
+			//else
+			//if(round_x_y <= resolution * (int)(y / resolution) || round_x_y - resolution * (int)(y / resolution) >= resolution )
+			//	round_x_d = 100000000000.0;
+			//if(round_x_y >= 0 && \
+			//	round_x_y - resolution * ((int)(y / resolution) - 1) <= resolution * 3 && \
+			//	resolution * ((int)(y / resolution) + 1) - round_x_y <= resolution * 3)
+			//{
+			//	if(all->p->split_map[(int)(round_x_y / resolution)][(int)(round_x / resolution)] != '1')
+			//		round_x_d = 100000000000.0;
+			//} else
+			//{
+			//	round_x_d = 100000000000.0;
+			//}				
+
+			double destination = (round_x_d < round_y_d) ? round_x_d : round_y_d;
+			int color;
+			int round_x_step = (round_x > x) ? -1 : 0;
+			int round_y_step = (round_y > y) ? -1 : 0;
+			if(round_y_d < 0)
+			{
+				destination = round_x_d;
+				color = 0xFF9999;
+			} else if(round_x_d < 0)
+			{
+				destination = round_y_d;
+				color = 0xFFCCCC;
+			} else if(round_x_d < round_y_d)
+			{
+				if(all->p->split_map[(int)(round_x_y / resolution)][(int)(round_x / resolution) + round_x_step] == '1')
+				{
+					destination = round_x_d;
+					color = 0xFF9999;
+				}
+				else
+				{
+					destination = round_y_d;
+					color = 0xFFCCCC;
+				}
+			} else
+			{
+				if(all->p->split_map[(int)(round_y / resolution) + round_y_step][(int)(round_y_x / resolution)] == '1')
+				{
+					destination = round_y_d;
+					color = 0xFFCCCC;
+				}
+				else
+				{
+					destination = round_x_d;
+					color = 0xFF9999;
+				}
+			}
+			
+			
+			// = (round_x_d < round_y_d) ? round_x_d : round_y_d;
+
+			//double column_heigth =  all->p->hight / 200.0 / (destination / resolution) / cos(angle - all->ray->dir);
+			double column_heigth =  all->p->hight / (destination / resolution) / cos(angle - all->ray->dir);
+			column_heigth = column_heigth > all->p->hight ? all->p->hight : column_heigth;
+
+					
+			int windows_x = pixel_index;
+			double windows_y = all->p->hight/2.0 - column_heigth/2.0;
+			while (windows_y <= all->p->hight/2 + column_heigth/2.0)
+			{
+				if(!(windows_x <= SCALE * all->map_width && \
+				 	windows_y >= all->p->hight - SCALE * all->map_hight))
+					my_pixel_put(all, windows_x, windows_y, color);
+				windows_y += 0.5;
+			}
+		}
+		angle += M_PI/2.0/all->p->width; 	//[угол обзора] / [количество лучей]
 		pixel_index ++; //
 	}
 }

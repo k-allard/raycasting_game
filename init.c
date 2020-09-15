@@ -61,17 +61,23 @@ void init_game(t_all *all)
 	/*
 	**здесь надо добавить текстуры в изображения???
 	*/
-	init_game_params(all);
+	//init_game_params(all);
 	// init_dda_struct(all);
 	/*
 	**здесь надо инициализировать структуру спрайтов
 	*/
-	all->win = mlx_new_window(all->mlx, all->p->width,
+	all->win = mlx_new_window(all->mlx, all->p->width + 200,
 	all->p->hight, "Kallard's Cub3D");												// man /Users/nastya/Desktop/man/man1/mlx_new_window.1
 	all->img[0]->img = mlx_new_image(all->mlx,
-	all->p->width, all->p->hight);													// mlx_new_image.1
+	all->p->width+200, all->p->hight);													// mlx_new_image.1
 	all->img[0]->data_addr = mlx_get_data_addr(all->img[0]->img,
 	&all->img[0]->bpp, &all->img[0]->size_line, &all->img[0]->endian);				// mlx_new_image.1
+
+	all->texture_NO->img = mlx_xpm_file_to_image( \
+		all->mlx, \
+		all->p->n, \
+		&(all->texture_NO->width), \
+		&(all->texture_NO->height));
 }
 
 void init_check_struct(t_all *all)
@@ -100,4 +106,6 @@ void init_param_struct(t_all *all)
 		error("Structure of imgs MALLOC ERROR!");
 	if (!(all->img[0] = (t_img *)malloc(sizeof(t_img))))
 		error("Structure of img[0] MALLOC ERROR!");
+	if (!(all->texture_NO = (t_img *)malloc(sizeof(t_img))))
+		error("Structure of texture_NO MALLOC ERROR!");
 }

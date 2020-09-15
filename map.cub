@@ -1,11 +1,11 @@
-R 404 202
+R 600 500
 NO ./texture/1.xpm
 SO ./texture/2.xpm
 WE ./texture/3.xpm
 EA ./texture/4.xpm
 S ./texture/sprite.xpm
-F 150,050,50
-C 50,050,150
+F 0,102,0
+C 153,204,255
 
 1111111111
 1000001001

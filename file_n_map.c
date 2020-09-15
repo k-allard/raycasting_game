@@ -120,6 +120,44 @@ static void sort_param(char *line, t_all *all)
 		error("Incorrect identifier");
 }
 
+
+static void get_map_size(t_all *all)
+{
+	int rows = 0;
+	int maxColumns = 0;
+	int rowSize = 0;
+
+	while (all -> p ->split_map[rows])
+	{
+		rowSize = ft_strlen(all -> p ->split_map[rows]);
+		if(rowSize > maxColumns)
+			maxColumns = rowSize;
+		rows++;
+	}
+	all->map_hight = rows;
+	all->map_width = maxColumns;
+}
+
+static void get_player_position(t_all *all)
+{
+	int row = 0;
+	int column = 0;
+	char *playerChar;
+
+	while (all->p->split_map[row])
+	{
+		playerChar = ft_strchr(all -> p ->split_map[row], all->p->pl_dir);
+		if(playerChar)
+		{
+			column = playerChar - all->p->split_map[row];
+			all->plr->x = 1.0 * column + 0.5;
+			all->plr->y = 1.0 * row + 0.5;
+			return;
+		}
+		row++;
+	}
+}
+
 static void map_parsing(int fd, char *line, t_all *all)
 {
 	int row_is_present;
@@ -136,8 +174,10 @@ static void map_parsing(int fd, char *line, t_all *all)
 		all->p->line_map = ft_strjoin(all->p->line_map, "|");
 	}
 	all->p->split_map = ft_split(all->p->line_map, '|');
-
+	get_map_size(all);
+	get_player_position(all);
 }
+
 
 void file_parsing(int fd, t_all *all)
 {
