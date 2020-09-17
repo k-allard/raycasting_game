@@ -1,5 +1,5 @@
 R 600 500
-NO ./texture/1.xpm
+NO ./texture/flag.xpm
 SO ./texture/2.xpm
 WE ./texture/3.xpm
 EA ./texture/4.xpm

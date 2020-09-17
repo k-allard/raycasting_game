@@ -66,7 +66,7 @@ void init_game(t_all *all)
 	/*
 	**здесь надо инициализировать структуру спрайтов
 	*/
-	all->win = mlx_new_window(all->mlx, all->p->width + 200,
+	all->win = mlx_new_window(all->mlx, all->p->width,
 	all->p->hight, "Kallard's Cub3D");												// man /Users/nastya/Desktop/man/man1/mlx_new_window.1
 	all->img[0]->img = mlx_new_image(all->mlx,
 	all->p->width+200, all->p->hight);													// mlx_new_image.1

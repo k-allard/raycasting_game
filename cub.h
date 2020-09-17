@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 16:35:02 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/16 00:03:53 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/16 22:36:29 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <errno.h>
 # include "mlx/mlx.h"
 
-#define SCALE	20         	   // условный размер каждого квадратика в карте
+#define SCALE	15         	   // условный размер каждого квадратика в карте
 
 typedef struct s_checks
 {
