@@ -5,10 +5,12 @@ void			put_pixel(t_ptr *ptr, int y)
 	ptr->img[0]->img_data[ptr->b->stripe * ptr->img[0]->bpp / 8 +
 	ptr->img[0]->size_line * y] = ptr->img[5]->img_data[ptr->img[5]->size_line
 	* ptr->b->texy + ptr->b->texx * ptr->img[5]->bpp / 8];
+
 	ptr->img[0]->img_data[(ptr->b->stripe * ptr->img[0]->bpp / 8 +
 	ptr->img[0]->size_line * y) + 1] = ptr->img[5]->img_data
 	[(ptr->img[5]->size_line * ptr->b->texy + ptr->b->texx *
 	ptr->img[5]->bpp / 8) + 1];
+	
 	ptr->img[0]->img_data[(ptr->b->stripe * ptr->img[0]->bpp / 8 +
 	ptr->img[0]->size_line * y) + 2] = ptr->img[5]->img_data
 	[(ptr->img[5]->size_line * ptr->b->texy + ptr->b->texx *

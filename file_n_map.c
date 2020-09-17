@@ -63,7 +63,7 @@ static void			texture_path_pars(char **param, char *line)
 	while (line[i] == ' ')
 		i++;
 	if (line[i] == '.' && line[i + 1] == '/')
-		*param = line;
+		*param = line + i;
 	else
 		error("Incorrect path to the texture");
 }

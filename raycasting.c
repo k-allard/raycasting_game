@@ -77,6 +77,24 @@ void three_dimensions(t_all *all)
 // 	}
 // }
 
+void	draw_wall_line_from_texture(t_all *all, int text_id, double column_heigth, int x, double hit)
+{
+	int text_x_int = ((int)(all->textures[text_id]->width * hit)) % all->textures[text_id]->width;
+	double text_y = 0.0;
+
+	double text_y_step = all->textures[text_id]->height / column_heigth;
+	int y = all->p->hight/2.0 - column_heigth/2.0;
+	while (y <= all->p->hight/2.0 + column_heigth/2.0)
+	{
+		if(y >= 0 && y <= all->p->hight)
+		{
+			int color = my_pixel_get(all, text_id, text_x_int, (int)text_y);
+			my_pixel_put(all, x, y, color);
+		}
+		y += 1.0;
+		text_y += text_y_step;
+	}
+}
 
 void	cast_rays3(t_all *all)
 {
@@ -117,6 +135,8 @@ void	cast_rays3(t_all *all)
 			double round_x_d = (round_x - all->plr->x * resolution) / cos(angle);
 			double round_x_y = sin(angle) * round_x_d + (all->plr->y * resolution);	
 			double distance = (round_x_d < round_y_d) ? round_x_d : round_y_d;
+			double hit;
+			int text_id;
 			int color;
 			int round_x_step = (round_x > x) ? -1 : 0;
 			int round_y_step = (round_y > y) ? -1 : 0;
@@ -131,25 +151,34 @@ void	cast_rays3(t_all *all)
 				(round_y_d < round_x_d && (all->p->split_map[(int)(round_y / resolution) + round_y_step][(int)(round_y_x / resolution)] != '1')))))
 			{
 				distance = round_x_d;
+				hit = 1.0 * ((int)round_x_y % resolution) / resolution;
 				if (cos(angle) > 0)
-					color = 0xFFFF99; //south
+					// color = 0xFFFF99; 
+					text_id = 1;  		//south
 				else
-					color = 0x330099; //north
+					// color = 0x330099; 
+					text_id = 0; 		//north
 			}
 			else
 			{
 				distance = round_y_d;
+				hit = 1.0 * ((int)round_y_x % resolution) / resolution;
 				if (sin(angle) > 0)
-					color = 0xFF6633;  //east
+					// color = 0xFF6633;  
+					text_id = 3;		//east
 				else 
-					color = 0xCC3300;	//west
+					// color = 0xCC3300;	
+					text_id = 2;		//west
 			}
 			
 			double column_heigth =  all->p->hight / (distance / resolution) / cos(angle - all->ray->dir);
+			draw_wall_line_from_texture(all, text_id, column_heigth, pixel_index, hit);
+			/*
 			column_heigth = column_heigth > all->p->hight ? all->p->hight : column_heigth;
 
 			int windows_x = pixel_index;
 			double windows_y = all->p->hight/2.0 - column_heigth/2.0;
+			
 			while (windows_y <= all->p->hight/2 + column_heigth/2.0)
 			{
 				if(!(windows_x < SCALE * all->map_width && \
@@ -157,6 +186,7 @@ void	cast_rays3(t_all *all)
 					my_pixel_put(all, windows_x, windows_y, color);
 				windows_y += 0.5;
 			}
+			*/
 		}
 		angle += M_PI/2.0/all->p->width; 	//[угол обзора] / [количество лучей]
 		pixel_index ++; //

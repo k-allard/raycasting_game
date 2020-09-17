@@ -1,8 +1,8 @@
 R 600 500
-NO ./texture/flag.xpm
-SO ./texture/2.xpm
-WE ./texture/3.xpm
-EA ./texture/4.xpm
+NO ./texture/wbricks.xpm
+SO ./texture/wbricks.xpm
+WE ./texture/wbricks.xpm
+EA ./texture/flag_vert.xpm
 S ./texture/sprite.xpm
 F 0,102,0
 C 153,204,255

@@ -73,11 +73,26 @@ void init_game(t_all *all)
 	all->img[0]->data_addr = mlx_get_data_addr(all->img[0]->img,
 	&all->img[0]->bpp, &all->img[0]->size_line, &all->img[0]->endian);				// mlx_new_image.1
 
-	all->texture_NO->img = mlx_xpm_file_to_image( \
-		all->mlx, \
-		all->p->n, \
-		&(all->texture_NO->width), \
-		&(all->texture_NO->height));
+	all->textures[0]->img = mlx_xpm_file_to_image(						//загружаем текстуру севера из файла
+		all->mlx, all->p->n, &(all->textures[0]->width), &(all->textures[0]->height));
+	all->textures[0]->data_addr = mlx_get_data_addr(all->textures[0]->img, &all->textures[0]->bpp,
+			&all->textures[0]->size_line, &all->textures[0]->endian);
+	
+	all->textures[1]->img = mlx_xpm_file_to_image( 						//загружаем текстуру юга из файла
+		all->mlx, all->p->s, &(all->textures[1]->width), &(all->textures[1]->height));
+	all->textures[1]->data_addr = mlx_get_data_addr(all->textures[1]->img, &all->textures[1]->bpp,
+			&all->textures[1]->size_line, &all->textures[1]->endian);
+
+	all->textures[2]->img = mlx_xpm_file_to_image( 						//загружаем текстуру запада из файла
+		all->mlx, all->p->w, &(all->textures[2]->width), &(all->textures[2]->height));
+	all->textures[2]->data_addr = mlx_get_data_addr(all->textures[2]->img, &all->textures[2]->bpp,
+			&all->textures[2]->size_line, &all->textures[2]->endian);
+
+	all->textures[3]->img = mlx_xpm_file_to_image( 						//загружаем текстуру востока из файла
+		all->mlx, all->p->e, &(all->textures[3]->width), &(all->textures[3]->height));
+	all->textures[3]->data_addr = mlx_get_data_addr(all->textures[3]->img, &all->textures[3]->bpp,
+			&all->textures[3]->size_line, &all->textures[3]->endian);
+	
 }
 
 void init_check_struct(t_all *all)
@@ -106,6 +121,12 @@ void init_param_struct(t_all *all)
 		error("Structure of imgs MALLOC ERROR!");
 	if (!(all->img[0] = (t_img *)malloc(sizeof(t_img))))
 		error("Structure of img[0] MALLOC ERROR!");
-	if (!(all->texture_NO = (t_img *)malloc(sizeof(t_img))))
-		error("Structure of texture_NO MALLOC ERROR!");
+	if (!(all->textures[0] = (t_img *)malloc(sizeof(t_img))))
+		error("Structure of textures[0] MALLOC ERROR!");
+	if (!(all->textures[1] = (t_img *)malloc(sizeof(t_img))))
+		error("Structure of textures[1] MALLOC ERROR!");
+	if (!(all->textures[2] = (t_img *)malloc(sizeof(t_img))))
+		error("Structure of textures[2] MALLOC ERROR!");
+	if (!(all->textures[3] = (t_img *)malloc(sizeof(t_img))))
+		error("Structure of textures[3] MALLOC ERROR!");
 }
