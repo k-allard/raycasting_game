@@ -39,8 +39,8 @@ void	draw_wall_line_from_texture(t_all *all, int text_id, double column_heigth, 
 	{
 		if(y >= 0 && y <= all->p->hight)
 		{
-			if(!(x < SCALE * all->map_width && \
-				 	y >= all->p->hight - SCALE * all->map_hight))
+			//if(!(x < SCALE * all->map_width && \
+			//	 	y >= all->p->hight - SCALE * all->map_hight))
 			{
 				int color = my_pixel_get(all, text_id, text_x_int, (int)text_y);
 				my_pixel_put(all, x, y, color);
@@ -73,7 +73,7 @@ int is_wall(t_all* all, double y, double x)
 		(all->map_protect[(int)y+1][(int)x+1] == ' '));
 }
 
-void	cast_rays3(t_all *all)
+void	cast_rays(t_all *all)
 {
 	int x_scale_int;
 	int y_scale_int;
@@ -108,7 +108,7 @@ void	cast_rays3(t_all *all)
 			my_pixel_put(all, \
 				x * SCALE, \
 				all->p->hight - SCALE * all->map_hight + y * SCALE, \
-				0x21de00);
+				0x666699);
 		}
 		if(is_wall(all, y, x))
 		{
@@ -137,10 +137,8 @@ void	cast_rays3(t_all *all)
 				distance = round_x_d;
 				hit = round_x_y - (int)round_x_y;
 				if (cos(angle) > 0)
-					// color = 0xFFFF99; 
 					text_id = texture_EA;  		//east
 				else
-					// color = 0x330099; 
 					text_id = texture_WE; 		//west
 			}
 			else
@@ -148,54 +146,16 @@ void	cast_rays3(t_all *all)
 				distance = round_y_d;
 				hit = round_y_x - (int)round_y_x;
 				if (sin(angle) > 0)
-					// color = 0xFF6633;  
 					text_id = texture_SO;		//south
 				else 
-					// color = 0xCC3300;	
 					text_id = texture_NO;		//north
 			}
 			
 			all->depth_buffer[pixel_index] = distance;
 			double column_heigth =  all->p->hight / distance / cos(angle - all->ray->dir);			
 			draw_wall_line_from_texture(all, text_id, column_heigth, pixel_index, hit);
-			/*
-			column_heigth = column_heigth > all->p->hight ? all->p->hight : column_heigth;
-
-			int windows_x = pixel_index;
-			double windows_y = all->p->hight/2.0 - column_heigth/2.0;
-			
-			while (windows_y <= all->p->hight/2 + column_heigth/2.0)
-			{
-				if(!(windows_x < SCALE * all->map_width && \
-				 	windows_y >= all->p->hight - SCALE * all->map_hight))
-					my_pixel_put(all, windows_x, windows_y, color);
-				windows_y += 0.5;
-			}
-			*/
 		}
 		angle += M_PI/2.0/all->p->width; 	//[угол обзора] / [количество лучей]
 		pixel_index ++; //
-	}
-}
-
-void	cast_rays(t_all *all)
-{
-	all->ray->x = all->plr->x; // задаем координаты луча равные координатам середины игрока
-	all->ray->y = all->plr->y;
-	all->ray->start = all->ray->dir - M_PI/4; // начало веера лучей
-    all->ray->end = all->ray->dir + M_PI/4; // край веера лучей
-
-	while(all->ray->start <= all->ray->end)
-	{
-		all->ray->x = all->plr->x;	// каждый раз возвращаемся в точку начала
-		all->ray->y = all->plr->y;
-		while (is_not_wall(all, all->ray->y / SCALE, all->ray->x / SCALE))
-		{
-			all->ray->x += cos(all->ray->start);
-			all->ray->y += sin(all->ray->start);
-			my_pixel_put(all, all->ray->x, all->ray->y, 0x21de00);
-		}
-
-		all->ray->start += M_PI/2/200; 	//[угол обзора] / [количество лучей]
 	}
 }

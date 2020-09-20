@@ -86,12 +86,17 @@ void check_params(t_all *all)
 
 int check_filename(char *filename)
 {
-    int len;
+    int i;
 
-    len = ft_strlen(filename);
-    if (filename[len - 1] == 'b' && filename[len - 2] == 'u' &&
-	filename[len - 3] == 'c' && filename[len - 4] == '.')
+    i = ft_strlen(filename);
+    if (filename[i - 1] == 'b' && filename[i - 2] == 'u' &&
+	filename[i - 3] == 'c' && filename[i - 4] == '.')
+	{
+		if ((i = open(filename, O_RDONLY)) < 0)
+			error("There is no such .cub file");
 		return (1);
-	error("Map should be in format *.cub");
+	}
+	else
+		error("File should be in format *.cub");
     return (0);
 }

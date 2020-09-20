@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 16:35:02 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/20 15:01:40 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/21 00:16:10 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 # include <errno.h>
 # include "mlx/mlx.h"
 
-#define SCALE	20         	   // условный размер каждого квадратика в карте
-#define RESOLUTION 1		   
+#define SCALE	15         	   // условный размер каждого квадратика в карте
+#define SPEED	0.5	   //0.5 is normal
 
 typedef struct s_checks
 {
@@ -140,7 +140,7 @@ typedef struct		s_all 		// структура для остальных стру
 	int				map_width;
 	int				map_hight;
 	char			**map_protect;		
-	t_sprite		**sprite_list;
+	t_sprite		**sprites;
 	double			*depth_buffer;
 	int				sprite_count;
 }					t_all;
@@ -163,19 +163,21 @@ void			error(char *message);
 /*INIT*/
 void   			init_check_struct(t_all *all);
 void			init_param_struct(t_all *all);
-void			init_game_struct(t_all *all);
-void			init_depth_param_struct(t_all *all);
+void			init_game_structs(t_all *all);
+void			init_depth_buffer(t_all *all);
 void			init_game(t_all *all);
-
+void			init_sprite_struct(t_all *all);
 
 /*PARSING*/
 void			file_parsing(int fd, t_all *all);
+ void			map_parsing(int fd, char *line, t_all *all);
+
 
 /*GAME*/
 void			game_start(t_all *all);
 void			cast_rays(t_all *all);
 void			cast_rays2(t_all *all);
-void			cast_rays3(t_all *all);
+void			cast_rays(t_all *all);
 void 			draw_sprites(t_all *all);
 void			three_dimensions(t_all *all);
 

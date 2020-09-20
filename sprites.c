@@ -15,7 +15,7 @@ static int min(int a, int b)
 }
 static void draw_sprite(t_all *all, int index)
 {
-    t_sprite sprite = *(all->sprite_list[index]);
+    t_sprite sprite = *(all->sprites[index]);
     t_plr player = *(all->plr);
     int width = all->p->width;
     int hight = all->p->hight;
@@ -44,8 +44,8 @@ static void draw_sprite(t_all *all, int index)
             x = i*all->textures[texture_S]->width/sprite_width;
             y = j*all->textures[texture_S]->height/sprite_heigth;
             int color = my_pixel_get(all, texture_S, x, y);
-            if(color<0xff000000)
-                my_pixel_put(all, h_offset+i, v_offset+j, color);
+            if (color < 0xff000000)
+                my_pixel_put(all, h_offset + i, v_offset + j, color);
         }
     }
     
