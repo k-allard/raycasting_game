@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 16:35:02 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/18 00:27:34 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/20 15:01:40 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,18 @@
 # include <errno.h>
 # include "mlx/mlx.h"
 
-#define SCALE	15         	   // условный размер каждого квадратика в карте
+#define SCALE	20         	   // условный размер каждого квадратика в карте
+#define RESOLUTION 1		   
 
 typedef struct s_checks
 {
 	//проверки 1 или 0. если 0 - error:
 	int			r;				//разрешение картинки установлено?
-	int			n;				//текстура для севера установлена?
-	int			s;				//текстура для юга установлена?
-	int			w;				//текстура для запада установлена?
-	int			e;				//текстура для востока установлена?
-	int			sp;				//текстура для спрайта установлена?
+	int			no;				//текстура для севера установлена?
+	int			so;				//текстура для юга установлена?
+	int			we;				//текстура для запада установлена?
+	int			ea;				//текстура для востока установлена?
+	int			s;				//текстура для спрайта установлена?
 	int			f;				//установлен цвет пола?
 	int			c;				//установлен цвет потолка?
 	int			map;			//есть карта в файле?
@@ -41,7 +42,25 @@ typedef struct s_checks
 
 	int 		screen_w;		// ширина экрана
 	int 		screen_h;		// высота экрана
+	int			screenshot;		//флаг, надо ли делать скриншот
 }				t_checks;
+
+enum COMPAS
+{
+	texture_NO = 0,
+	texture_WE,
+	texture_EA,
+	texture_SO,
+	texture_S
+};
+
+enum X11EVENTS
+{
+	X11_Event_KeyPress = 02,
+	X11_Event_KeyRelease = 03,
+	X11_Event_DestroyNotify = 17
+	
+};
 
 typedef struct s_param
 {
@@ -49,11 +68,11 @@ typedef struct s_param
 	int			hight;			//высота окна игры и картинки 
 	
 	//пути к текстурам:
-	char		*n;				//текстура на севере и т.д...
+	char		*no;				//текстура на севере и т.д...
+	char		*so;
+	char		*we;
+	char		*ea;
 	char		*s;
-	char		*w;
-	char		*e;
-	char		*sp;
 
 	int			f_rgb;			//цвет пола
 	int			c_rgb;			//цвет потолка
@@ -98,13 +117,21 @@ typedef struct		s_plr        //структура для игрока
 }					t_plr;
 
 
+typedef struct		s_sprite        //структура для игрока 
+{
+	double			x;
+	double			y;
+	double			distance;
+}					t_sprite;
+
+
 typedef struct		s_all 		// структура для остальных структур
 {
 	int				is_draw;
 	t_checks		*ch;
 	t_param			*p;
 	t_img			**img;
-	t_img			*textures[4];
+	t_img			*textures[5];
 	t_plr			*plr;
 	t_ray			*ray;
 	void			*mlx;		//       	CONNECTION IDENTIFIER   all->mlx
@@ -112,16 +139,22 @@ typedef struct		s_all 		// структура для остальных стру
 	// char			**map;
 	int				map_width;
 	int				map_hight;
+	char			**map_protect;		
+	t_sprite		**sprite_list;
+	double			*depth_buffer;
+	int				sprite_count;
 }					t_all;
 
 
 /*UTILS*/
 void            my_pixel_put(t_all *all, int x, int y, int color);
+int            my_pixel_get(t_all *all, int text_id, int x, int y);
 
 /*CHECKS*/
 int				check_filename(char *filename);
 void			check_params(t_all *all);
 void			check_line_map(char *line, t_all *all);
+void			checkmap(t_all *all, int x, int y);
 
 
 /*ERRORS*/
@@ -131,7 +164,7 @@ void			error(char *message);
 void   			init_check_struct(t_all *all);
 void			init_param_struct(t_all *all);
 void			init_game_struct(t_all *all);
-
+void			init_depth_param_struct(t_all *all);
 void			init_game(t_all *all);
 
 
@@ -143,7 +176,12 @@ void			game_start(t_all *all);
 void			cast_rays(t_all *all);
 void			cast_rays2(t_all *all);
 void			cast_rays3(t_all *all);
+void 			draw_sprites(t_all *all);
 void			three_dimensions(t_all *all);
+
+
+
+void	draw_viewcone(t_all *all);
 
 
 #endif

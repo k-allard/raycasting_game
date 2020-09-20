@@ -26,11 +26,12 @@ int main(int argc, char **argv)
 
 	if(argc == 2)
 	{
-		check_filename(argv[1]);
-		init_check_struct(&all);
+		check_filename(argv[1]);		//проверяем, что карта .cub
+		init_check_struct(&all);		//выделяем память под структуру проверок и инициализируем ее значения нулями
 		init_game_struct(&all);
 		file_parsing(open(argv[1], O_RDONLY), &all);
 		init_game(&all);
+		init_depth_param_struct(&all);
 		game_start(&all);
 	}
 	else if(argc == 3)
@@ -39,7 +40,7 @@ int main(int argc, char **argv)
 		if (ft_strncmp(argv[2], "--save", 6))
 			error("For a screenshot, the 2nd argument should be ––save");
 		if (check_filename(argv[1]))
-			screenshot(&all, argv[1]);
+			all.ch->screenshot = 1;
 	}
 	else
 		error("Program should have 1 or 2 arguments");

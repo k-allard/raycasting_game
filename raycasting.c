@@ -28,55 +28,6 @@ void three_dimensions(t_all *all)
 
 }
 
-
-// void	cast_rays2(t_all *all)
-// {
-// 	double x = all->plr->x; // задаем координаты луча равные координатам середины игрока
-// 	double y = all->plr->y;
-	
-// 	double angle = all->ray->dir - M_PI/4; // начало веера лучей
-//     double angle_max  = all->ray->dir + M_PI/4; // край веера лучей
-
-// 	int pixel_index = 0;
-// 	int step = 0;
-// 	while(angle <= angle_max)
-// 	{
-// 		x = all->plr->x;	// каждый раз возвращаемся в точку начала
-// 		y = all->plr->y;
-// 		double x_step = cos(angle)/14.0;
-// 		double y_step = sin(angle)/14.0;
-// 		while (all->p->split_map[(int)(y / SCALE)][(int)(x / SCALE)] != '1')
-// 		{
-// 			x += x_step;
-// 			y += y_step;
-// 			my_pixel_put(all, x, y, 0x21de00);
-// 		}
-// 		if(all->p->split_map[(int)(y / SCALE)][(int)(x / SCALE)] == '1')
-// 		{
-// 			int color = \
-// 				(all->p->split_map[(int)(y / SCALE)][(int)((x + 0.1) / SCALE)] == '1') &&
-// 				(all->p->split_map[(int)(y / SCALE)][(int)((x - 0.1)/ SCALE)] == '1') ?
-// 				0xFF9999 : 0xFFCCCC;
-// 			double destination = (all->plr->y - y) == 0.0 ? (all->plr->x - x) : (all->plr->y - y)/(y_step*14.0);
-// 			if (destination < 0.0)
-// 				destination = - destination;
-// 			destination = destination * 20.0 / 200.0;
-			
-// 			double column_heigth = destination == 0 ? 200 : 200 / destination / cos(angle - all->ray->dir);
-// 			column_heigth = column_heigth > 200 ? 200 : column_heigth;
-// 			int windows_x = 200 + pixel_index;
-// 			double windows_y = 200.0/2.0 - column_heigth/2.0;
-// 			while (windows_y <= 200.0/2 + column_heigth/2.0)
-// 			{
-// 				my_pixel_put(all, windows_x, windows_y, color);
-// 				windows_y += 0.2;
-// 			}
-// 		}
-// 		angle += M_PI/2.0/200.0; 	//[угол обзора] / [количество лучей]
-// 		pixel_index ++; //
-// 	}
-// }
-
 void	draw_wall_line_from_texture(t_all *all, int text_id, double column_heigth, int x, double hit)
 {
 	int text_x_int = ((int)(all->textures[text_id]->width * hit)) % all->textures[text_id]->width;
@@ -88,52 +39,85 @@ void	draw_wall_line_from_texture(t_all *all, int text_id, double column_heigth, 
 	{
 		if(y >= 0 && y <= all->p->hight)
 		{
-			int color = my_pixel_get(all, text_id, text_x_int, (int)text_y);
-			my_pixel_put(all, x, y, color);
+			if(!(x < SCALE * all->map_width && \
+				 	y >= all->p->hight - SCALE * all->map_hight))
+			{
+				int color = my_pixel_get(all, text_id, text_x_int, (int)text_y);
+				my_pixel_put(all, x, y, color);
+			}
 		}
 		y += 1.0;
 		text_y += text_y_step;
 	}
 }
 
+int is_not_wall(t_all* all, double y, double x)
+{
+	return ((all->p->split_map[(int)y][(int)x] != '1') &&
+	 (all->p->split_map[(int)y][(int)x] != '\0') && 
+	 (all->p->split_map[(int)y][(int)x] != ' '));
+
+	return ((all->map_protect[(int)y+1][(int)x+1] != '1') &&
+	 (all->map_protect[(int)y+1][(int)x+1] != 'X') && 
+	 (all->map_protect[(int)y+1][(int)x+1] != ' '));
+}
+
+int is_wall(t_all* all, double y, double x)
+{
+	return ((all->p->split_map[(int)y][(int)x] == '1') || 
+		(all->p->split_map[(int)y][(int)x] == '\0') ||
+		(all->p->split_map[(int)y][(int)x] == ' '));
+
+	return ((all->map_protect[(int)y+1][(int)x+1] == '1') || 
+		(all->map_protect[(int)y+1][(int)x+1] == 'X') ||
+		(all->map_protect[(int)y+1][(int)x+1] == ' '));
+}
+
 void	cast_rays3(t_all *all)
 {
+	int x_scale_int;
+	int y_scale_int;
+	int x_int;
+	int y_int;
 	double x = all->plr->x; // задаем координаты луча равные координатам середины игрока
 	double y = all->plr->y;
 	
 	double angle = all->ray->dir - M_PI/4; // начало веера лучей
     double angle_max  = all->ray->dir + M_PI/4; // край веера лучей
 
-	int resolution = 1000;
-
 	int pixel_index = 0;
 	int step = 0;
 	while(angle <= angle_max)
 	{
-		x = all->plr->x * resolution;	// каждый раз возвращаемся в точку начала
-		y = all->plr->y * resolution;
-		double x_step = cos(angle) * resolution / 100.0;
-		double y_step = sin(angle) * resolution / 100.0;
+		x = all->plr->x;	// каждый раз возвращаемся в точку начала
+		y = all->plr->y;
+		double x_step = cos(angle) / 20.0;
+		double y_step = sin(angle) / 20.0;
 
-		while (all->p->split_map[(int)(y / resolution)][(int)(x / resolution)] != '1')
+		while (is_not_wall(all, y, x))
 		{
-			x += x_step; 
-			y += y_step;
+			x_int = (int)x;
+			y_int = (int)y;
+			x_scale_int = (int)(x*SCALE);
+			y_scale_int = (int)(y*SCALE);
+			while (x_scale_int == (int)(x*SCALE) && y_scale_int == (int)(y*SCALE) && x_int == (int)x && y_int == (int)y)
+			{
+				x += x_step; 
+				y += y_step;
+			}
 			my_pixel_put(all, \
-				x * SCALE / resolution, \
-				all->p->hight - SCALE * all->map_hight + y * SCALE / resolution, \
+				x * SCALE, \
+				all->p->hight - SCALE * all->map_hight + y * SCALE, \
 				0x21de00);
 		}
-		if(all->p->split_map[(int)(y / resolution)][(int)(x / resolution)] == '1')
+		if(is_wall(all, y, x))
 		{
-			if(x >= 980 && x <= 981 && y >= 1997 && y <= 1998)
-				x = x;
-			double round_y = 1.0 * resolution * round(y / resolution);
-			double round_y_d = (round_y - all->plr->y * resolution) / sinl(angle);
-			double round_y_x = cos(angle) * round_y_d + (all->plr->x * resolution);
-			double round_x = 1.0 * resolution * round(x / resolution);
-			double round_x_d = (round_x - all->plr->x * resolution) / cos(angle);
-			double round_x_y = sin(angle) * round_x_d + (all->plr->y * resolution);	
+			double round_y = 1.0 * round(y);
+			double round_y_d = (round_y - all->plr->y) / sinl(angle);
+			double round_y_x = cos(angle) * round_y_d + (all->plr->x);
+			double round_x = 1.0 * round(x);
+			double round_x_d = (round_x - all->plr->x) / cos(angle);
+			double round_x_y = sin(angle) * round_x_d + (all->plr->y);	
 			double distance = (round_x_d < round_y_d) ? round_x_d : round_y_d;
 			double hit;
 			int text_id;
@@ -147,31 +131,32 @@ void	cast_rays3(t_all *all)
 			// 		ИЛИ
 			//		расстояние при округлении по y меньше чем при округлении по x, НО точка при округлении по y не является стеной
 			if (round_y_d < 0 || (round_x_d >= 0 && ( \
-				(round_x_d < round_y_d && (all->p->split_map[(int)(round_x_y / resolution)][(int)(round_x / resolution) + round_x_step] == '1')) || \
-				(round_y_d < round_x_d && (all->p->split_map[(int)(round_y / resolution) + round_y_step][(int)(round_y_x / resolution)] != '1')))))
-			{
+				(round_x_d < round_y_d && is_wall(all, round_x_y, (int)round_x + round_x_step)) || \
+				(round_y_d < round_x_d && is_not_wall(all, (int)(round_y) + round_y_step, round_y_x)))))
+			{	
 				distance = round_x_d;
-				hit = 1.0 * ((int)round_x_y % resolution) / resolution;
+				hit = round_x_y - (int)round_x_y;
 				if (cos(angle) > 0)
 					// color = 0xFFFF99; 
-					text_id = 1;  		//south
+					text_id = texture_EA;  		//east
 				else
 					// color = 0x330099; 
-					text_id = 0; 		//north
+					text_id = texture_WE; 		//west
 			}
 			else
 			{
 				distance = round_y_d;
-				hit = 1.0 * ((int)round_y_x % resolution) / resolution;
+				hit = round_y_x - (int)round_y_x;
 				if (sin(angle) > 0)
 					// color = 0xFF6633;  
-					text_id = 3;		//east
+					text_id = texture_SO;		//south
 				else 
 					// color = 0xCC3300;	
-					text_id = 2;		//west
+					text_id = texture_NO;		//north
 			}
 			
-			double column_heigth =  all->p->hight / (distance / resolution) / cos(angle - all->ray->dir);
+			all->depth_buffer[pixel_index] = distance;
+			double column_heigth =  all->p->hight / distance / cos(angle - all->ray->dir);			
 			draw_wall_line_from_texture(all, text_id, column_heigth, pixel_index, hit);
 			/*
 			column_heigth = column_heigth > all->p->hight ? all->p->hight : column_heigth;
@@ -193,7 +178,6 @@ void	cast_rays3(t_all *all)
 	}
 }
 
-//Пробуем кинуть один луч
 void	cast_rays(t_all *all)
 {
 	all->ray->x = all->plr->x; // задаем координаты луча равные координатам середины игрока
@@ -205,7 +189,7 @@ void	cast_rays(t_all *all)
 	{
 		all->ray->x = all->plr->x;	// каждый раз возвращаемся в точку начала
 		all->ray->y = all->plr->y;
-		while (all->p->split_map[(int)(all->ray->y / SCALE)][(int)(all->ray->x / SCALE)] != '1')
+		while (is_not_wall(all, all->ray->y / SCALE, all->ray->x / SCALE))
 		{
 			all->ray->x += cos(all->ray->start);
 			all->ray->y += sin(all->ray->start);

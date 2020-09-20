@@ -1,12 +1,11 @@
-R 600 400
-NO ./texture/WALL46.xpm
-SO ./texture/WALL2.xpm
-WE ./texture/WALL0.xpm
-EA ./texture/WALL4.xpm
-S ./texture/greenlight.xpm
-F 100,100,100
-C 80,wwwwwa80,80
-
+R 900 600
+NO ./texture/wstone.xpm
+SO ./texture/wstone.xpm
+WE ./texture/wstone.xpm
+EA ./texture/wstone.xpm
+S ./texture/sprite.xpm
+F 0,51,0
+C 153,204,255
 
         1111111111111111111111111
         1000000000110000000000001

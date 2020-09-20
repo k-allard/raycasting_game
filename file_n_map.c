@@ -1,4 +1,6 @@
 #include "cub.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 static void floor_n_c(char *line, int *rgb, char flag, t_all *all)
 {
@@ -57,13 +59,16 @@ static void resolution_pars(char *line, t_all *all)
 
 static void			texture_path_pars(char **param, char *line)
 {
-	int i;
+	int fd;
 
-	i = 0;
-	while (line[i] == ' ')
-		i++;
-	if (line[i] == '.' && line[i + 1] == '/')
-		*param = line + i;
+	while (*line == ' ')
+		line++;
+	if (*line == '.' && *(line + 1) == '/')
+	{	
+		if ((fd = open(line, O_RDONLY)) < 0)
+			error("Incorrect path to the texture");
+		*param = line;
+	}
 	else
 		error("Incorrect path to the texture");
 }
@@ -72,28 +77,28 @@ static void texture_pars(char *line, t_all *all, char *id, int i)
 {
 	if (id[i] == 'N' && id[i + 1] == 'O')
 	{
-		texture_path_pars(&(all->p->n), line);
-		all->ch->n++;
+		texture_path_pars(&(all->p->no), line);
+		all->ch->no++;
 	}
 	else if (id[i] == 'S' && id[i + 1] == 'O')
 	{
-		texture_path_pars(&(all->p->s), line);
-		all->ch->s++;
+		texture_path_pars(&(all->p->so), line);
+		all->ch->so++;
 	}
 	else if (id[i] == 'W' && id[i + 1] == 'E')
 	{
-		texture_path_pars(&(all->p->w), line);
-		all->ch->w++;
+		texture_path_pars(&(all->p->we), line);
+		all->ch->we++;
 	}
 	else if (id[i] == 'E' && id[i + 1] == 'A')
 	{
-		texture_path_pars(&(all->p->e), line);
-		all->ch->e++;
+		texture_path_pars(&(all->p->ea), line);
+		all->ch->ea++;
 	}
 	else if (id[i] == 'S' && id[i + 1] == '\0')
 	{
-		texture_path_pars(&(all->p->sp), line);
-		all->ch->sp++;
+		texture_path_pars(&(all->p->s), line);
+		all->ch->s++;
 	}
 }
 
@@ -138,6 +143,7 @@ static void get_map_size(t_all *all)
 	all->map_width = maxColumns;
 }
 
+
 static void get_player_position(t_all *all)
 {
 	int row = 0;
@@ -158,6 +164,93 @@ static void get_player_position(t_all *all)
 	}
 }
 
+
+static void get_sprite_position(t_all *all)
+{
+	int row = 0;
+	int column = 0;
+	char *spriteChar;
+	int sprite_count = 0;
+	int i=0;
+
+	while (all->p->split_map[row])
+	{
+		char* startRowStr = all -> p ->split_map[row];
+		spriteChar = ft_strchr(startRowStr, '2');
+		while(spriteChar)
+		{
+			sprite_count++;
+			startRowStr = spriteChar + 1;
+			spriteChar = ft_strchr(startRowStr, '2');
+		}
+		row++;
+	}
+	all->sprite_count = sprite_count;
+
+	if (!(all->sprite_list = (t_sprite **)malloc(sizeof(t_sprite*)*(sprite_count+1))))
+		error("Structure of sprite_list MALLOC ERROR!");
+	while (i < sprite_count)
+	{
+		if (!(all->sprite_list[i] = (t_sprite *)malloc(sizeof(t_sprite))))
+			error("Structure of sprite_list MALLOC ERROR!");
+		i++;
+	}
+	all->sprite_list[sprite_count] = NULL;
+	
+	row = 0;
+	sprite_count = 0;
+	while (all->p->split_map[row])
+	{
+		char* startRowStr = all->p->split_map[row];
+		spriteChar = ft_strchr(startRowStr, '2');
+		while(spriteChar)
+		{
+			column = spriteChar - all->p->split_map[row];
+			startRowStr = spriteChar + 1;
+			all->sprite_list[sprite_count]->x = 1.0 * column + 0.5;
+			all->sprite_list[sprite_count]->y = 1.0 * row + 0.5;			
+			sprite_count++;
+			spriteChar = ft_strchr(startRowStr, '2');
+		}
+		row++;
+	}	
+}
+
+
+static void protect_map(t_all* all)
+{
+	char ** map;
+	int i;
+
+	if (!(map = (char **)malloc(sizeof(char*)*(all->map_hight+3))))
+		error("Structure of protect_map MALLOC ERROR!");
+	if (!(map[0] = (char *)malloc(sizeof(char)*(all->map_width+3))))
+		error("Structure of protect_map MALLOC ERROR!");
+	i = -1;
+	while (++i<all->map_width+2)
+		map[0][i]='X';
+	map[0][all->map_width+2]='\0';
+	i = 0;
+	while (++i<all->map_hight+2)
+		if (!(map[i]=ft_strdup((const char*)(map[0]))))
+			error("Structure of protect_map MALLOC ERROR!");
+	i = 0;
+	while (++i<all->map_hight+1)
+		ft_memmove((void*)(map[i]+1), (const void*)(all->p->split_map[i-1]), ft_strlen(all->p->split_map[i-1]));
+	map[all->map_hight+2] = NULL;
+	all->map_protect = map;
+
+	i = 0;
+	printf("Protected Map:\n");
+	while (i < all->map_hight+3)
+	{
+		printf("[%s]\n", all->map_protect[i]);
+		i++;
+	}
+	fflush(stdout);
+	
+}
+
 static void map_parsing(int fd, char *line, t_all *all)
 {
 	int row_is_present;
@@ -175,9 +268,10 @@ static void map_parsing(int fd, char *line, t_all *all)
 	}
 	all->p->split_map = ft_split(all->p->line_map, '|');
 	get_map_size(all);
+	protect_map(all);
 	get_player_position(all);
+	get_sprite_position(all);
 }
-
 
 void file_parsing(int fd, t_all *all)
 {

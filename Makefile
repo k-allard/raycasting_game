@@ -7,13 +7,13 @@ HEADER = ./cub.h
 OBJS = $(SRCS:.c=.o)
 
 #-Wall -Wextra -Werror
-FLAGS = libmlx.dylib -framework OpenGL -framework AppKit
+FLAGS =-g libmlx.dylib -framework OpenGL -framework AppKit
 
 %.o: %.c
 	@$(CC) $(FLAGS) -c $< -o $@
 	
 test: $(OBJS) $(HEADER)
-	@gcc -g $(SRCS) libft/libft.a $(FLAGS)
+	@gcc $(SRCS) libft/libft.a $(FLAGS)
 	./a.out map.cub
 
 clean:
