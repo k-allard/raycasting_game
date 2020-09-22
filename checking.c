@@ -5,8 +5,8 @@ void	checkmap(t_all *all, int x, int y)
 	char	**map;
 
 	// all->plr->pos = 0;
-	map = all->p->split_map;
-	if (x == all->map_hight)
+	map = all->p->map;
+	if (x == all->map_h)
 		error("MAP NOT CLOSED AROUND SPAWN\n", all);
 	if (map[x][y] == '1' || map[x][y] == '3' || map[x][y] == '4')
 		return ;

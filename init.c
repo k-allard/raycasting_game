@@ -26,15 +26,15 @@ void init_game_structs(t_all *all)
 		error("Structure of imgs MALLOC ERROR", all);
 	// if (!(all->img = (t_img *)malloc(sizeof(t_img))))
 	// 	error("Structure of img[0] MALLOC ERROR", all);
-	if (!(all->textures[0] = (t_img *)malloc(sizeof(t_img))))
+	if (!(all->text[0] = (t_img *)malloc(sizeof(t_img))))
 		error("Structure of textures[0] MALLOC ERROR", all);
-	if (!(all->textures[1] = (t_img *)malloc(sizeof(t_img))))
+	if (!(all->text[1] = (t_img *)malloc(sizeof(t_img))))
 		error("Structure of textures[1] MALLOC ERROR", all);
-	if (!(all->textures[2] = (t_img *)malloc(sizeof(t_img))))
+	if (!(all->text[2] = (t_img *)malloc(sizeof(t_img))))
 		error("Structure of textures[2] MALLOC ERROR", all);
-	if (!(all->textures[3] = (t_img *)malloc(sizeof(t_img))))
+	if (!(all->text[3] = (t_img *)malloc(sizeof(t_img))))
 		error("Structure of textures[3] MALLOC ERROR", all);
-	if (!(all->textures[4] = (t_img *)malloc(sizeof(t_img))))
+	if (!(all->text[4] = (t_img *)malloc(sizeof(t_img))))
 		error("Structure of textures[4] MALLOC ERROR", all);
 	if (!(all->p = (t_param *)malloc(sizeof(t_param))))
 		error("Structure of parametres MALLOC ERROR", all);
@@ -42,76 +42,26 @@ void init_game_structs(t_all *all)
 
 void init_depth_buffer(t_all *all)
 {
-	if (!(all->depth_buffer = (double *)malloc(sizeof(double)*all->p->width)))
+	if (!(all->depth_buf = (double *)malloc(sizeof(double)*all->p->w)))
 		error("Depth_buffer MALLOC ERROR", all);
 }
 
 void init_game(t_all *all)
 {
-	// check_player(all->p->split_map);
-	checkmap(all, all->plr->y, all->plr->x);
-
 	if (all->ch->screenshot != 1)
-		all->win = mlx_new_window(all->mlx, all->p->width, all->p->hight, "Kallard's Cub3D");
-														// man /Users/nastya/Desktop/man/man1/mlx_new_window.1
-	all->img->img = mlx_new_image(all->mlx,
-		all->p->width, all->p->hight);													// mlx_new_image.1
-	all->img->data_addr = mlx_get_data_addr(all->img->img,
-		&all->img->bpp, &all->img->size_line, &all->img->endian);				// mlx_new_image.1
-
-	// all->img[1]->img = mlx_new_image(all->mlx,
-	// 	all->p->width, all->p->hight);													// mlx_new_image.1
-	// all->img[1]->data_addr = mlx_get_data_addr(all->img[1]->img,
-	// 	&all->img[1]->bpp, &all->img[1]->size_line, &all->img[1]->endian);				// mlx_new_image.1
-
-	all->textures[texture_NO]->img = mlx_xpm_file_to_image(						//загружаем текстуру севера из файла
-		all->mlx, all->p->no, 
-		&(all->textures[texture_NO]->width), 
-		&(all->textures[texture_NO]->height));
-	all->textures[texture_NO]->data_addr = mlx_get_data_addr(
-		all->textures[texture_NO]->img, 
-		&all->textures[texture_NO]->bpp,
-		&all->textures[texture_NO]->size_line, &all->textures[texture_NO]->endian);
-	
-	all->textures[texture_SO]->img = mlx_xpm_file_to_image( 						//загружаем текстуру юга из файла
-		all->mlx, all->p->so, 
-		&(all->textures[texture_SO]->width), 
-		&(all->textures[texture_SO]->height));
-	all->textures[texture_SO]->data_addr = mlx_get_data_addr(
-		all->textures[texture_SO]->img, 
-		&all->textures[texture_SO]->bpp,
-		&all->textures[texture_SO]->size_line, &all->textures[texture_SO]->endian);
-
-	all->textures[texture_WE]->img = mlx_xpm_file_to_image( 						//загружаем текстуру запада из файла
-		all->mlx, all->p->we, 
-		&(all->textures[texture_WE]->width), 
-		&(all->textures[texture_WE]->height));
-	all->textures[texture_WE]->data_addr = mlx_get_data_addr(
-		all->textures[texture_WE]->img, 
-		&all->textures[texture_WE]->bpp,
-		&all->textures[texture_WE]->size_line, 
-		&all->textures[texture_WE]->endian);
-
-	all->textures[texture_EA]->img = mlx_xpm_file_to_image( 						//загружаем текстуру востока из файла
-		all->mlx, all->p->ea, 
-		&(all->textures[texture_EA]->width), 
-		&(all->textures[texture_EA]->height));
-	all->textures[texture_EA]->data_addr = mlx_get_data_addr(
-		all->textures[texture_EA]->img, 
-		&all->textures[texture_EA]->bpp,
-		&all->textures[texture_EA]->size_line, 
-		&all->textures[texture_EA]->endian);
-
-	all->textures[texture_S]->img = mlx_xpm_file_to_image( 						//загружаем текстуру востока из файла
-		all->mlx, all->p->s, 
-		&(all->textures[texture_S]->width), 
-		&(all->textures[texture_S]->height));
-	all->textures[texture_S]->data_addr = mlx_get_data_addr(
-		all->textures[texture_S]->img, 
-		&all->textures[texture_S]->bpp,
-		&all->textures[texture_S]->size_line, 
-		&all->textures[texture_S]->endian);
-
+		all->win = mlx_new_window(all->mlx, all->p->w, all->p->h, "Kallard's Cub3D");
+	all->img->img = mlx_new_image(all->mlx, all->p->w, all->p->h);
+	all->img->addr = mlx_get_data_addr(all->img->img, &all->img->bpp, &all->img->l_sz, &all->img->en);
+	all->text[NO]->img = mlx_xpm_file_to_image(all->mlx, all->p->no, &(all->text[NO]->w), &(all->text[NO]->h));
+	all->text[NO]->addr = mlx_get_data_addr(all->text[NO]->img, &all->text[NO]->bpp, &all->text[NO]->l_sz, &all->text[NO]->en);
+	all->text[SO]->img = mlx_xpm_file_to_image(all->mlx, all->p->so, &(all->text[SO]->w), &(all->text[SO]->h));
+	all->text[SO]->addr = mlx_get_data_addr(all->text[SO]->img, &all->text[SO]->bpp, &all->text[SO]->l_sz, &all->text[SO]->en);
+	all->text[WE]->img = mlx_xpm_file_to_image(all->mlx, all->p->we, &(all->text[WE]->w), &(all->text[WE]->h));
+	all->text[WE]->addr = mlx_get_data_addr(all->text[WE]->img, &all->text[WE]->bpp, &all->text[WE]->l_sz, &all->text[WE]->en);
+	all->text[EA]->img = mlx_xpm_file_to_image(all->mlx, all->p->ea, &(all->text[EA]->w), &(all->text[EA]->h));
+	all->text[EA]->addr = mlx_get_data_addr(all->text[EA]->img, &all->text[EA]->bpp, &all->text[EA]->l_sz, &all->text[EA]->en);
+	all->text[S]->img = mlx_xpm_file_to_image(all->mlx, all->p->s, &(all->text[S]->w), &(all->text[S]->h));
+	all->text[S]->addr = mlx_get_data_addr(all->text[S]->img, &all->text[S]->bpp, &all->text[S]->l_sz, &all->text[S]->en);
 }
 
 void init_check_struct(t_all *all)
@@ -132,9 +82,3 @@ void init_check_struct(t_all *all)
 	all->ch->screen_h = 0;
 	all->ch->screenshot = 0;
 }
-
-// void init_param_struct(t_all *all)
-// {
-// 	if (!(all->p = (t_param *)malloc(sizeof(t_param))))
-// 		error("Structure of parametres MALLOC ERROR!");
-// }

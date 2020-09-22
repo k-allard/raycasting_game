@@ -3,62 +3,68 @@
 
 static int min(int a, int b)
 {
-    if (a < b) 
-    {
-        return a;
-    }
-    else
-    {
-        return b;
-    }
-    
+	if (a < b) 
+	{
+		return a;
+	}
+	else
+	{
+		return b;
+	}
+	
 }
 static void draw_sprite(t_all *all, int index)
 {
-    t_sprite sprite = *(all->sprites[index]);
-    t_plr player = *(all->plr);
-    int width = all->p->width;
-    int hight = all->p->hight;
-    int x;
-    int y;
+	t_sprite sp;
+	int x;
+	int y;
+	int i;
+	int j;
 
-    if(sprite.distance < 0.2)
-        return;
+	sp = *(all->sprites[index]);
+	if (sp.dist < 0.2)
+		return;
+	sp.dir = atan2(sp.y - all->plr->y, sp.x - all->plr->x);
+	while (sp.dir - all->ray->dir >  M_PI) 
+		sp.dir -= 2 * M_PI;
+	while (sp.dir - all->ray->dir < -M_PI) 
+		sp.dir += 2 * M_PI;
+	sp.h = (int)(all->p->h / sp.dist);
+	sp.w = 1.0 * sp.h * all->text[S]->w / all->text[S]->h;
+	sp.x_start = (sp.dir - all->ray->dir) * (all->p->w / 2) / (M_PI / 4) + (all->p->w / 2) - sp.w / 2;
+	sp.y_start = all->p->h / 2 - sp.h / 2;
 
-    // absolute direction from the player to the sprite (in radians) 6.9532541698836285E-310
-    double sprite_dir = atan2(sprite.y - player.y, sprite.x - player.x);
-    while (sprite_dir - all->ray->dir >  M_PI) sprite_dir -= 2*M_PI; // remove unncesessary periods from the relative direction
-    while (sprite_dir - all->ray->dir < -M_PI) sprite_dir += 2*M_PI;
-
-    int sprite_heigth = (int)(hight/sprite.distance); // screen sprite size
-    int sprite_width = 1.0 * sprite_heigth * all->textures[texture_S]->width / all->textures[texture_S]->height;
-
-    int h_offset = (sprite_dir - all->ray->dir)*(width/2)/(M_PI / 4) + (width/2) - sprite_width/2; // do not forget the 3D view takes only a half of the framebuffer, thus fb.w/2 for the screen width
-    int v_offset = hight/2 - sprite_heigth/2;
-
-    for (int i=0; i<sprite_width; i++) {
-        if (h_offset+i<0 || h_offset+i>=width) continue;
-        if (all->depth_buffer[h_offset+i]<sprite.distance) continue; // this sprite column is occluded
-        for (int j=0; j<sprite_heigth; j++) {
-            if (v_offset+j<0 || v_offset+j>=hight) continue;
-            x = i*all->textures[texture_S]->width/sprite_width;
-            y = j*all->textures[texture_S]->height/sprite_heigth;
-            int color = my_pixel_get(all, texture_S, x, y);
-            if (color < 0xff000000)
-                my_pixel_put(all, h_offset + i, v_offset + j, color);
-        }
-    }
-    
+	i = 0;
+	while (i < sp.w)
+	{
+		if ((sp.x_start + i >= 0 && sp.x_start + i < all->p->w) &&
+			(all->depth_buf[sp.x_start + i] >= sp.dist))
+		{
+			j = 0; 
+			while (j < sp.h)
+			{
+				if (sp.y_start + j >= 0 && sp.y_start + j < all->p->h)
+				{
+					x = i * all->text[S]->w / sp.w;
+					y = j * all->text[S]->h / sp.h;
+					int color = my_pixel_get(all, S, x, y);
+					if (color < 0xff000000)
+						my_pixel_put(all, sp.x_start + i, sp.y_start + j, color);
+				}
+				j++;
+			}
+		}
+		i++;
+	}
 }
 
 void draw_sprites(t_all *all)
 {
-    int i = 0;
+	int i = 0;
 
-    while (i < all->sprite_count)
-    {
-        draw_sprite(all, i);
-        i++;
-    }
-    
+	while (i < all->sprite_count)
+	{
+		draw_sprite(all, i);
+		i++;
+	}
 }

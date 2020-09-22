@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   file_map.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/09/22 19:41:08 by kallard           #+#    #+#             */
+/*   Updated: 2020/09/22 23:03:50 by kallard          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub.h"
 
 static void get_map_size(t_all *all)
@@ -6,15 +18,15 @@ static void get_map_size(t_all *all)
 	int maxColumns = 0;
 	int rowSize = 0;
 
-	while (all -> p ->split_map[rows])
+	while (all -> p ->map[rows])
 	{
-		rowSize = ft_strlen(all -> p ->split_map[rows]);
+		rowSize = ft_strlen(all -> p ->map[rows]);
 		if(rowSize > maxColumns)
 			maxColumns = rowSize;
 		rows++;
 	}
-	all->map_hight = rows;
-	all->map_width = maxColumns;
+	all->map_h = rows;
+	all->map_w = maxColumns;
 }
 
 static void get_player_position(t_all *all)
@@ -23,12 +35,12 @@ static void get_player_position(t_all *all)
 	int column = 0;
 	char *playerChar;
 
-	while (all->p->split_map[row])
+	while (all->p->map[row])
 	{
-		playerChar = ft_strchr(all -> p ->split_map[row], all->p->pl_dir);
+		playerChar = ft_strchr(all -> p ->map[row], all->p->pl_dir);
 		if(playerChar)
 		{
-			column = playerChar - all->p->split_map[row];
+			column = playerChar - all->p->map[row];
 			all->plr->x = 1.0 * column + 0.5;
 			all->plr->y = 1.0 * row + 0.5;
 			return;
@@ -47,9 +59,9 @@ static void sprite_count(t_all *all)
 	row = 0;
 	column = 0;
 	count = 0;
-	while (all->p->split_map[row])
+	while (all->p->map[row])
 	{
-		char* start_row = all->p->split_map[row];
+		char* start_row = all->p->map[row];
 		sprite_char = ft_strchr(start_row, '2');
 		while (sprite_char)
 		{
@@ -73,13 +85,13 @@ static void get_sprite_position(t_all *all)
 	i = 0;
 	row = 0;
 	column = 0;
-	while (all->p->split_map[row])
+	while (all->p->map[row])
 	{
-		start_row = all->p->split_map[row];
+		start_row = all->p->map[row];
 		sprite_char = ft_strchr(start_row, '2');
 		while(sprite_char)
 		{
-			column = sprite_char - all->p->split_map[row];
+			column = sprite_char - all->p->map[row];
 			start_row = sprite_char + 1;
 			all->sprites[i]->x = 1.0 * column + 0.5;
 			all->sprites[i]->y = 1.0 * row + 0.5;			
@@ -105,7 +117,7 @@ void map_parsing(int fd, char *line, t_all *all)
 		all->p->line_map = ft_strjoin(all->p->line_map, line);
 		all->p->line_map = ft_strjoin(all->p->line_map, "|");
 	}
-	all->p->split_map = ft_split(all->p->line_map, '|');
+	all->p->map = ft_split(all->p->line_map, '|');
 	get_map_size(all);
 	get_player_position(all);
 	sprite_count(all);

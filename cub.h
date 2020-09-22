@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 16:35:02 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/21 22:08:31 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/23 02:27:40 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define CUB_H
 
 # include "libft/libft.h"
-
 # include <stdlib.h>
 # include <unistd.h>
 # include <math.h>
@@ -22,126 +21,118 @@
 # include <errno.h>
 # include "mlx/mlx.h"
 
-#define SCALE	15         	   // условный размер каждого квадратика в карте
-#define SPEED	0.08	   //0.1 is normal
+# define SCALE		15
+# define SPEED		0.08
 
-typedef struct s_checks
+typedef struct		s_checks
 {
-	//проверки 1 или 0. если 0 - error:
-	int			r;				//разрешение картинки установлено?
-	int			no;				//текстура для севера установлена?
-	int			so;				//текстура для юга установлена?
-	int			we;				//текстура для запада установлена?
-	int			ea;				//текстура для востока установлена?
-	int			s;				//текстура для спрайта установлена?
-	int			f;				//установлен цвет пола?
-	int			c;				//установлен цвет потолка?
-	int			map;			//есть карта в файле?
-	int			pos_player;		//нашли игрока на карте?
+	int				r;
+	int				no;
+	int				so;
+	int				we;
+	int				ea;
+	int				s;
+	int				f;
+	int				c;
+	int				map;
+	int				pos_player;
+	int				screen_w;
+	int				screen_h;
+	int				screenshot;
+}					t_checks;
 
-
-	int 		screen_w;		// ширина экрана
-	int 		screen_h;		// высота экрана
-	int			screenshot;		//флаг, надо ли делать скриншот
-}				t_checks;
-
-enum COMPAS
+enum				e_compas
 {
-	texture_NO = 0,
-	texture_WE,
-	texture_EA,
-	texture_SO,
-	texture_S
+	NO = 0,
+	WE,
+	EA,
+	SO,
+	S
 };
 
-enum X11EVENTS
+enum				e_events
 {
-	X11_Event_KeyPress = 02,
-	X11_Event_KeyRelease = 03,
-	X11_Event_DestroyNotify = 17
-	
+	KeyPress = 02,
+	KeyRelease = 03,
+	DestroyNotify = 17
 };
 
-typedef struct s_param
+typedef struct		s_param
 {
-	int 		width;			//ширина окна игры и картинки
-	int			hight;			//высота окна игры и картинки 
-	
-	//пути к текстурам:
-	char		*no;				//текстура на севере и т.д...
-	char		*so;
-	char		*we;
-	char		*ea;
-	char		*s;
+	int				w;
+	int				h;
+	char			*no;
+	char			*so;
+	char			*we;
+	char			*ea;
+	char			*s;
+	int				f_rgb;
+	int				c_rgb;
+	char			pl_dir;
+	char			*line_map;
+	char			**map;
+}					t_param;
 
-	int			f_rgb;			//цвет пола
-	int			c_rgb;			//цвет потолка
-	char		pl_dir;			//направление игрока - буква
-	char		*line_map;		//спарсенная карта в виде 1 строки с межстроковым разделителем
-	char		**split_map;	//карта в виде двумерного массива
-
-}				t_param;
-
-typedef struct		s_img 
+typedef struct		s_img
 {
-	void			*img;		//       	IMAGE IDENTIFIER
-	char			*data_addr;
-	int				width;
-	int				height;
+	void			*img;
+	char			*addr;
+	int				w;
+	int				h;
 	int				bpp;
-	int				size_line;
-	int				endian;
+	int				l_sz;
+	int				en;
 }					t_img;
 
-typedef struct		s_point   	// структура для точки
+typedef struct		s_point
 {
 	int				x;
 	int				y;
 }					t_point;
 
-typedef struct		s_ray        //структура для луча 
+typedef struct		s_ray
 {
 	double			x;
 	double			y;
-	double			dir;		//угол между направлением луча и осью x
+	double			dir;
 	double			start;
 	double			end;
 }					t_ray;
 
-typedef struct		s_plr        //структура для игрока 
+typedef struct		s_plr
 {
 	double			x;
 	double			y;
-	double			dir;		//угол между направлением взгляда и осью x
-	
+	double			dir;
 }					t_plr;
 
-
-typedef struct		s_sprite        //структура для игрока 
+typedef struct		s_sprite
 {
 	double			x;
 	double			y;
-	double			distance;
+	double			dist;
+	double 			dir;
+	int 			h;
+	int 			w;
+	int 			x_start;
+	int 			y_start;
 }					t_sprite;
 
-
-typedef struct		s_all 		// структура для остальных структур
+typedef struct		s_all
 {
 	int				is_draw;
 	t_checks		*ch;
 	t_param			*p;
 	t_img			*img;
-	t_img			*textures[5];
+	t_img			*text[5];
 	t_plr			*plr;
 	t_ray			*ray;
-	void			*mlx;		//       	CONNECTION IDENTIFIER   all->mlx
-	void			*win;		// 			WINDOW IDENTIFIER	
-	// char			**map;
-	int				map_width;
-	int				map_hight;
-	char			**map_protect;		
 	t_sprite		**sprites;
-	double			*depth_buffer;
+	void			*mlx;
+	void			*win;
+	int				map_w;
+	int				map_h;
+	double			*depth_buf;
 	int				sprite_count;
 	int				key_forward;
 	int				key_down;
@@ -151,49 +142,70 @@ typedef struct		s_all 		// структура для остальных стру
 	int				key_rotate_left;
 }					t_all;
 
+/*
+** DRAW
+*/
 
-/*UTILS*/
-void            my_pixel_put(t_all *all, int x, int y, int color);
-int            my_pixel_get(t_all *all, int text_id, int x, int y);
-void             my_pixel_put_line(t_all *all, int width, int y, int color);
+void				my_pixel_put(t_all *all, int x, int y, int color);
+int					my_pixel_get(t_all *all, int text_id, int x, int y);
+void				my_pixel_put_line(t_all *all, int width, int y, int color);
 
-/*CHECKS*/
-void			check_filename(char *filename, t_all *all);
-void			check_params(t_all *all);
-void			check_line_map(char *line, t_all *all);
-void			checkmap(t_all *all, int x, int y);
+/*
+** CHECKS
+*/
 
+void				check_filename(char *filename, t_all *all);
+void				check_params(t_all *all);
+void				check_line_map(char *line, t_all *all);
+void				checkmap(t_all *all, int x, int y);
 
-/*ERRORS*/
-void error(char *message, t_all *all);
+/*
+** ERRORS
+*/
 
-/*INIT*/
-void   			init_check_struct(t_all *all);
-void			init_param_struct(t_all *all);
-void			init_game_structs(t_all *all);
-void			init_depth_buffer(t_all *all);
-void			init_game(t_all *all);
-void			init_sprite_struct(t_all *all);
+void				error(char *message, t_all *all);
 
-/*PARSING*/
-void			file_parsing(int fd, t_all *all);
- void			map_parsing(int fd, char *line, t_all *all);
+/*
+** INIT
+*/
 
+void				init_check_struct(t_all *all);
+void				init_param_struct(t_all *all);
+void				init_game_structs(t_all *all);
+void				init_depth_buffer(t_all *all);
+void				init_game(t_all *all);
+void				init_sprite_struct(t_all *all);
 
-/*GAME*/
-void			game_start(t_all *all);
-void			cast_rays(t_all *all);
-void			cast_rays2(t_all *all);
-void			cast_rays(t_all *all);
-int 			is_not_wall(t_all* all, double y, double x);
-int 			is_wall(t_all* all, double y, double x);
-void 			draw_sprites(t_all *all);
-void			three_dimensions(t_all *all);
-int		exit_game(t_all *all, int exit_code);
+/*
+** PARSING
+*/
 
+void				file_parsing(int fd, t_all *all);
+void				map_parsing(int fd, char *line, t_all *all);
+void				sort_param(char *line, t_all *all);
+void				texture_pars(char *line, t_all *all, char *id, int i);
+void				resolution_pars(char *line, t_all *all);
+void				floor_n_c(char *line, int *rgb, char flag, t_all *all);
 
+/*
+** GAME
+*/
 
-void	make_screenshot(t_all *all);
+void				game_start(t_all *all);
+void				cast_rays(t_all *all);
+int					is_not_wall(t_all *all, double y, double x);
+int					is_wall(t_all *all, double y, double x);
+void				draw_sprites(t_all *all);
+void				three_dimensions(t_all *all);
+int					exit_game(t_all *all, int exit_code);
+int					close_win(t_all *all);
 
+void				make_screenshot(t_all *all);
+
+/*
+** BONUS
+*/
+
+void				minimap(t_all *all);
 
 #endif

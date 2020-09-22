@@ -1,13 +1,13 @@
 NAME = cub3D
 
-SRCS = *.c
+SRCS = *.c ./bonus/minimap_bonus.c
 
 HEADER = ./cub.h
 
 OBJS = $(SRCS:.c=.o)
 
 #-Wall -Wextra -Werror -g -fsanitize=address -framework OpenGL -framework AppKit
-FLAGS = -O3 libmlx.dylib 
+FLAGS = -O3 libmlx.dylib -framework OpenGL -framework AppKit
 
 %.o: %.c
 	@$(CC) $(FLAGS) -c $< -o $@

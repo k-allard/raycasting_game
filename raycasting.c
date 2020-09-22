@@ -1,45 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   raycasting.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/09/22 23:34:05 by kallard           #+#    #+#             */
+/*   Updated: 2020/09/23 01:54:00 by kallard          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub.h"
 
-void three_dimensions(t_all *all)
+void		draw_wall_line(t_all *all, int text_id, double column_h, int x, double hit)
 {
-	for(size_t i = 0; i < 200; i++)
-	{
-		double angle = all->ray->dir - M_PI/4 + (M_PI/2)*i/200.0;
-		double max_scale_factor = 11.0;
-
-		double test_x = all->plr->x;
-		double test_y = all->plr->y;
-		double test = 0;
-		while (test_x >= 0.0 && test_x <= 200.0 && test_y >= 0.0 && test_y <= 200.0 && test < 200.0)
-		{
-			test_x = all->plr->x + test*cos(angle);
-			test_y = all->plr->y + test*sin(angle);
-
-
-			test += 0.1;
-		}
-		
-		for (double test = 0; test < max_scale_factor; test += 0.001)
-		{
-			double test_x = all->plr->x + test*cos(angle);
-			double test_y = all->plr->y + test*sin(angle);
-		}
-	}
-
-}
-
-void	draw_wall_line_from_texture(t_all *all, int text_id, double column_heigth, int x, double hit)
-{
-	int text_x_int = ((int)(all->textures[text_id]->width * hit)) % all->textures[text_id]->width;
+	int text_x_int = ((int)(all->text[text_id]->w * hit)) % all->text[text_id]->w;
 	double text_y = 0.0;
 
-	double text_y_step = all->textures[text_id]->height / column_heigth;
-	int y = all->p->hight/2.0 - column_heigth/2.0;
-	int y_max = all->p->hight/2.0 + column_heigth/2.0;
-	if (y_max > all->p->hight)
-		y_max = all->p->hight;
+	double text_y_step = all->text[text_id]->h / column_h;
+	int y = all->p->h/2.0 - column_h/2.0;
+	int y_max = all->p->h/2.0 + column_h/2.0;
+	if (y_max > all->p->h)
+		y_max = all->p->h;
 	int color = my_pixel_get(all, text_id, text_x_int, (int)text_y);
-	while (y <= y_max)
+	while (y < y_max)
 	{
 		if(y >= 0)
 		{
@@ -52,45 +36,37 @@ void	draw_wall_line_from_texture(t_all *all, int text_id, double column_heigth, 
 	}
 }
 
-int is_not_wall(t_all* all, double y, double x)
+int inline	is_not_wall(t_all* all, double y, double x)
 {
-	return ((all->p->split_map[(int)y][(int)x] != '1') &&
-	 (all->p->split_map[(int)y][(int)x] != '\0') && 
-	 (all->p->split_map[(int)y][(int)x] != ' '));
-
-	return ((all->map_protect[(int)y+1][(int)x+1] != '1') &&
-	 (all->map_protect[(int)y+1][(int)x+1] != 'X') && 
-	 (all->map_protect[(int)y+1][(int)x+1] != ' '));
+	return ((all->p->map[(int)y][(int)x] != '1') &&
+	 (all->p->map[(int)y][(int)x] != '\0') && 
+	 (all->p->map[(int)y][(int)x] != ' '));
 }
 
-int is_wall(t_all* all, double y, double x)
+int inline	is_wall(t_all* all, double y, double x)
 {
-	return ((all->p->split_map[(int)y][(int)x] == '1') || 
-		(all->p->split_map[(int)y][(int)x] == '\0') ||
-		(all->p->split_map[(int)y][(int)x] == ' '));
-
-	return ((all->map_protect[(int)y+1][(int)x+1] == '1') || 
-		(all->map_protect[(int)y+1][(int)x+1] == 'X') ||
-		(all->map_protect[(int)y+1][(int)x+1] == ' '));
+	return ((all->p->map[(int)y][(int)x] == '1') || 
+		(all->p->map[(int)y][(int)x] == '\0') ||
+		(all->p->map[(int)y][(int)x] == ' '));
 }
 
-void	cast_rays(t_all *all)
+void		cast_rays(t_all *all)
 {
 	int x_scale_int;
 	int y_scale_int;
 	int x_int;
 	int y_int;
-	double x = all->plr->x; // задаем координаты луча равные координатам середины игрока
+	double x = all->plr->x;
 	double y = all->plr->y;
 	
-	double angle = all->ray->dir - M_PI/4; // начало веера лучей
-    double angle_max  = all->ray->dir + M_PI/4; // край веера лучей
+	double angle = all->ray->dir - M_PI/4;
+    double angle_max  = all->ray->dir + M_PI/4;
 
 	int pixel_index = 0;
 	int step = 0;
-	while(angle < angle_max && pixel_index < all->p->width)
+	while(angle < angle_max && pixel_index < all->p->w)
 	{
-		x = all->plr->x;	// каждый раз возвращаемся в точку начала
+		x = all->plr->x;
 		y = all->plr->y;
 		double x_step = cos(angle) / 20.0;
 		double y_step = sin(angle) / 20.0;
@@ -106,12 +82,8 @@ void	cast_rays(t_all *all)
 				x += x_step; 
 				y += y_step;
 			}
-			my_pixel_put(all, \
-				x * SCALE, \
-				all->p->hight - SCALE * all->map_hight + y * SCALE, \
-				0x666699);
 		}
-		if(is_wall(all, y, x))
+		if (is_wall(all, y, x))
 		{
 			double round_y = 1.0 * round(y);
 			double round_y_d = (round_y - all->plr->y) / sinl(angle);
@@ -125,12 +97,7 @@ void	cast_rays(t_all *all)
 			int color;
 			int round_x_step = (round_x > x) ? -1 : 0;
 			int round_y_step = (round_y > y) ? -1 : 0;
-		
-			//расстояние при округлении по y отрицательное ИЛИ 
-			//расстояние при округлении по y не отрицательное И по x тоже не отрицательное И
-			//		расстояние при округлении по x меньше чем при округлении по y И точка при округлении по x является стеной
-			// 		ИЛИ
-			//		расстояние при округлении по y меньше чем при округлении по x, НО точка при округлении по y не является стеной
+
 			if (round_y_d < 0 || (round_x_d >= 0 && ( \
 				(round_x_d < round_y_d && is_wall(all, round_x_y, (int)round_x + round_x_step)) || \
 				(round_y_d < round_x_d && is_not_wall(all, (int)(round_y) + round_y_step, round_y_x)))))
@@ -138,25 +105,24 @@ void	cast_rays(t_all *all)
 				distance = round_x_d;
 				hit = round_x_y - (int)round_x_y;
 				if (cos(angle) > 0)
-					text_id = texture_EA;  		//east
+					text_id = EA;
 				else
-					text_id = texture_WE; 		//west
+					text_id = WE;
 			}
 			else
 			{
 				distance = round_y_d;
 				hit = round_y_x - (int)round_y_x;
 				if (sin(angle) > 0)
-					text_id = texture_SO;		//south
+					text_id = SO;
 				else 
-					text_id = texture_NO;		//north
+					text_id = NO;
 			}
-			
-			all->depth_buffer[pixel_index] = distance;
-			double column_heigth =  all->p->hight / distance / cos(angle - all->ray->dir);			
-			draw_wall_line_from_texture(all, text_id, column_heigth, pixel_index, hit);
+			all->depth_buf[pixel_index] = distance;
+			double column_h =  all->p->h / distance / cos(angle - all->ray->dir);			
+			draw_wall_line(all, text_id, column_h, pixel_index, hit);
 		}
-		angle += M_PI/2.0/all->p->width; 	//[угол обзора] / [количество лучей]
-		pixel_index ++; //
+		angle += M_PI/2.0/all->p->w;
+		pixel_index ++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/22 18:17:15 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/22 18:18:58 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/22 19:42:45 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	main(int argc, char **argv)
 		}
 		all.mlx = mlx_init(); 			// MLX CONNECTION INITIALIZATION
 		init_game_structs(&all);		// маллоки для структур player, ray, imgs, textures, params
-		file_parsing(open(argv[1], O_RDONLY), &all);
+		file_parsing(open(argv[1], O_RDONLY), &all);	//парсинг параметров и карты
 		init_game(&all);
 		init_depth_buffer(&all);
 		game_start(&all);
