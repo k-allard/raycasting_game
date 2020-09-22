@@ -9,16 +9,16 @@ int		exit_game(t_all *all, int exit_code)
 {
 	int i;
 
-	i = 0;
-	if (all->p->split_map)
-	{
-		while (all->p->split_map[i])
-		{
-			free(all->p->split_map[i]);
-			i++;
-		}
-		free(all->p->split_map);
-	}
+	// i = 0;
+	// if (all->p->split_map)
+	// {
+	// 	while (all->p->split_map[i])
+	// 	{
+	// 		free(all->p->split_map[i]);
+	// 		i++;
+	// 	}
+	// 	free(all->p->split_map);
+	// }
 	exit(exit_code);
 }
 

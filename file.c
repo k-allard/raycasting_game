@@ -1,6 +1,6 @@
 #include "cub.h"
 #include <stdlib.h>
-#include <stdio.h>
+// #include <stdio.h>
 
 static void floor_n_c(char *line, int *rgb, char flag, t_all *all)
 {
@@ -121,118 +121,6 @@ static void sort_param(char *line, t_all *all)
 	else
 		error("Incorrect identifier", all);
 }
-
-
-// static void get_map_size(t_all *all)
-// {
-// 	int rows = 0;
-// 	int maxColumns = 0;
-// 	int rowSize = 0;
-
-// 	while (all -> p ->split_map[rows])
-// 	{
-// 		rowSize = ft_strlen(all -> p ->split_map[rows]);
-// 		if(rowSize > maxColumns)
-// 			maxColumns = rowSize;
-// 		rows++;
-// 	}
-// 	all->map_hight = rows;
-// 	all->map_width = maxColumns;
-// }
-
-
-// static void get_player_position(t_all *all)
-// {
-// 	int row = 0;
-// 	int column = 0;
-// 	char *playerChar;
-
-// 	while (all->p->split_map[row])
-// 	{
-// 		playerChar = ft_strchr(all -> p ->split_map[row], all->p->pl_dir);
-// 		if(playerChar)
-// 		{
-// 			column = playerChar - all->p->split_map[row];
-// 			all->plr->x = 1.0 * column + 0.5;
-// 			all->plr->y = 1.0 * row + 0.5;
-// 			return;
-// 		}
-// 		row++;
-// 	}
-// }
-
-
-// static void get_sprite_position(t_all *all)
-// {
-// 	int row = 0;
-// 	int column = 0;
-// 	char *spriteChar;
-// 	int sprite_count = 0;
-// 	int i=0;
-
-// 	while (all->p->split_map[row])
-// 	{
-// 		char* startRowStr = all -> p ->split_map[row];
-// 		spriteChar = ft_strchr(startRowStr, '2');
-// 		while(spriteChar)
-// 		{
-// 			sprite_count++;
-// 			startRowStr = spriteChar + 1;
-// 			spriteChar = ft_strchr(startRowStr, '2');
-// 		}
-// 		row++;
-// 	}
-// 	all->sprite_count = sprite_count;
-
-// 	if (!(all->sprite_list = (t_sprite **)malloc(sizeof(t_sprite*)*(sprite_count+1))))
-// 		error("Structure of sprite_list MALLOC ERROR!");
-// 	while (i < sprite_count)
-// 	{
-// 		if (!(all->sprite_list[i] = (t_sprite *)malloc(sizeof(t_sprite))))
-// 			error("Structure of sprite_list MALLOC ERROR!");
-// 		i++;
-// 	}
-// 	all->sprite_list[sprite_count] = NULL;
-	
-// 	row = 0;
-// 	sprite_count = 0;
-// 	while (all->p->split_map[row])
-// 	{
-// 		char* startRowStr = all->p->split_map[row];
-// 		spriteChar = ft_strchr(startRowStr, '2');
-// 		while(spriteChar)
-// 		{
-// 			column = spriteChar - all->p->split_map[row];
-// 			startRowStr = spriteChar + 1;
-// 			all->sprite_list[sprite_count]->x = 1.0 * column + 0.5;
-// 			all->sprite_list[sprite_count]->y = 1.0 * row + 0.5;			
-// 			sprite_count++;
-// 			spriteChar = ft_strchr(startRowStr, '2');
-// 		}
-// 		row++;
-// 	}	
-// }
-
-// static void map_parsing(int fd, char *line, t_all *all)
-// {
-// 	int row_is_present;
-
-// 	row_is_present = 1;
-// 	check_line_map(line, all);
-// 	all->p->line_map = ft_strjoin(line, "|");
-// 	while (row_is_present > 0)
-// 	{
-// 		if ((row_is_present = get_next_line(fd, &line)) == (-1))
-// 			error("File reading error!");
-// 		check_line_map(line, all);
-// 		all->p->line_map = ft_strjoin(all->p->line_map, line);
-// 		all->p->line_map = ft_strjoin(all->p->line_map, "|");
-// 	}
-// 	all->p->split_map = ft_split(all->p->line_map, '|');
-// 	get_map_size(all);
-// 	get_player_position(all);
-// 	get_sprite_position(all);
-// }
 
 void file_parsing(int fd, t_all *all)
 {
