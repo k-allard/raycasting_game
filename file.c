@@ -21,7 +21,7 @@ static void floor_n_c(char *line, int *rgb, char flag, t_all *all)
 	b = ft_atoi(&line[i]);
 	if (!((r >= 0 && r <= 255) && ((g >= 0 && g <= 255)) &&
 	((b >= 0 && b <= 255))))
-		error("Floor and ceilling RGB should be in range [0; 255]");
+		error("Floor and ceilling RGB should be in range [0; 255]", all);
 	*rgb = r;					//в структуру param цвета пола и потолка сохраняются в hex виде
 	*rgb = (*rgb << 8) + g;
 	*rgb = (*rgb << 8) + b;
@@ -40,7 +40,7 @@ static void resolution_pars(char *line, t_all *all)
 		i++;
 	all->p->width = ft_atoi(&line[i]);
 	if (all->p->width <= 0)
-		error("Width is less than or equals zero");
+		error("Width is less than or equals zero", all);
 	mlx_get_screen_size(all->mlx, &(all->ch->screen_w), &(all->ch->screen_h));
 	if (all->p->width > all->ch->screen_w)
 		all->p->width = all->ch->screen_w; 		//the window width will be set depending to the current display resolution
@@ -48,13 +48,13 @@ static void resolution_pars(char *line, t_all *all)
 		i++;
 	all->p->hight = ft_atoi(&line[i]);
 	if (all->p->hight <= 0)
-		error("Hight is less than or equals zero");
+		error("Hight is less than or equals zero", all);
 	if (all->p->hight > all->ch->screen_h)
 		all->p->hight = all->ch->screen_h;		//the window width will be set depending to the current display resolution
 	all->ch->r++;
 }
 
-static void			texture_path_pars(char **param, char *line)
+static void			texture_path_pars(char **param, char *line,  t_all *all)
 {
 	int fd;
 
@@ -63,38 +63,38 @@ static void			texture_path_pars(char **param, char *line)
 	if (*line == '.' && *(line + 1) == '/')
 	{	
 		if ((fd = open(line, O_RDONLY)) < 0)
-			error("Incorrect path to the texture");
+			error("Incorrect path to the texture", all);
 		*param = line;
 	}
 	else
-		error("Incorrect path to the texture");
+		error("Incorrect path to the texture", all);
 }
 
 static void texture_pars(char *line, t_all *all, char *id, int i)
 {
 	if (id[i] == 'N' && id[i + 1] == 'O')
 	{
-		texture_path_pars(&(all->p->no), line);
+		texture_path_pars(&(all->p->no), line, all);
 		all->ch->no++;
 	}
 	else if (id[i] == 'S' && id[i + 1] == 'O')
 	{
-		texture_path_pars(&(all->p->so), line);
+		texture_path_pars(&(all->p->so), line, all);
 		all->ch->so++;
 	}
 	else if (id[i] == 'W' && id[i + 1] == 'E')
 	{
-		texture_path_pars(&(all->p->we), line);
+		texture_path_pars(&(all->p->we), line, all);
 		all->ch->we++;
 	}
 	else if (id[i] == 'E' && id[i + 1] == 'A')
 	{
-		texture_path_pars(&(all->p->ea), line);
+		texture_path_pars(&(all->p->ea), line, all);
 		all->ch->ea++;
 	}
 	else if (id[i] == 'S' && id[i + 1] == '\0')
 	{
-		texture_path_pars(&(all->p->s), line);
+		texture_path_pars(&(all->p->s), line, all);
 		all->ch->s++;
 	}
 }
@@ -119,7 +119,7 @@ static void sort_param(char *line, t_all *all)
 	else if (line[i] == 'C' && (line[i + 1] == ' '))							//Ceilling color
 		floor_n_c(&line[i + 1], &(all->p->c_rgb), line[i], all);
 	else
-		error("Incorrect identifier");
+		error("Incorrect identifier", all);
 }
 
 
@@ -245,7 +245,7 @@ void file_parsing(int fd, t_all *all)
 	while (row_is_present > 0)
 	{
 		if ((row_is_present = get_next_line(fd, &line)) == (-1))
-			error("File reading error");
+			error("File reading error", all);
 		while(line[i] == ' ')
 			i++;
 		if (line[i] == '0' || line[i] == '1' || line[i] == '2')     //значит, началась карта

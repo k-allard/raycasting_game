@@ -4,10 +4,28 @@
 //gcc mlx.c libft/libft.a libmlx.dylib -framework OpenGL -framework AppKit
 //from https://harm-smits.github.io/42docs/libs/minilibx/getting_started.html
 
-int		close_win(void)
+
+int		exit_game(t_all *all, int exit_code)
 {
-	printf("Player closed the window.\nGame exited\n");
-    exit(EXIT_SUCCESS);
+	int i;
+
+	i = 0;
+	if (all->p->split_map)
+	{
+		while (all->p->split_map[i])
+		{
+			free(all->p->split_map[i]);
+			i++;
+		}
+		free(all->p->split_map);
+	}
+	exit(exit_code);
+}
+
+int		close_win(t_all *all)
+{
+	write(1, "Player closed the window.\nGame exited\n", 38);
+    exit_game(all, EXIT_SUCCESS);
 	return (0);
 }
 
@@ -47,106 +65,173 @@ void calc_sprite_distance(t_all *all)
 
 
 
-int             keyhook(int keycode, t_all *all)
+int             key_press_hook(int keycode, t_all *all)
 {
-    double x = all->plr->x;
-    double y = all->plr->y;
-
-    double x_next[3];
-    double y_next[3];
-
-    x_next[0] = x;
-    x_next[1] = x;
-    x_next[2] = x;
-    y_next[0] = y;
-    y_next[1] = y;
-    y_next[2] = y;
-    
-    // printf("%d\n", keycode);
-    // fflush(stdout);
-    if (keycode == 53)      //ESC
+    if (keycode == 0)       //A -- left 
+        all->key_left = 1;
+    else if (keycode == 2)       //D -- right 
+        all->key_rigth = 1;
+    else if (keycode == 1)       //S -- down 
+        all->key_down = 1;
+    else if (keycode == 13)      //W -- forward 
+        all->key_forward = 1;
+    else if (keycode == 123)   //Arrow Left
+        all->key_rotate_left = 1;
+    else if (keycode == 124)   //Arrow Right
+        all->key_rotate_rigth = 1;
+    else if (keycode == 53)      //ESC
     {
         mlx_destroy_window(all->mlx, all->win);
-        exit(EXIT_SUCCESS);
+        exit_game(all, EXIT_SUCCESS);
     }
-    if (keycode == 0)       //A -- left 
-    {
-        y_next[0] = y + sin(all->ray->dir - M_PI/2 - M_PI/6) * SPEED;
-        x_next[0] = x + cos(all->ray->dir - M_PI/2 - M_PI/6) * SPEED;
-
-        y_next[1] = y + sin(all->ray->dir - M_PI / 2) * SPEED;
-        x_next[1] = x + cos(all->ray->dir - M_PI / 2) * SPEED;
-
-        y_next[2] = y + sin(all->ray->dir - M_PI/2 + M_PI/6) * SPEED;
-        x_next[2] = x + cos(all->ray->dir - M_PI/2 + M_PI/6) * SPEED;
-
-        y += sin(all->ray->dir - M_PI / 2) * SPEED * 0.4;
-        x += cos(all->ray->dir - M_PI / 2) * SPEED * 0.4;
-    }
-    if (keycode == 2)       //D -- right 
-    {
-        y_next[0] = y + sin(all->ray->dir + M_PI/2 - M_PI/6) * SPEED;
-        x_next[0] = x + cos(all->ray->dir + M_PI/2 - M_PI/6) * SPEED;
-
-        y_next[1] = y + sin(all->ray->dir + M_PI / 2) * SPEED;
-        x_next[1] = x + cos(all->ray->dir + M_PI / 2) * SPEED;
-
-        y_next[2] = y + sin(all->ray->dir + M_PI/2 + M_PI/6) * SPEED;
-        x_next[2] = x + cos(all->ray->dir + M_PI/2 + M_PI/6) * SPEED;
-
-        y += sin(all->ray->dir + M_PI / 2) * SPEED * 0.4;
-        x += cos(all->ray->dir + M_PI / 2) * SPEED * 0.4;
-    }
-    if (keycode == 1)       //S -- down 
-    {
-        y_next[0] = y - sin(all->ray->dir - M_PI/6) * SPEED;
-        x_next[0] = x - cos(all->ray->dir - M_PI/6) * SPEED;
-
-        y_next[1] = y - sin(all->ray->dir) * SPEED;
-        x_next[1] = x - cos(all->ray->dir) * SPEED;
-
-        y_next[2] = y - sin(all->ray->dir + M_PI/6) * SPEED;
-        x_next[2] = x - cos(all->ray->dir + M_PI/6) * SPEED;
-
-        y -= sin(all->ray->dir) * SPEED * 0.4;
-        x -= cos(all->ray->dir) * SPEED * 0.4;
-    }
-    if (keycode == 13)      //W -- forward 
-    {
-        y_next[0] = y + sin(all->ray->dir - M_PI/6) * SPEED;
-        x_next[0] = x + cos(all->ray->dir - M_PI/6) * SPEED;
-
-        y_next[1] = y + sin(all->ray->dir) * SPEED;
-        x_next[1] = x + cos(all->ray->dir) * SPEED;
-
-        y_next[2] = y + sin(all->ray->dir + M_PI/6) * SPEED;
-        x_next[2] = x + cos(all->ray->dir + M_PI/6) * SPEED;
-
-        y += sin(all->ray->dir) * SPEED * 0.6;
-        x += cos(all->ray->dir) * SPEED * 0.6;
-    }
-    if (keycode == 123)   //Arrow Left
-    {
-        all->ray->dir -= (SPEED * 0.16);
-        all->is_draw = 1;
-    }
-    if (keycode == 124)   //Arrow Right
-    {
-        all->ray->dir += (SPEED * 0.16);
-        all->is_draw = 1;
-    }
-    if ((all->p->split_map[(int)y_next[0]][(int)x_next[0]] != '1')&&
-        (all->p->split_map[(int)y_next[1]][(int)x_next[1]] != '1')&&
-        (all->p->split_map[(int)y_next[2]][(int)x_next[2]] != '1'))
-    {
-        all->plr->x = x;
-        all->plr->y = y;
-        
-        all->is_draw = 1;
-        calc_sprite_distance(all);
-    }
+    all->is_draw = all->key_left || all->key_rigth || all->key_down || all->key_forward || all->key_rotate_left || all->key_rotate_rigth;
     return (0);
 }
+
+int             key_release_hook(int keycode, t_all *all)
+{
+    if (keycode == 0)       //A -- left 
+        all->key_left = 0;
+    else if (keycode == 2)       //D -- right 
+        all->key_rigth = 0;
+    else if (keycode == 1)       //S -- down 
+        all->key_down = 0;
+    else if (keycode == 13)      //W -- forward 
+        all->key_forward = 0;
+    else if (keycode == 123)   //Arrow Left
+        all->key_rotate_left = 0;
+    else if (keycode == 124)   //Arrow Right
+        all->key_rotate_rigth = 0;
+    all->is_draw = all->key_left || all->key_rigth || all->key_down || all->key_forward || all->key_rotate_left || all->key_rotate_rigth;
+    return (0);
+}
+
+void calc_new_position(t_all* all)
+{
+    double y_step;
+    double x_step;
+
+    all->ray->dir -= (SPEED * 0.16 * all->key_rotate_left);
+    all->ray->dir += (SPEED * 0.16 * all->key_rotate_rigth);
+
+    y_step = SPEED * ( 0.0
+        + sin(all->ray->dir - M_PI / 2) * 0.4 * all->key_left
+        + sin(all->ray->dir + M_PI / 2) * 0.4 * all->key_rigth
+        - sin(all->ray->dir) * 0.4 * all->key_down
+        + sin(all->ray->dir) * 0.6 * all->key_forward);
+
+    x_step = SPEED * (0.0
+        + cos(all->ray->dir - M_PI / 2) * 0.4 * all->key_left
+        + cos(all->ray->dir + M_PI / 2) * 0.4 * all->key_rigth
+        - cos(all->ray->dir) * 0.4 * all->key_down
+        + cos(all->ray->dir) * 0.6 * all->key_forward);
+    if(is_not_wall(all, all->plr->y + y_step * 3, all->plr->x + x_step * 3))
+    {
+        all->plr->y += y_step;
+        all->plr->x += x_step; 
+    }
+}
+
+// int             keyhook(int keycode, t_all *all)
+// {
+//     double x = all->plr->x;
+//     double y = all->plr->y;
+
+//     double x_next[3];
+//     double y_next[3];
+
+//     x_next[0] = x;
+//     x_next[1] = x;
+//     x_next[2] = x;
+//     y_next[0] = y;
+//     y_next[1] = y;
+//     y_next[2] = y;
+    
+//     // printf("%d\n", keycode);
+//     // fflush(stdout);
+//     if (keycode == 53)      //ESC
+//     {
+//         mlx_destroy_window(all->mlx, all->win);
+//         exit(EXIT_SUCCESS);
+//     }
+//     if (keycode == 0)       //A -- left 
+//     {
+//         y_next[0] = y + sin(all->ray->dir - M_PI/2 - M_PI/6) * SPEED;
+//         x_next[0] = x + cos(all->ray->dir - M_PI/2 - M_PI/6) * SPEED;
+
+//         y_next[1] = y + sin(all->ray->dir - M_PI / 2) * SPEED;
+//         x_next[1] = x + cos(all->ray->dir - M_PI / 2) * SPEED;
+
+//         y_next[2] = y + sin(all->ray->dir - M_PI/2 + M_PI/6) * SPEED;
+//         x_next[2] = x + cos(all->ray->dir - M_PI/2 + M_PI/6) * SPEED;
+
+//         y += sin(all->ray->dir - M_PI / 2) * SPEED * 0.4;
+//         x += cos(all->ray->dir - M_PI / 2) * SPEED * 0.4;
+//     }
+//     if (keycode == 2)       //D -- right 
+//     {
+//         y_next[0] = y + sin(all->ray->dir + M_PI/2 - M_PI/6) * SPEED;
+//         x_next[0] = x + cos(all->ray->dir + M_PI/2 - M_PI/6) * SPEED;
+
+//         y_next[1] = y + sin(all->ray->dir + M_PI / 2) * SPEED;
+//         x_next[1] = x + cos(all->ray->dir + M_PI / 2) * SPEED;
+
+//         y_next[2] = y + sin(all->ray->dir + M_PI/2 + M_PI/6) * SPEED;
+//         x_next[2] = x + cos(all->ray->dir + M_PI/2 + M_PI/6) * SPEED;
+
+//         y += sin(all->ray->dir + M_PI / 2) * SPEED * 0.4;
+//         x += cos(all->ray->dir + M_PI / 2) * SPEED * 0.4;
+//     }
+//     if (keycode == 1)       //S -- down 
+//     {
+//         y_next[0] = y - sin(all->ray->dir - M_PI/6) * SPEED;
+//         x_next[0] = x - cos(all->ray->dir - M_PI/6) * SPEED;
+
+//         y_next[1] = y - sin(all->ray->dir) * SPEED;
+//         x_next[1] = x - cos(all->ray->dir) * SPEED;
+
+//         y_next[2] = y - sin(all->ray->dir + M_PI/6) * SPEED;
+//         x_next[2] = x - cos(all->ray->dir + M_PI/6) * SPEED;
+
+//         y -= sin(all->ray->dir) * SPEED * 0.4;
+//         x -= cos(all->ray->dir) * SPEED * 0.4;
+//     }
+//     if (keycode == 13)      //W -- forward 
+//     {
+//         y_next[0] = y + sin(all->ray->dir - M_PI/6) * SPEED;
+//         x_next[0] = x + cos(all->ray->dir - M_PI/6) * SPEED;
+
+//         y_next[1] = y + sin(all->ray->dir) * SPEED;
+//         x_next[1] = x + cos(all->ray->dir) * SPEED;
+
+//         y_next[2] = y + sin(all->ray->dir + M_PI/6) * SPEED;
+//         x_next[2] = x + cos(all->ray->dir + M_PI/6) * SPEED;
+
+//         y += sin(all->ray->dir) * SPEED * 0.6;
+//         x += cos(all->ray->dir) * SPEED * 0.6;
+//     }
+//     if (keycode == 123)   //Arrow Left
+//     {
+//         all->ray->dir -= (SPEED * 0.16);
+//         all->is_draw = 1;
+//     }
+//     if (keycode == 124)   //Arrow Right
+//     {
+//         all->ray->dir += (SPEED * 0.16);
+//         all->is_draw = 1;
+//     }
+//     if ((all->p->split_map[(int)y_next[0]][(int)x_next[0]] != '1')&&
+//         (all->p->split_map[(int)y_next[1]][(int)x_next[1]] != '1')&&
+//         (all->p->split_map[(int)y_next[2]][(int)x_next[2]] != '1'))
+//     {
+//         all->plr->x = x;
+//         all->plr->y = y;
+        
+//         all->is_draw = 1;
+//         calc_sprite_distance(all);
+//     }
+//     return (0);
+// }
 
 
 
@@ -221,17 +306,19 @@ void big_square2(t_all *all)                         //для ФОНА (квад
     int x_tmp;
     int y_tmp = -1;
 
-    while (++y_tmp <= all->p->hight / 2)
+    while (++y_tmp < all->p->hight / 2)
     {
-        x_tmp = -1;
-        while(++x_tmp < all->p->width)
-            my_pixel_put(all, x_tmp, y_tmp, all->p->c_rgb);//0x99CCFF);
+        my_pixel_put_line(all, all->p->width, y_tmp, all->p->c_rgb);
+        //x_tmp = -1;
+        //while(++x_tmp < all->p->width)
+        //    my_pixel_put(all, x_tmp, y_tmp, all->p->c_rgb);//0x99CCFF);
     }
-    while (++y_tmp <= all->p->hight)
+    while (++y_tmp < all->p->hight)
     {
-        x_tmp = -1;
-        while(++x_tmp < all->p->width)
-            my_pixel_put(all, x_tmp, y_tmp, all->p->f_rgb);//0x006600);
+        my_pixel_put_line(all, all->p->width, y_tmp, all->p->f_rgb);
+        //x_tmp = -1;
+        //while(++x_tmp < all->p->width)
+        //    my_pixel_put(all, x_tmp, y_tmp, all->p->f_rgb);//0x006600);
     }
 
 }
@@ -281,10 +368,15 @@ void            little_square2(t_all *all, int i, int j) //для ЛАБИРИН
     }
 }
 
+
 int game(t_all *all)
 {
-    if(all->is_draw == 1)
+    if(all->is_draw != 0)
     {
+        if(all->is_draw == -1)
+            all->is_draw = 0;
+        calc_new_position(all);
+        calc_sprite_distance(all);
         int i = 0;
         big_square2(all);
         // minimap_background(all);
@@ -305,21 +397,26 @@ int game(t_all *all)
         player2(all, all->plr->x, all->plr->y);
         draw_sprites_on_minimap(all);
 
-        /*
-        //  here the screenshot should be taken if (all.ch->screenshot == 1)
-        */
+        if (all->ch->screenshot == 1)
+            make_screenshot(all);
 
-        mlx_sync(MLX_SYNC_IMAGE_WRITABLE, all->img[0]->img);
-        mlx_put_image_to_window(all->mlx, all->win, all->img[0]->img, 0, 0);
+        mlx_sync(MLX_SYNC_IMAGE_WRITABLE, all->img->img);
+        mlx_put_image_to_window(all->mlx, all->win, all->img->img, 0, 0);
         mlx_sync(MLX_SYNC_WIN_CMD_COMPLETED, all->win);
-        all->is_draw = 0;
     }
     return 0;
 }
 
 void			game_start(t_all *all)
 {
-    all->is_draw = 1;
+    all->is_draw = -1;
+    all->key_down = 0;
+	all->key_forward = 0;
+	all->key_rigth = 0;
+	all->key_left = 0;
+	all->key_rotate_left = 0;
+	all->key_rotate_rigth = 0;
+
     //all->plr->x = 30;
     //all->plr->y = 30;
     if (all->p->pl_dir == 'E')
@@ -336,8 +433,16 @@ void			game_start(t_all *all)
 
     calc_sprite_distance(all);
 
-    mlx_hook(all->win, X11_Event_DestroyNotify, 1L << 0, close_win, (void *)0);
-    mlx_hook(all->win, X11_Event_KeyPress, 5, keyhook, all);
-    mlx_loop_hook(all->mlx, game, all);
-    mlx_loop(all->mlx);
+    if (all->ch->screenshot == 1)
+        game(all);
+    else
+    {
+        mlx_do_key_autorepeatoff(all->mlx);
+        mlx_hook(all->win, X11_Event_DestroyNotify, 1L << 0, close_win, all);
+        //mlx_hook(all->win, X11_Event_KeyPress, 5, keyhook, all);
+        mlx_hook(all->win, X11_Event_KeyPress, 0, key_press_hook, all);
+        mlx_hook(all->win, X11_Event_KeyRelease, 0, key_release_hook, all);
+        mlx_loop_hook(all->mlx, game, all);
+        mlx_loop(all->mlx);
+    }
 }

@@ -1,18 +1,33 @@
 #include "cub.h"
+#include <stdio.h>
 
-void            my_pixel_put(t_all *all, int x, int y, int color)
+void my_pixel_put(t_all *all, int x, int y, int color)
 {
-    char    *dest;
+	char    *dest;
 
-    dest = all->img[0]->data_addr + (y * all->img[0]->size_line + x * (all->img[0]->bpp / 8));
-    *(unsigned int*)dest = color;
+	dest = all->img->data_addr + (y * all->img->size_line + x * (all->img->bpp / 8));
+	*(unsigned int*)dest = color;
 }
 
 
-int            my_pixel_get(t_all *all, int text_id, int x, int y)
+void my_pixel_put_line(t_all *all, int width, int y, int color)
 {
-    char    *dest;
+	char    *dest;
+	int x;
+	int pixel_size;
 
-    dest = all->textures[text_id]->data_addr + (y * all->textures[text_id]->size_line + x * (all->textures[text_id]->bpp / 8));
-    return *(unsigned int*)dest;
+	pixel_size = all->img->bpp / 8;
+	dest = all->img->data_addr + (y * all->img->size_line);
+
+	while (--width)
+		*(unsigned int*)(dest + width * pixel_size) = color;
+}
+
+
+int inline           my_pixel_get(t_all *all, int text_id, int x, int y)
+{
+	char    *dest;
+
+	dest = all->textures[text_id]->data_addr + (y * all->textures[text_id]->size_line + x * (all->textures[text_id]->bpp / 8));
+	return *(unsigned int*)dest;
 }

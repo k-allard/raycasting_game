@@ -6,11 +6,11 @@ void init_sprite_struct(t_all *all)
 
 	i = 0;
 	if (!(all->sprites = (t_sprite **)malloc(sizeof(t_sprite*)*(all->sprite_count + 1))))
-		error("Struct Sprite_list MALLOC ERROR");
+		error("Struct Sprite_list MALLOC ERROR", all);
 	while (i < all->sprite_count)
 	{
 		if (!(all->sprites[i] = (t_sprite *)malloc(sizeof(t_sprite))))
-			error("Struct Sprite MALLOC ERROR");
+			error("Struct Sprite MALLOC ERROR", all);
 		i++;
 	}
 	all->sprites[all->sprite_count] = NULL;
@@ -19,31 +19,31 @@ void init_sprite_struct(t_all *all)
 void init_game_structs(t_all *all)
 {
 	if (!(all->plr = (t_plr *)malloc(sizeof(t_plr))))
-		error("Struct Player MALLOC ERROR");
+		error("Struct Player MALLOC ERROR", all);
 	if (!(all->ray = (t_ray *)malloc(sizeof(t_ray))))
-		error("Struct Ray MALLOC ERROR");
-	if (!(all->img = (t_img **)malloc(sizeof(t_img*) * 2)))
-		error("Structure of imgs MALLOC ERROR");
-	if (!(all->img[0] = (t_img *)malloc(sizeof(t_img))))
-		error("Structure of img[0] MALLOC ERROR");
+		error("Struct Ray MALLOC ERROR", all);
+	if (!(all->img = (t_img *)malloc(sizeof(t_img))))
+		error("Structure of imgs MALLOC ERROR", all);
+	// if (!(all->img = (t_img *)malloc(sizeof(t_img))))
+	// 	error("Structure of img[0] MALLOC ERROR", all);
 	if (!(all->textures[0] = (t_img *)malloc(sizeof(t_img))))
-		error("Structure of textures[0] MALLOC ERROR");
+		error("Structure of textures[0] MALLOC ERROR", all);
 	if (!(all->textures[1] = (t_img *)malloc(sizeof(t_img))))
-		error("Structure of textures[1] MALLOC ERROR");
+		error("Structure of textures[1] MALLOC ERROR", all);
 	if (!(all->textures[2] = (t_img *)malloc(sizeof(t_img))))
-		error("Structure of textures[2] MALLOC ERROR");
+		error("Structure of textures[2] MALLOC ERROR", all);
 	if (!(all->textures[3] = (t_img *)malloc(sizeof(t_img))))
-		error("Structure of textures[3] MALLOC ERROR");
+		error("Structure of textures[3] MALLOC ERROR", all);
 	if (!(all->textures[4] = (t_img *)malloc(sizeof(t_img))))
-		error("Structure of textures[4] MALLOC ERROR");
+		error("Structure of textures[4] MALLOC ERROR", all);
 	if (!(all->p = (t_param *)malloc(sizeof(t_param))))
-		error("Structure of parametres MALLOC ERROR");
+		error("Structure of parametres MALLOC ERROR", all);
 }
 
 void init_depth_buffer(t_all *all)
 {
 	if (!(all->depth_buffer = (double *)malloc(sizeof(double)*all->p->width)))
-		error("Depth_buffer MALLOC ERROR");
+		error("Depth_buffer MALLOC ERROR", all);
 }
 
 void init_game(t_all *all)
@@ -51,12 +51,13 @@ void init_game(t_all *all)
 	// check_player(all->p->split_map);
 	checkmap(all, all->plr->y, all->plr->x);
 
-	all->win = mlx_new_window(all->mlx, all->p->width,
-		all->p->hight, "Kallard's Cub3D");												// man /Users/nastya/Desktop/man/man1/mlx_new_window.1
-	all->img[0]->img = mlx_new_image(all->mlx,
+	if (all->ch->screenshot != 1)
+		all->win = mlx_new_window(all->mlx, all->p->width, all->p->hight, "Kallard's Cub3D");
+														// man /Users/nastya/Desktop/man/man1/mlx_new_window.1
+	all->img->img = mlx_new_image(all->mlx,
 		all->p->width, all->p->hight);													// mlx_new_image.1
-	all->img[0]->data_addr = mlx_get_data_addr(all->img[0]->img,
-		&all->img[0]->bpp, &all->img[0]->size_line, &all->img[0]->endian);				// mlx_new_image.1
+	all->img->data_addr = mlx_get_data_addr(all->img->img,
+		&all->img->bpp, &all->img->size_line, &all->img->endian);				// mlx_new_image.1
 
 	// all->img[1]->img = mlx_new_image(all->mlx,
 	// 	all->p->width, all->p->hight);													// mlx_new_image.1
@@ -116,7 +117,7 @@ void init_game(t_all *all)
 void init_check_struct(t_all *all)
 {
 	if (!(all->ch = (t_checks *)malloc(sizeof(t_checks))))
-		error("Structure of checks MALLOC ERROR");
+		error("Structure of checks MALLOC ERROR", all);
 	all->ch->r = 0;
 	all->ch->no = 0;
 	all->ch->so = 0;

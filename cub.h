@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 16:35:02 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/21 00:16:10 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/21 22:08:31 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include "mlx/mlx.h"
 
 #define SCALE	15         	   // условный размер каждого квадратика в карте
-#define SPEED	0.5	   //0.5 is normal
+#define SPEED	0.08	   //0.1 is normal
 
 typedef struct s_checks
 {
@@ -130,7 +130,7 @@ typedef struct		s_all 		// структура для остальных стру
 	int				is_draw;
 	t_checks		*ch;
 	t_param			*p;
-	t_img			**img;
+	t_img			*img;
 	t_img			*textures[5];
 	t_plr			*plr;
 	t_ray			*ray;
@@ -143,22 +143,29 @@ typedef struct		s_all 		// структура для остальных стру
 	t_sprite		**sprites;
 	double			*depth_buffer;
 	int				sprite_count;
+	int				key_forward;
+	int				key_down;
+	int				key_rigth;
+	int				key_left;
+	int				key_rotate_rigth;
+	int				key_rotate_left;
 }					t_all;
 
 
 /*UTILS*/
 void            my_pixel_put(t_all *all, int x, int y, int color);
 int            my_pixel_get(t_all *all, int text_id, int x, int y);
+void             my_pixel_put_line(t_all *all, int width, int y, int color);
 
 /*CHECKS*/
-int				check_filename(char *filename);
+void			check_filename(char *filename, t_all *all);
 void			check_params(t_all *all);
 void			check_line_map(char *line, t_all *all);
 void			checkmap(t_all *all, int x, int y);
 
 
 /*ERRORS*/
-void			error(char *message);
+void error(char *message, t_all *all);
 
 /*INIT*/
 void   			init_check_struct(t_all *all);
@@ -178,12 +185,15 @@ void			game_start(t_all *all);
 void			cast_rays(t_all *all);
 void			cast_rays2(t_all *all);
 void			cast_rays(t_all *all);
+int 			is_not_wall(t_all* all, double y, double x);
+int 			is_wall(t_all* all, double y, double x);
 void 			draw_sprites(t_all *all);
 void			three_dimensions(t_all *all);
+int		exit_game(t_all *all, int exit_code);
 
 
 
-void	draw_viewcone(t_all *all);
+void	make_screenshot(t_all *all);
 
 
 #endif

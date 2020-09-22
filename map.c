@@ -100,7 +100,7 @@ void map_parsing(int fd, char *line, t_all *all)
 	while (row_is_present > 0)
 	{
 		if ((row_is_present = get_next_line(fd, &line)) == (-1))
-			error("File reading error!");
+			error("File reading error!", all);
 		check_line_map(line, all);
 		all->p->line_map = ft_strjoin(all->p->line_map, line);
 		all->p->line_map = ft_strjoin(all->p->line_map, "|");

@@ -35,18 +35,19 @@ void	draw_wall_line_from_texture(t_all *all, int text_id, double column_heigth, 
 
 	double text_y_step = all->textures[text_id]->height / column_heigth;
 	int y = all->p->hight/2.0 - column_heigth/2.0;
-	while (y <= all->p->hight/2.0 + column_heigth/2.0)
+	int y_max = all->p->hight/2.0 + column_heigth/2.0;
+	if (y_max > all->p->hight)
+		y_max = all->p->hight;
+	int color = my_pixel_get(all, text_id, text_x_int, (int)text_y);
+	while (y <= y_max)
 	{
-		if(y >= 0 && y <= all->p->hight)
+		if(y >= 0)
 		{
-			//if(!(x < SCALE * all->map_width && \
-			//	 	y >= all->p->hight - SCALE * all->map_hight))
-			{
-				int color = my_pixel_get(all, text_id, text_x_int, (int)text_y);
-				my_pixel_put(all, x, y, color);
-			}
+			my_pixel_put(all, x, y, color);
+			if (((int)text_y) != (int)(text_y + text_y_step))
+				color = my_pixel_get(all, text_id, text_x_int, (int)text_y);
 		}
-		y += 1.0;
+		y += 1;
 		text_y += text_y_step;
 	}
 }
@@ -87,7 +88,7 @@ void	cast_rays(t_all *all)
 
 	int pixel_index = 0;
 	int step = 0;
-	while(angle <= angle_max)
+	while(angle < angle_max && pixel_index < all->p->width)
 	{
 		x = all->plr->x;	// каждый раз возвращаемся в точку начала
 		y = all->plr->y;

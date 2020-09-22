@@ -6,15 +6,15 @@ HEADER = ./cub.h
 
 OBJS = $(SRCS:.c=.o)
 
-#-Wall -Wextra -Werror
-FLAGS =-g libmlx.dylib -framework OpenGL -framework AppKit
+#-Wall -Wextra -Werror -g -fsanitize=address
+FLAGS =-g -fsanitize=address libmlx.dylib -framework OpenGL -framework AppKit
 
 %.o: %.c
 	@$(CC) $(FLAGS) -c $< -o $@
 	
 test: $(OBJS) $(HEADER)
 	@gcc $(SRCS) libft/libft.a $(FLAGS)
-	./a.out map.cub
+	./a.out map.cub --save
 
 clean:
 	@rm -rf $(OBJS)
