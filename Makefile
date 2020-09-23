@@ -7,7 +7,7 @@ HEADER = ./cub.h
 OBJS = $(SRCS:.c=.o)
 
 #-Wall -Wextra -Werror -g -fsanitize=address -framework OpenGL -framework AppKit
-FLAGS = -O3 libmlx.dylib -framework OpenGL -framework AppKit
+FLAGS = -g libmlx.dylib -framework OpenGL -framework AppKit
 
 %.o: %.c
 	@$(CC) $(FLAGS) -c $< -o $@

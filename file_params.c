@@ -6,13 +6,13 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/22 19:41:01 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/22 23:03:12 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/23 13:34:34 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-void        floor_n_c(char *line, int *rgb, char flag, t_all *all)
+void		floor_n_c(char *line, int *rgb, char flag, t_all *all)
 {
 	int r;
 	int g;
@@ -41,7 +41,7 @@ void        floor_n_c(char *line, int *rgb, char flag, t_all *all)
 		all->ch->c++;
 }
 
-void        resolution_pars(char *line, t_all *all)
+void		resolution_pars(char *line, t_all *all)
 {
 	int i;
 
@@ -64,14 +64,14 @@ void        resolution_pars(char *line, t_all *all)
 	all->ch->r++;
 }
 
-static void texture_path_pars(char **param, char *line,  t_all *all)
+static void	texture_path_pars(char **param, char *line, t_all *all)
 {
 	int fd;
 
 	while (*line == ' ')
 		line++;
 	if (*line == '.' && *(line + 1) == '/')
-	{	
+	{
 		if ((fd = open(line, O_RDONLY)) < 0)
 			error("Incorrect path to the texture", all);
 		*param = line;
@@ -80,7 +80,7 @@ static void texture_path_pars(char **param, char *line,  t_all *all)
 		error("Incorrect path to the texture", all);
 }
 
-void        texture_pars(char *line, t_all *all, char *id, int i)
+void		texture_pars(char *line, t_all *all, char *id, int i)
 {
 	if (id[i] == 'N' && id[i + 1] == 'O')
 	{
@@ -109,7 +109,7 @@ void        texture_pars(char *line, t_all *all, char *id, int i)
 	}
 }
 
-void        sort_param(char *line, t_all *all)
+void		sort_param(char *line, t_all *all)
 {
 	int i;
 

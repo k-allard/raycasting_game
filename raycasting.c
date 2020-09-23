@@ -6,11 +6,18 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/22 23:34:05 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/23 03:06:20 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/23 14:12:14 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
+
+// int text_x_int;
+// double text_y;
+// double text_y_step;
+// int y;
+// int y_max;
+// int color;
 
 void		draw_wall_line(t_all *all, int text_id, double column_h, int x, double hit)
 {
@@ -36,93 +43,70 @@ void		draw_wall_line(t_all *all, int text_id, double column_h, int x, double hit
 	}
 }
 
-int inline	is_not_wall(t_all* all, double y, double x)
-{
-	return ((all->p->map[(int)y][(int)x] != '1') &&
-	 (all->p->map[(int)y][(int)x] != '\0') && 
-	 (all->p->map[(int)y][(int)x] != ' '));
-}
-
-int inline	is_wall(t_all* all, double y, double x)
-{
-	return ((all->p->map[(int)y][(int)x] == '1') || 
-		(all->p->map[(int)y][(int)x] == '\0') ||
-		(all->p->map[(int)y][(int)x] == ' '));
-}
-
 void		cast_rays(t_all *all)
 {
-	int x_scale_int;
-	int y_scale_int;
-	int x_int;
-	int y_int;
-	double x = all->plr->x;
-	double y = all->plr->y;
-	
-	double angle = all->ray->dir - M_PI/4;
-    double angle_max  = all->ray->dir + M_PI/4;
+	t_rc rc;
 
-	int pixel_index = 0;
-	int step = 0;
-	while(angle < angle_max && pixel_index < all->p->w)
+	rc = *(all->rc);	
+	rc.angle = all->ray->dir - M_PI/4;
+	rc.angle_max = all->ray->dir + M_PI/4;
+	rc.pixel_index = 0;
+	rc.step = 0;
+	while (rc.angle < rc.angle_max && rc.pixel_index < all->p->w)
 	{
-		x = all->plr->x;
-		y = all->plr->y;
-		double x_step = cos(angle) / 20.0;
-		double y_step = sin(angle) / 20.0;
+		rc.x = all->plr->x;
+		rc.y = all->plr->y;
+		rc.x_step = cos(rc.angle) / 20.0;
+		rc.y_step = sin(rc.angle) / 20.0;
 
-		while (is_not_wall(all, y, x))
+		while (is_not_wall(all, rc.y, rc.x))
 		{
-			x_int = (int)x;
-			y_int = (int)y;
-			x_scale_int = (int)(x*SCALE);
-			y_scale_int = (int)(y*SCALE);
-			while (x_scale_int == (int)(x*SCALE) && y_scale_int == (int)(y*SCALE) && x_int == (int)x && y_int == (int)y)
+			rc.x_int = (int)rc.x;
+			rc.y_int = (int)rc.y;
+			rc.x_scale_int = (int)(rc.x * SCALE);
+			rc.y_scale_int = (int)(rc.y * SCALE);
+			while (rc.x_scale_int == (int)(rc.x * SCALE) && rc.y_scale_int == (int)(rc.y * SCALE) && rc.x_int == (int)rc.x && rc.y_int == (int)rc.y)
 			{
-				x += x_step; 
-				y += y_step;
+				rc.x += rc.x_step;
+				rc.y += rc.y_step;
 			}
 		}
-		if (is_wall(all, y, x))
+		if (is_wall(all, rc.y, rc.x))
 		{
-			double round_y = 1.0 * round(y);
-			double round_y_d = (round_y - all->plr->y) / sinl(angle);
-			double round_y_x = cos(angle) * round_y_d + (all->plr->x);
-			double round_x = 1.0 * round(x);
-			double round_x_d = (round_x - all->plr->x) / cos(angle);
-			double round_x_y = sin(angle) * round_x_d + (all->plr->y);	
-			double distance = (round_x_d < round_y_d) ? round_x_d : round_y_d;
-			double hit;
-			int text_id;
-			int color;
-			int round_x_step = (round_x > x) ? -1 : 0;
-			int round_y_step = (round_y > y) ? -1 : 0;
-
-			if (round_y_d < 0 || (round_x_d >= 0 && ( \
-				(round_x_d < round_y_d && is_wall(all, round_x_y, (int)round_x + round_x_step)) || \
-				(round_y_d < round_x_d && is_not_wall(all, (int)(round_y) + round_y_step, round_y_x)))))
-			{	
-				distance = round_x_d;
-				hit = round_x_y - (int)round_x_y;
-				if (cos(angle) > 0)
-					text_id = EA;
+			rc.round_y = 1.0 * round(rc.y);
+			rc.round_y_d = (rc.round_y - all->plr->y) / sinl(rc.angle);
+			rc.round_y_x = cos(rc.angle) * rc.round_y_d + (all->plr->x);
+			rc.round_x = 1.0 * round(rc.x);
+			rc.round_x_d = (rc.round_x - all->plr->x) / cos(rc.angle);
+			rc.round_x_y = sin(rc.angle) * rc.round_x_d + (all->plr->y);
+			rc.distance = (rc.round_x_d < rc.round_y_d) ? rc.round_x_d : rc.round_y_d;
+			rc.round_x_step = (rc.round_x > rc.x) ? -1 : 0;
+			rc.round_y_step = (rc.round_y > rc.y) ? -1 : 0;
+			if (rc.round_y_d < 0 || (rc.round_x_d >= 0 && ( \
+				(rc.round_x_d < rc.round_y_d && is_wall(all, rc.round_x_y, (int)rc.round_x + rc.round_x_step)) || \
+				(rc.round_y_d < rc.round_x_d && is_not_wall(all, (int)(rc.round_y) + rc.round_y_step, rc.round_y_x)))))
+			{
+				rc.distance = rc.round_x_d;
+				rc.hit = rc.round_x_y - (int)rc.round_x_y;
+				if (cos(rc.angle) > 0)
+					rc.text_id = EA;
 				else
-					text_id = WE;
+					rc.text_id = WE;
 			}
 			else
 			{
-				distance = round_y_d;
-				hit = round_y_x - (int)round_y_x;
-				if (sin(angle) > 0)
-					text_id = SO;
-				else 
-					text_id = NO;
+				rc.distance = rc.round_y_d;
+				rc.hit = rc.round_y_x - (int)rc.round_y_x;
+				if (sin(rc.angle) > 0)
+					rc.text_id = SO;
+				else
+					rc.text_id = NO;
 			}
-			all->depth_buf[pixel_index] = distance;
-			double column_h =  all->p->h / distance / cos(angle - all->ray->dir);			
-			draw_wall_line(all, text_id, column_h, pixel_index, hit);
+			all->depth_buf[rc.pixel_index] = rc.distance;
+			rc.column_h =  all->p->h / rc.distance / cos(rc.angle - all->ray->dir);
+			draw_wall_line(all, rc.text_id, rc.column_h, rc.pixel_index, rc.hit);
 		}
-		angle += M_PI/2.0/all->p->w;
-		pixel_index ++;
+		rc.angle += M_PI/2.0/all->p->w;
+		rc.pixel_index ++;
 	}
 }

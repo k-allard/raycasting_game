@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 16:35:02 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/23 03:45:25 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/23 14:08:31 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,35 @@
 
 # define SCALE		15
 # define SPEED		0.08
+
+typedef struct		s_rc
+{
+	int		x_scale_int;
+	int		y_scale_int;
+	int		x_int;
+	int		y_int;
+	double	x;
+	double	y;
+	double	angle;
+	double	angle_max;
+	int		pixel_index;
+	int		step;
+	double	x_step;
+	double	y_step;
+	double	round_y;
+	double	round_y_d;
+	double	round_y_x;
+	double	round_x;
+	double	round_x_d;
+	double	round_x_y;
+	double	distance;
+	double	hit;
+	int		text_id;
+	int		color;
+	int		round_x_step;
+	int		round_y_step;
+	double	column_h;
+}					t_rc;
 
 typedef struct		s_checks
 {
@@ -128,6 +157,7 @@ typedef struct		s_all
 	t_plr			*plr;
 	t_ray			*ray;
 	t_sprite		**sprites;
+	t_rc			*rc;
 	void			*mlx;
 	void			*win;
 	int				map_w;

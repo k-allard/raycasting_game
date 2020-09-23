@@ -6,62 +6,64 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/22 19:41:08 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/22 23:03:50 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/23 13:31:35 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-static void get_map_size(t_all *all)
+static void	get_map_size(t_all *all)
 {
-	int rows = 0;
-	int maxColumns = 0;
-	int rowSize = 0;
+	int rows;
+	int max_columns;
+	int row_size;
 
-	while (all -> p ->map[rows])
+	rows = 0;
+	max_columns = 0;
+	while (all->p->map[rows])
 	{
-		rowSize = ft_strlen(all -> p ->map[rows]);
-		if(rowSize > maxColumns)
-			maxColumns = rowSize;
+		row_size = ft_strlen(all->p->map[rows]);
+		if (row_size > max_columns)
+			max_columns = row_size;
 		rows++;
 	}
 	all->map_h = rows;
-	all->map_w = maxColumns;
+	all->map_w = max_columns;
 }
 
-static void get_player_position(t_all *all)
+static void	get_player_position(t_all *all)
 {
-	int row = 0;
-	int column = 0;
-	char *playerChar;
+	int		row;
+	int		column;
+	char	*plr_char;
 
+	row = 0;
 	while (all->p->map[row])
 	{
-		playerChar = ft_strchr(all -> p ->map[row], all->p->pl_dir);
-		if(playerChar)
+		plr_char = ft_strchr(all->p->map[row], all->p->pl_dir);
+		if (plr_char)
 		{
-			column = playerChar - all->p->map[row];
+			column = plr_char - all->p->map[row];
 			all->plr->x = 1.0 * column + 0.5;
 			all->plr->y = 1.0 * row + 0.5;
-			return;
+			return ;
 		}
 		row++;
 	}
 }
 
-static void sprite_count(t_all *all)
+static void	sprite_count(t_all *all)
 {
-	int		row = 0;
-	int		column = 0;
-	int		count = 0;
-	char*	sprite_char;
+	int		row;
+	int		count;
+	char	*sprite_char;
+	char	*start_row;
 
 	row = 0;
-	column = 0;
 	count = 0;
 	while (all->p->map[row])
 	{
-		char* start_row = all->p->map[row];
+		start_row = all->p->map[row];
 		sprite_char = ft_strchr(start_row, '2');
 		while (sprite_char)
 		{
@@ -74,27 +76,26 @@ static void sprite_count(t_all *all)
 	all->sprite_count = count;
 }
 
-static void get_sprite_position(t_all *all)
+static void	get_sprite_position(t_all *all)
 {
-	int 	i;
-	int     row;
-	int     column;
-	char*   sprite_char;
-	char*	start_row;
-	
+	int		i;
+	int		row;
+	int		column;
+	char	*sprite_char;
+	char	*start_row;
+
 	i = 0;
 	row = 0;
-	column = 0;
 	while (all->p->map[row])
 	{
 		start_row = all->p->map[row];
 		sprite_char = ft_strchr(start_row, '2');
-		while(sprite_char)
+		while (sprite_char)
 		{
 			column = sprite_char - all->p->map[row];
 			start_row = sprite_char + 1;
 			all->sprites[i]->x = 1.0 * column + 0.5;
-			all->sprites[i]->y = 1.0 * row + 0.5;			
+			all->sprites[i]->y = 1.0 * row + 0.5;
 			i++;
 			sprite_char = ft_strchr(start_row, '2');
 		}
@@ -102,9 +103,9 @@ static void get_sprite_position(t_all *all)
 	}
 }
 
-void map_parsing(int fd, char *line, t_all *all)
+void		map_parsing(int fd, char *line, t_all *all)
 {
-	int row_is_present;
+	int	row_is_present;
 
 	row_is_present = 1;
 	check_line_map(line, all);

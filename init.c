@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 03:50:53 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/23 03:50:54 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/23 14:12:56 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	init_game_structs(t_all *all)
 	if (!(all->plr = (t_plr *)malloc(sizeof(t_plr))))
 		error("Struct Player MALLOC ERROR", all);
 	if (!(all->ray = (t_ray *)malloc(sizeof(t_ray))))
+		error("Struct Ray MALLOC ERROR", all);
+	if (!(all->rc = (t_rc *)malloc(sizeof(t_rc))))
 		error("Struct Ray MALLOC ERROR", all);
 	if (!(all->img = (t_img *)malloc(sizeof(t_img))))
 		error("Structure of imgs MALLOC ERROR", all);
