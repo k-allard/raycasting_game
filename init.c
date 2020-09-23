@@ -1,11 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/09/23 03:50:53 by kallard           #+#    #+#             */
+/*   Updated: 2020/09/23 03:50:54 by kallard          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub.h"
 
-void init_sprite_struct(t_all *all)
+void	init_sprite_struct(t_all *all)
 {
 	int i;
 
 	i = 0;
-	if (!(all->sprites = (t_sprite **)malloc(sizeof(t_sprite*)*(all->sprite_count + 1))))
+	if (!(all->sprites = (t_sprite **)malloc(sizeof(t_sprite*)
+					* (all->sprite_count + 1))))
 		error("Struct Sprite_list MALLOC ERROR", all);
 	while (i < all->sprite_count)
 	{
@@ -16,7 +29,7 @@ void init_sprite_struct(t_all *all)
 	all->sprites[all->sprite_count] = NULL;
 }
 
-void init_game_structs(t_all *all)
+void	init_game_structs(t_all *all)
 {
 	if (!(all->plr = (t_plr *)malloc(sizeof(t_plr))))
 		error("Struct Player MALLOC ERROR", all);
@@ -24,8 +37,6 @@ void init_game_structs(t_all *all)
 		error("Struct Ray MALLOC ERROR", all);
 	if (!(all->img = (t_img *)malloc(sizeof(t_img))))
 		error("Structure of imgs MALLOC ERROR", all);
-	// if (!(all->img = (t_img *)malloc(sizeof(t_img))))
-	// 	error("Structure of img[0] MALLOC ERROR", all);
 	if (!(all->text[0] = (t_img *)malloc(sizeof(t_img))))
 		error("Structure of textures[0] MALLOC ERROR", all);
 	if (!(all->text[1] = (t_img *)malloc(sizeof(t_img))))
@@ -40,31 +51,42 @@ void init_game_structs(t_all *all)
 		error("Structure of parametres MALLOC ERROR", all);
 }
 
-void init_depth_buffer(t_all *all)
+void	init_textures(t_all *all)
 {
-	if (!(all->depth_buf = (double *)malloc(sizeof(double)*all->p->w)))
-		error("Depth_buffer MALLOC ERROR", all);
+	all->text[NO]->img = mlx_xpm_file_to_image(all->mlx, all->p->no,\
+				&(all->text[NO]->w), &(all->text[NO]->h));
+	all->text[NO]->addr = mlx_get_data_addr(all->text[NO]->img,\
+				&all->text[NO]->bpp, &all->text[NO]->l_sz, &all->text[NO]->en);
+	all->text[SO]->img = mlx_xpm_file_to_image(all->mlx, all->p->so,\
+				&(all->text[SO]->w), &(all->text[SO]->h));
+	all->text[SO]->addr = mlx_get_data_addr(all->text[SO]->img,\
+				&all->text[SO]->bpp, &all->text[SO]->l_sz, &all->text[SO]->en);
+	all->text[WE]->img = mlx_xpm_file_to_image(all->mlx, all->p->we,\
+				&(all->text[WE]->w), &(all->text[WE]->h));
+	all->text[WE]->addr = mlx_get_data_addr(all->text[WE]->img,\
+				&all->text[WE]->bpp, &all->text[WE]->l_sz, &all->text[WE]->en);
+	all->text[EA]->img = mlx_xpm_file_to_image(all->mlx, all->p->ea,\
+				&(all->text[EA]->w), &(all->text[EA]->h));
+	all->text[EA]->addr = mlx_get_data_addr(all->text[EA]->img,\
+				&all->text[EA]->bpp, &all->text[EA]->l_sz, &all->text[EA]->en);
+	all->text[S]->img = mlx_xpm_file_to_image(all->mlx, all->p->s,\
+				&(all->text[S]->w), &(all->text[S]->h));
+	all->text[S]->addr = mlx_get_data_addr(all->text[S]->img,\
+				&all->text[S]->bpp, &all->text[S]->l_sz, &all->text[S]->en);
 }
 
-void init_game(t_all *all)
+void	init_game(t_all *all)
 {
 	if (all->ch->screenshot != 1)
-		all->win = mlx_new_window(all->mlx, all->p->w, all->p->h, "Kallard's Cub3D");
+		all->win = mlx_new_window(all->mlx, all->p->w, all->p->h,\
+				"Kallard's Cub3D");
 	all->img->img = mlx_new_image(all->mlx, all->p->w, all->p->h);
-	all->img->addr = mlx_get_data_addr(all->img->img, &all->img->bpp, &all->img->l_sz, &all->img->en);
-	all->text[NO]->img = mlx_xpm_file_to_image(all->mlx, all->p->no, &(all->text[NO]->w), &(all->text[NO]->h));
-	all->text[NO]->addr = mlx_get_data_addr(all->text[NO]->img, &all->text[NO]->bpp, &all->text[NO]->l_sz, &all->text[NO]->en);
-	all->text[SO]->img = mlx_xpm_file_to_image(all->mlx, all->p->so, &(all->text[SO]->w), &(all->text[SO]->h));
-	all->text[SO]->addr = mlx_get_data_addr(all->text[SO]->img, &all->text[SO]->bpp, &all->text[SO]->l_sz, &all->text[SO]->en);
-	all->text[WE]->img = mlx_xpm_file_to_image(all->mlx, all->p->we, &(all->text[WE]->w), &(all->text[WE]->h));
-	all->text[WE]->addr = mlx_get_data_addr(all->text[WE]->img, &all->text[WE]->bpp, &all->text[WE]->l_sz, &all->text[WE]->en);
-	all->text[EA]->img = mlx_xpm_file_to_image(all->mlx, all->p->ea, &(all->text[EA]->w), &(all->text[EA]->h));
-	all->text[EA]->addr = mlx_get_data_addr(all->text[EA]->img, &all->text[EA]->bpp, &all->text[EA]->l_sz, &all->text[EA]->en);
-	all->text[S]->img = mlx_xpm_file_to_image(all->mlx, all->p->s, &(all->text[S]->w), &(all->text[S]->h));
-	all->text[S]->addr = mlx_get_data_addr(all->text[S]->img, &all->text[S]->bpp, &all->text[S]->l_sz, &all->text[S]->en);
+	all->img->addr = mlx_get_data_addr(all->img->img, &all->img->bpp,\
+				&all->img->l_sz, &all->img->en);
+	init_textures(all);
 }
 
-void init_check_struct(t_all *all)
+void	init_check_struct(t_all *all)
 {
 	if (!(all->ch = (t_checks *)malloc(sizeof(t_checks))))
 		error("Structure of checks MALLOC ERROR", all);

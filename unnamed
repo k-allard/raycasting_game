@@ -1,0 +1,10 @@
+all->text[NO]->img = mlx_xpm_file_to_image(all->mlx, all->p->no, &(all->text[NO]->w), &(all->text[NO]->h));
+	all->text[NO]->addr = mlx_get_data_addr(all->text[NO]->img, &all->text[NO]->bpp, &all->text[NO]->l_sz, &all->text[NO]->en);
+	all->text[SO]->img = mlx_xpm_file_to_image(all->mlx, all->p->so, &(all->text[SO]->w), &(all->text[SO]->h));
+	all->text[SO]->addr = mlx_get_data_addr(all->text[SO]->img, &all->text[SO]->bpp, &all->text[SO]->l_sz, &all->text[SO]->en);
+	all->text[WE]->img = mlx_xpm_file_to_image(all->mlx, all->p->we, &(all->text[WE]->w), &(all->text[WE]->h));
+	all->text[WE]->addr = mlx_get_data_addr(all->text[WE]->img, &all->text[WE]->bpp, &all->text[WE]->l_sz, &all->text[WE]->en);
+	all->text[EA]->img = mlx_xpm_file_to_image(all->mlx, all->p->ea, &(all->text[EA]->w), &(all->text[EA]->h));
+	all->text[EA]->addr = mlx_get_data_addr(all->text[EA]->img, &all->text[EA]->bpp, &all->text[EA]->l_sz, &all->text[EA]->en);
+	all->text[S]->img = mlx_xpm_file_to_image(all->mlx, all->p->s, &(all->text[S]->w), &(all->text[S]->h));
+	all->text[S]->addr = mlx_get_data_addr(all->text[S]->img, &all->text[S]->bpp, &all->text[S]->l_sz, &all->text[S]->en);

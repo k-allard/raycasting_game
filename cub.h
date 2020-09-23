@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 16:35:02 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/23 02:27:40 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/23 03:45:25 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,9 +146,9 @@ typedef struct		s_all
 ** DRAW
 */
 
-void				my_pixel_put(t_all *all, int x, int y, int color);
-int					my_pixel_get(t_all *all, int text_id, int x, int y);
-void				my_pixel_put_line(t_all *all, int width, int y, int color);
+void				pixel_put(t_all *all, int x, int y, int color);
+int					pixel_get(t_all *all, int text_id, int x, int y);
+void				pixel_put_line(t_all *all, int width, int y, int color);
 
 /*
 ** CHECKS
@@ -172,7 +172,6 @@ void				error(char *message, t_all *all);
 void				init_check_struct(t_all *all);
 void				init_param_struct(t_all *all);
 void				init_game_structs(t_all *all);
-void				init_depth_buffer(t_all *all);
 void				init_game(t_all *all);
 void				init_sprite_struct(t_all *all);
 
@@ -201,6 +200,23 @@ int					exit_game(t_all *all, int exit_code);
 int					close_win(t_all *all);
 
 void				make_screenshot(t_all *all);
+
+/*
+** PIXEL DRAW
+*/
+
+void        background(t_all *all);
+
+/*
+** GAME CHANGES
+*/
+
+void		calc_new_position(t_all* all);
+void	calc_sprite_distance(t_all *all);
+void	sort_sprite_array(t_all *all);
+
+
+
 
 /*
 ** BONUS

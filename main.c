@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/22 18:17:15 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/22 19:42:45 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/23 03:51:37 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,20 @@ int	main(int argc, char **argv)
 
 	if (argc == 2 || argc == 3)
 	{
-		check_filename(argv[1], &all);	// проверяем, что файл .cub и открывается
-		init_check_struct(&all);		// маллок и инициализация значений для структуры checks
+		check_filename(argv[1], &all);
+		init_check_struct(&all);
 		if (argc == 3)
 		{
 			if (ft_strncmp(argv[2], "--save", 6))
 				error("For a screenshot, the 2nd arg must be ––save", &all);
 			all.ch->screenshot = 1;
 		}
-		all.mlx = mlx_init(); 			// MLX CONNECTION INITIALIZATION
-		init_game_structs(&all);		// маллоки для структур player, ray, imgs, textures, params
-		file_parsing(open(argv[1], O_RDONLY), &all);	//парсинг параметров и карты
+		all.mlx = mlx_init();
+		init_game_structs(&all);
+		file_parsing(open(argv[1], O_RDONLY), &all);
 		init_game(&all);
-		init_depth_buffer(&all);
+		if (!(all.depth_buf = (double *)malloc(sizeof(double) * all.p->w)))
+			error("Depth_buffer MALLOC ERROR", &all);
 		game_start(&all);
 	}
 	else

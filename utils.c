@@ -6,22 +6,21 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 00:09:50 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/23 00:09:51 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/23 03:11:25 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-void	my_pixel_put(t_all *all, int x, int y, int color)
+void	pixel_put(t_all *all, int x, int y, int color)
 {
-	char    *dest;
+	char	*dest;
 
 	dest = all->img->addr + (y * all->img->l_sz + x * (all->img->bpp / 8));
 	*(unsigned int*)dest = color;
 }
 
-
-void	my_pixel_put_line(t_all *all, int width, int y, int color)
+void	pixel_put_line(t_all *all, int width, int y, int color)
 {
 	char	*dest;
 	int		x;
@@ -33,10 +32,12 @@ void	my_pixel_put_line(t_all *all, int width, int y, int color)
 		*(unsigned int*)(dest + width * pixel_size) = color;
 }
 
-int		my_pixel_get(t_all *all, int text_id, int x, int y)
+int		pixel_get(t_all *all, int text_id, int x, int y)
 {
 	char	*dest;
+	t_img	t;
 
-	dest = all->text[text_id]->addr + (y * all->text[text_id]->l_sz + x * (all->text[text_id]->bpp / 8));
-	return *(unsigned int*)dest;
+	t = *(all->text[text_id]);
+	dest = t.addr + (y * t.l_sz + x * (t.bpp / 8));
+	return (*(unsigned int*)dest);
 }

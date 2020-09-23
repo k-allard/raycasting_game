@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/22 23:34:05 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/23 01:54:00 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/23 03:06:20 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ void		draw_wall_line(t_all *all, int text_id, double column_h, int x, double hit
 	int y_max = all->p->h/2.0 + column_h/2.0;
 	if (y_max > all->p->h)
 		y_max = all->p->h;
-	int color = my_pixel_get(all, text_id, text_x_int, (int)text_y);
+	int color = pixel_get(all, text_id, text_x_int, (int)text_y);
 	while (y < y_max)
 	{
 		if(y >= 0)
 		{
-			my_pixel_put(all, x, y, color);
+			pixel_put(all, x, y, color);
 			if (((int)text_y) != (int)(text_y + text_y_step))
-				color = my_pixel_get(all, text_id, text_x_int, (int)text_y);
+				color = pixel_get(all, text_id, text_x_int, (int)text_y);
 		}
 		y += 1;
 		text_y += text_y_step;
