@@ -6,24 +6,16 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 02:58:41 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/23 13:14:23 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/24 20:33:06 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 #include <stdio.h>
 
-static int	min(int a, int b)
-{
-	if (a < b)
-		return (a);
-	else
-		return (b);
-}
-
 static int	sprite_init(t_all *all, t_sprite *sp)
 {
-	if (sp->dist < 0.5)
+	if (sp->is_found)
 		return (0);
 	sp->dir = atan2(sp->y - all->plr->y, sp->x - all->plr->x);
 	while (sp->dir - all->ray->dir > M_PI)
@@ -45,6 +37,8 @@ static void	draw_sprite(t_all *all, int index)
 	int			j;
 	int			x;
 
+	if (all->sprites[index]->dist < 0.4)
+		all->sprites[index]->is_found = 1;
 	sp = *(all->sprites[index]);
 	if (sprite_init(all, &sp))
 	{

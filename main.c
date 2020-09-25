@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/22 18:17:15 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/23 03:51:37 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/24 20:32:29 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	main(int argc, char **argv)
 {
-	int		fd;
 	t_all	all;
 
 	if (argc == 2 || argc == 3)

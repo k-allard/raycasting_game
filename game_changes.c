@@ -6,13 +6,13 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 03:28:39 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/23 03:39:49 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/25 13:12:02 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-void	sort_sprite_array(t_all *all)
+static void	sort_sprite_array(t_all *all)
 {
 	t_sprite	*tmp;
 	int			i;
@@ -36,7 +36,7 @@ void	sort_sprite_array(t_all *all)
 	}
 }
 
-void	calc_sprite_distance(t_all *all)
+void		calc_sprite_distance(t_all *all)
 {
 	int i;
 
@@ -50,7 +50,35 @@ void	calc_sprite_distance(t_all *all)
 	sort_sprite_array(all);
 }
 
-void	calc_new_position(t_all *all)
+static void	glide(t_all *all, double y_step, double x_step)
+{
+	double y_new;
+	double x_new;
+
+	if (all->key_left == 0)
+	{
+		y_new = y_step + sin(all->ray->dir - M_PI / 2) * 0.4 * SPEED;
+		x_new = x_step + cos(all->ray->dir - M_PI / 2) * 0.4 * SPEED;
+		if (is_not_wall(all, all->plr->y + y_new * 3, all->plr->x + x_new * 3))
+		{
+			all->plr->y += y_new;
+			all->plr->x += x_new;
+			return ;
+		}
+	}
+	if (all->key_rigth == 0)
+	{
+		y_new = y_step + sin(all->ray->dir + M_PI / 2) * 0.4 * SPEED;
+		x_new = x_step + cos(all->ray->dir + M_PI / 2) * 0.4 * SPEED;
+		if (is_not_wall(all, all->plr->y + y_new * 3, all->plr->x + x_new * 3))
+		{
+			all->plr->y += y_new;
+			all->plr->x += x_new;
+		}
+	}
+}
+
+void		calc_new_position(t_all *all)
 {
 	double y_step;
 	double x_step;
@@ -72,4 +100,6 @@ void	calc_new_position(t_all *all)
 		all->plr->y += y_step;
 		all->plr->x += x_step;
 	}
+	else
+		glide(all, y_step, x_step);
 }

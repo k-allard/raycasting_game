@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/22 19:41:08 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/23 13:31:35 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/25 13:19:36 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,20 +105,23 @@ static void	get_sprite_position(t_all *all)
 
 void		map_parsing(int fd, char *line, t_all *all)
 {
-	int	row_is_present;
+	int		row_is_present;
+	char	*line_new;
 
 	row_is_present = 1;
 	check_line_map(line, all);
 	all->p->line_map = ft_strjoin(line, "|");
 	while (row_is_present > 0)
 	{
-		if ((row_is_present = get_next_line(fd, &line)) == (-1))
+		if ((row_is_present = get_next_line(fd, &line_new)) == (-1))
 			error("File reading error!", all);
-		check_line_map(line, all);
-		all->p->line_map = ft_strjoin(all->p->line_map, line);
-		all->p->line_map = ft_strjoin(all->p->line_map, "|");
+		check_line_map(line_new, all);
+		all->p->line_map = safe_str_join(all->p->line_map, line_new);
+		all->p->line_map = safe_str_join(all->p->line_map, "|");
+		free(line_new);
 	}
 	all->p->map = ft_split(all->p->line_map, '|');
+	safe_free_str(&all->p->line_map);
 	get_map_size(all);
 	get_player_position(all);
 	sprite_count(all);

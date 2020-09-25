@@ -6,30 +6,30 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 03:50:53 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/23 14:12:56 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/25 13:11:41 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-void	init_sprite_struct(t_all *all)
+void		init_sprite_struct(t_all *all)
 {
 	int i;
 
 	i = 0;
 	if (!(all->sprites = (t_sprite **)malloc(sizeof(t_sprite*)
-					* (all->sprite_count + 1))))
+					* (all->sprite_count))))
 		error("Struct Sprite_list MALLOC ERROR", all);
 	while (i < all->sprite_count)
 	{
 		if (!(all->sprites[i] = (t_sprite *)malloc(sizeof(t_sprite))))
 			error("Struct Sprite MALLOC ERROR", all);
+		all->sprites[i]->is_found = 0;
 		i++;
 	}
-	all->sprites[all->sprite_count] = NULL;
 }
 
-void	init_game_structs(t_all *all)
+void		init_game_structs(t_all *all)
 {
 	if (!(all->plr = (t_plr *)malloc(sizeof(t_plr))))
 		error("Struct Player MALLOC ERROR", all);
@@ -53,7 +53,7 @@ void	init_game_structs(t_all *all)
 		error("Structure of parametres MALLOC ERROR", all);
 }
 
-void	init_textures(t_all *all)
+static void	init_textures(t_all *all)
 {
 	all->text[NO]->img = mlx_xpm_file_to_image(all->mlx, all->p->no,\
 				&(all->text[NO]->w), &(all->text[NO]->h));
@@ -77,7 +77,7 @@ void	init_textures(t_all *all)
 				&all->text[S]->bpp, &all->text[S]->l_sz, &all->text[S]->en);
 }
 
-void	init_game(t_all *all)
+void		init_game(t_all *all)
 {
 	if (all->ch->screenshot != 1)
 		all->win = mlx_new_window(all->mlx, all->p->w, all->p->h,\
@@ -88,7 +88,7 @@ void	init_game(t_all *all)
 	init_textures(all);
 }
 
-void	init_check_struct(t_all *all)
+void		init_check_struct(t_all *all)
 {
 	if (!(all->ch = (t_checks *)malloc(sizeof(t_checks))))
 		error("Structure of checks MALLOC ERROR", all);

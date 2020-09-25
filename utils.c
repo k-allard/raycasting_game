@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 00:09:50 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/23 13:41:40 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/24 20:42:50 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void		pixel_put(t_all *all, int x, int y, int color)
 {
 	char	*dest;
 
-	if (color < 0xff000000)
+	if ((unsigned int)color < 0xff000000)
 	{
 		dest = all->img->addr + (y * all->img->l_sz + x * (all->img->bpp / 8));
 		*(unsigned int*)dest = color;
@@ -26,7 +26,6 @@ void		pixel_put(t_all *all, int x, int y, int color)
 void		pixel_put_line(t_all *all, int width, int y, int color)
 {
 	char	*dest;
-	int		x;
 	int		pixel_size;
 
 	pixel_size = all->img->bpp / 8;

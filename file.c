@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/22 19:41:14 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/23 13:22:29 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/25 01:48:28 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,11 @@ void	file_parsing(int fd, t_all *all)
 		{
 			all->ch->map++;
 			map_parsing(fd, line, all);
+			free(line);
 			break ;
 		}
 		sort_param(&line[i], all);
+		free(line);
 	}
 	check_params(all);
 	checkmap(all, all->plr->y, all->plr->x);

@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/22 19:41:01 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/23 13:34:34 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/25 01:35:00 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static void	texture_path_pars(char **param, char *line, t_all *all)
 	{
 		if ((fd = open(line, O_RDONLY)) < 0)
 			error("Incorrect path to the texture", all);
-		*param = line;
+		*param = ft_strdup(line);
 	}
 	else
 		error("Incorrect path to the texture", all);

@@ -1,23 +1,29 @@
 NAME = cub3D
 
-SRCS = *.c ./bonus/minimap_bonus.c
+SRCS = *.c ./bonus/*.c
 
 HEADER = ./cub.h
 
 OBJS = $(SRCS:.c=.o)
 
-#-Wall -Wextra -Werror -g -fsanitize=address -framework OpenGL -framework AppKit
-FLAGS = -g libmlx.dylib -framework OpenGL -framework AppKit
+#-Wall -Wextra -Werror -g -fsanitize=address libmlx.dylib -framework OpenGL -framework AppKit
+FLAGS = -g -Wall -Wextra -Werror
 
 %.o: %.c
 	@$(CC) $(FLAGS) -c $< -o $@
 	
 test: $(OBJS) $(HEADER)
-	@gcc $(SRCS) libft/libft.a $(FLAGS)
+	@make -C libft
+	@make -C mlx
+	cp mlx/libmlx.dylib libmlx.dylib
+	@gcc $(SRCS) libft/libft.a libmlx.dylib $(FLAGS)
 	./a.out map.cub
 
 save: $(OBJS) $(HEADER)
-	@gcc $(SRCS) libft/libft.a $(FLAGS)
+	@make -C libft
+	@make -C mlx
+	cp mlx/libmlx.dylib libmlx.dylib
+	@gcc $(SRCS) libft/libft.a mlx/libmlx.dylib $(FLAGS)
 	./a.out map.cub --save
 
 clean:
@@ -27,6 +33,7 @@ clean:
 
 fclean: clean
 	@rm -rf $(NAME)
+	@rm libmlx.dylib
 	@make -C libft fclean
 
 re: fclean all

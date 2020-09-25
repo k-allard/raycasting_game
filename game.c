@@ -6,13 +6,13 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 00:09:57 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/23 03:34:20 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/25 12:00:51 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-int		key_press_hook(int keycode, t_all *all)
+static int	key_press_hook(int keycode, t_all *all)
 {
 	if (keycode == 0)
 		all->key_left = 1;
@@ -27,16 +27,13 @@ int		key_press_hook(int keycode, t_all *all)
 	else if (keycode == 124)
 		all->key_rotate_rigth = 1;
 	else if (keycode == 53)
-	{
-		mlx_destroy_window(all->mlx, all->win);
 		exit_game(all, EXIT_SUCCESS);
-	}
 	all->is_draw = all->key_left || all->key_rigth || all->key_down ||\
 		all->key_forward || all->key_rotate_left || all->key_rotate_rigth;
 	return (0);
 }
 
-int		key_release_hook(int keycode, t_all *all)
+static int	key_release_hook(int keycode, t_all *all)
 {
 	if (keycode == 0)
 		all->key_left = 0;
@@ -55,7 +52,7 @@ int		key_release_hook(int keycode, t_all *all)
 	return (0);
 }
 
-int		game(t_all *all)
+static int	game(t_all *all)
 {
 	int i;
 
@@ -79,7 +76,7 @@ int		game(t_all *all)
 	return (0);
 }
 
-void	hook_n_loop(t_all *all)
+static void	hook_n_loop(t_all *all)
 {
 	mlx_do_key_autorepeatoff(all->mlx);
 	mlx_hook(all->win, DestroyNotify, 1L << 0, close_win, all);
@@ -89,7 +86,7 @@ void	hook_n_loop(t_all *all)
 	mlx_loop(all->mlx);
 }
 
-void	game_start(t_all *all)
+void		game_start(t_all *all)
 {
 	all->is_draw = -1;
 	all->key_down = 0;
