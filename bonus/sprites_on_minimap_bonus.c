@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sprites_on_minimap.c                               :+:      :+:    :+:   */
+/*   sprites_on_minimap_bonus.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/25 13:23:49 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/25 13:24:30 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/25 13:49:43 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub.h"
+#include "cub_bonus.h"
 
 void	sprites_on_minimap(t_all *all)
 {

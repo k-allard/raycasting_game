@@ -1,4 +1,4 @@
-R   1200 800
+R   1000 600
 NO  ./texture/wall_blocks.xpm
 SO  ./texture/wall_wood.xpm
 WE  ./texture/wall_bricks.xpm

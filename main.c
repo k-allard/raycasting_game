@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/22 18:17:15 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/24 20:32:29 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/25 14:34:48 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int	main(int argc, char **argv)
 				error("For a screenshot, the 2nd arg must be ––save", &all);
 			all.ch->screenshot = 1;
 		}
-		all.mlx = mlx_init();
+		if (!(all.mlx = mlx_init()))
+			error("Minilibx init error", &all);
 		init_game_structs(&all);
 		file_parsing(open(argv[1], O_RDONLY), &all);
 		init_game(&all);

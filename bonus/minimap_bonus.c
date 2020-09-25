@@ -6,11 +6,11 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 00:24:07 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/25 13:24:25 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/25 13:49:27 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub.h"
+#include "cub_bonus.h"
 
 void	player(t_all *all, double x, double y)
 {

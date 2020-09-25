@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub.h                                              :+:      :+:    :+:   */
+/*   cub_bonus.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 16:35:02 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/25 14:08:16 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/25 14:11:17 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB_H
-# define CUB_H
+#ifndef CUB_BONUS_H
+# define CUB_BONUS_H
 
-# include "libft/libft.h"
+# include "../libft/libft.h"
 # include <stdlib.h>
 # include <unistd.h>
 # include <math.h>
 # include <fcntl.h>
 # include <errno.h>
-# include "mlx/mlx.h"
+# include "../mlx/mlx.h"
 
 # define SCALE		12
 # define SPEED		0.08
@@ -148,6 +148,7 @@ typedef struct		s_sprite
 	int				w;
 	int				x_start;
 	int				y_start;
+	int				is_found;
 }					t_sprite;
 
 typedef struct		s_all
@@ -243,5 +244,12 @@ int					exit_game(t_all *all, int exit_code);
 int					close_win(t_all *all);
 void				safe_free(void *ptr);
 void				safe_free_str(char **ptr);
+
+/*
+** BONUS
+*/
+
+void				minimap(t_all *all);
+void				sprites_on_minimap(t_all *all);
 
 #endif

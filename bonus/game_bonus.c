@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   game.c                                             :+:      :+:    :+:   */
+/*   game_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 00:09:57 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/25 14:09:26 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/25 14:09:05 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
+#include "cub_bonus.h"
 
 static int	key_press_hook(int keycode, t_all *all)
 {
@@ -66,6 +66,7 @@ static int	game(t_all *all)
 		background(all);
 		cast_rays(all);
 		draw_sprites(all);
+		minimap(all);
 		if (all->ch->screenshot == 1)
 			make_screenshot(all);
 		mlx_sync(MLX_SYNC_IMAGE_WRITABLE, all->img->img);

@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sprites.c                                          :+:      :+:    :+:   */
+/*   sprites_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 02:58:41 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/24 20:33:06 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/25 13:49:37 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
-#include <stdio.h>
+#include "cub_bonus.h"
 
 static int	sprite_init(t_all *all, t_sprite *sp)
 {

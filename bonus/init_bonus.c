@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   init_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 03:50:53 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/25 13:11:41 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/25 14:40:22 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
+#include "cub_bonus.h"
 
 void		init_sprite_struct(t_all *all)
 {
@@ -80,8 +80,9 @@ static void	init_textures(t_all *all)
 void		init_game(t_all *all)
 {
 	if (all->ch->screenshot != 1)
-		all->win = mlx_new_window(all->mlx, all->p->w, all->p->h,\
-				"Kallard's Cub3D");
+		if (!(all->win = mlx_new_window(all->mlx, all->p->w, all->p->h,\
+		"Kallard's Cub3D")))
+			error("Window opening error", all);
 	all->img->img = mlx_new_image(all->mlx, all->p->w, all->p->h);
 	all->img->addr = mlx_get_data_addr(all->img->img, &all->img->bpp,\
 				&all->img->l_sz, &all->img->en);
