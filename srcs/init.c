@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_bonus.c                                       :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 03:50:53 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/25 15:28:24 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/25 15:43:11 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub_bonus.h"
+#include "../cub.h"
 
 void		init_sprite_struct(t_all *all)
 {
@@ -24,7 +24,6 @@ void		init_sprite_struct(t_all *all)
 	{
 		if (!(all->sprites[i] = (t_sprite *)malloc(sizeof(t_sprite))))
 			error("Struct Sprite MALLOC ERROR", all);
-		all->sprites[i]->is_found = 0;
 		i++;
 	}
 }
