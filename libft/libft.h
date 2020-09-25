@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/30 21:17:00 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/05 15:51:38 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/25 16:12:23 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 # define LLMAX 		9223372036854775807ull
 # define BUF_SIZE	40
+
 typedef	struct		s_list
 {
 	void			*content;
@@ -87,7 +88,5 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),\
 					void (*del)(void *));
 
 int					get_next_line(int fd, char **line);
-
-
 
 #endif

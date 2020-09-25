@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 16:35:02 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/25 14:11:17 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/25 16:35:23 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,5 +251,6 @@ void				safe_free_str(char **ptr);
 
 void				minimap(t_all *all);
 void				sprites_on_minimap(t_all *all);
+void				coin_counter(t_all *all);
 
 #endif

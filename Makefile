@@ -32,6 +32,7 @@ SRCS_BONUS = srcs/main.c \
 			bonus/sprites_bonus.c \
 			bonus/sprites_on_minimap_bonus.c \
 			bonus/minimap_bonus.c \
+			bonus/coin_counter_bonus.c \
 			srcs/utils.c \
 			srcs/utils2.c \
 			srcs/screenshot.c \
@@ -79,6 +80,9 @@ screenshot:
 screenshot_bonus:
 	@./cub3D maps/labirint.cub --save
 
+norm:
+	@echo "\x1b[33m Sources, headers, bonuses, libft NORM CHECK...\x1b[0m"
+	@norminette srcs cub.h libft/*.c bonus
 clean:
 	@rm -rf $(OBJS) $(OBJS_BONUS)
 	@make -C libft clean
