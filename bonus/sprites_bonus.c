@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 02:58:41 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/25 16:52:49 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/26 00:38:07 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,4 @@ void		draw_sprites(t_all *all)
 		draw_sprite(all, i);
 		i++;
 	}
-	coin_counter(all);
 }

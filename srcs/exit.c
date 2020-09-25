@@ -6,11 +6,12 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/22 23:31:41 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/25 15:43:11 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/26 00:55:54 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub.h"
+#include <stdio.h>
 
 void		error(char *message, t_all *all)
 {

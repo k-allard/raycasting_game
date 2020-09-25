@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 00:09:57 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/25 16:52:12 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/26 00:01:29 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ static int	game(t_all *all)
 			make_screenshot(all);
 		mlx_sync(MLX_SYNC_IMAGE_WRITABLE, all->img->img);
 		mlx_put_image_to_window(all->mlx, all->win, all->img->img, 0, 0);
+		coin_counter(all);
 		mlx_sync(MLX_SYNC_WIN_CMD_COMPLETED, all->win);
 	}
 	return (0);

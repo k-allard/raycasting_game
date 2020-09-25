@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 03:50:53 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/25 15:28:24 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/26 00:07:03 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void		init_sprite_struct(t_all *all)
 		all->sprites[i]->is_found = 0;
 		i++;
 	}
+	all->sprites_found = 0;
 }
 
 void		init_game_structs(t_all *all)
