@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 13:16:58 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/25 15:43:11 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/26 12:39:24 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ void	check_filename(char *filename, t_all *all)
 	int i;
 
 	i = ft_strlen(filename);
+	if (i < 4)
+		error("File should be in format *.cub", all);
 	if (filename[i - 1] == 'b' && filename[i - 2] == 'u' &&
 	filename[i - 3] == 'c' && filename[i - 4] == '.')
 	{

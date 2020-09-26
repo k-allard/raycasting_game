@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 00:09:57 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/25 15:43:11 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/26 13:18:09 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,12 @@ static int	key_release_hook(int keycode, t_all *all)
 
 static int	game(t_all *all)
 {
-	int i;
-
 	if (all->is_draw != 0)
 	{
 		if (all->is_draw == -1)
 			all->is_draw = 0;
 		calc_new_position(all);
 		calc_sprite_distance(all);
-		i = 0;
 		background(all);
 		cast_rays(all);
 		draw_sprites(all);

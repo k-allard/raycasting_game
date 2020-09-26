@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 03:50:53 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/26 00:07:03 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/26 13:46:45 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ static void	init_textures(t_all *all)
 
 void		init_game(t_all *all)
 {
-	all->win = NULL;
+	if (!(all->mlx = mlx_init()))
+		error("Minilibx init error", all);
 	if (all->ch->screenshot != 1)
 		if (!(all->win = mlx_new_window(all->mlx, all->p->w, all->p->h,\
 		"Kallard's Cub3D")))
@@ -89,6 +90,8 @@ void		init_game(t_all *all)
 	all->img->addr = mlx_get_data_addr(all->img->img, &all->img->bpp,\
 				&all->img->l_sz, &all->img->en);
 	init_textures(all);
+	if (!(all->depth_buf = (double *)malloc(sizeof(double) * all->p->w)))
+		error("Depth_buffer MALLOC ERROR", all);
 }
 
 void		init_check_struct(t_all *all)
