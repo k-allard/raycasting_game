@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/22 18:17:15 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/26 13:09:53 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/26 15:05:13 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ int		main(int argc, char **argv)
 {
 	t_all	all;
 
+	zeroing(&all);
 	if (argc == 2 || argc == 3)
 	{
-		zeroing(&all);
 		check_filename(argv[1], &all);
 		init_check_struct(&all);
 		if (argc == 3)

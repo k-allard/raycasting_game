@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/22 19:41:01 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/25 15:43:11 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/28 19:09:17 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,15 @@ void		floor_n_c(char *line, int *rgb, char flag, t_all *all)
 	int i;
 
 	i = 0;
-	r = ft_atoi(&line[i]);
+	r = num_pars(&line[i]);
 	while (line[i] != ',')
 		i++;
 	i++;
-	g = ft_atoi(&line[i]);
+	g = num_pars(&line[i]);
 	while (line[i] != ',')
 		i++;
 	i++;
-	b = ft_atoi(&line[i]);
+	b = num_pars(&line[i]);
 	if (!((r >= 0 && r <= 255) && ((g >= 0 && g <= 255)) &&
 	((b >= 0 && b <= 255))))
 		error("Floor and ceilling RGB should be in range [0; 255]", all);
@@ -48,7 +48,7 @@ void		resolution_pars(char *line, t_all *all)
 	i = 0;
 	while (line[i] == ' ')
 		i++;
-	all->p->w = ft_atoi(&line[i]);
+	all->p->w = num_pars(&line[i]);
 	if (all->p->w <= 0)
 		error("Width is less than or equals zero", all);
 	mlx_get_screen_size(all->mlx, &(all->ch->screen_w), &(all->ch->screen_h));
@@ -56,7 +56,7 @@ void		resolution_pars(char *line, t_all *all)
 		all->p->w = all->ch->screen_w;
 	while (line[i] >= '0' && line[i] <= '9')
 		i++;
-	all->p->h = ft_atoi(&line[i]);
+	all->p->h = num_pars(&line[i]);
 	if (all->p->h <= 0)
 		error("Hight is less than or equals zero", all);
 	if (all->p->h > all->ch->screen_h)

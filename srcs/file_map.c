@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/22 19:41:08 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/25 15:43:11 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/28 19:17:06 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,8 @@ void		map_parsing(int fd, char *line, t_all *all)
 	{
 		if ((row_is_present = get_next_line(fd, &line_new)) == (-1))
 			error("File reading error!", all);
+		if (*line_new == '\0')
+			break ;
 		check_line_map(line_new, all);
 		all->p->line_map = safe_str_join(all->p->line_map, line_new);
 		all->p->line_map = safe_str_join(all->p->line_map, "|");

@@ -6,7 +6,7 @@
 #    By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/30 22:32:54 by kallard           #+#    #+#              #
-#    Updated: 2020/09/05 15:50:34 by kallard          ###   ########.fr        #
+#    Updated: 2020/09/28 13:23:37 by kallard          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ SRC = ft_memset.c \
 		ft_atoi.c \
 		ft_isalpha.c \
 		ft_isdigit.c \
+		ft_isspace.c \
 		ft_isalnum.c \
 		ft_isascii.c \
 		ft_isprint.c \

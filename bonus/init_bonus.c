@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 03:50:53 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/26 13:46:45 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/28 15:06:25 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ void		init_game_structs(t_all *all)
 		error("Structure of textures[4] MALLOC ERROR", all);
 	if (!(all->p = (t_param *)malloc(sizeof(t_param))))
 		error("Structure of parametres MALLOC ERROR", all);
+	all->p->line_map = NULL;
+	all->p->map = NULL;
 }
 
 static void	init_textures(t_all *all)

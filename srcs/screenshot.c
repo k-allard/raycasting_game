@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/22 23:35:41 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/25 15:43:11 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/28 19:18:56 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static void	bmp_picture(t_all *all, char *bmp, uint32_t size)
 		}
 		y++;
 	}
-	if (!(fd = open("image.bmp", O_CREAT | O_WRONLY | O_TRUNC, 0644)))
+	if (!(fd = open("screenshot.bmp", O_CREAT | O_WRONLY | O_TRUNC, 0644)))
 		error("Couldn't create screenshot.bmp", all);
 	(write(fd, bmp, size)) < 0 ? error("Bad fd", all) : 0;
 	close(fd);

@@ -47,7 +47,7 @@ OBJS = $(SRCS:.c=.o)
 
 OBJS_BONUS = $(SRCS_BONUS:.c=.o)
 
-FLAGS = -g -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror
 
 %.o: %.c
 	@$(CC) $(FLAGS) -c $< -o $@
@@ -55,11 +55,15 @@ FLAGS = -g -Wall -Wextra -Werror
 all: $(NAME)
 
 $(NAME): $(OBJS) $(HEADER)
-	@echo "\x1b[33m Starting Cub3D...\x1b[0m"
+	@echo "\x1b[33m Preparing Cub3D...\x1b[0m"
 	@make -C libft
 	@make -C mlx
 	cp mlx/libmlx.dylib libmlx.dylib
 	@gcc -o $(NAME) $(SRCS) libft/libft.a libmlx.dylib $(FLAGS)
+	@echo "\x1b[33m Cub3D is ready!\x1b[0m"
+	@echo "\x1b[5;32m TYPE MAKE TEST\x1b[0m"
+
+test: all
 	./cub3D maps/heart.cub
 
 bonus: $(OBJS_BONUS) $(HEADER_BONUS)
@@ -89,7 +93,7 @@ clean:
 	@make -C mlx clean
 
 fclean: clean
-	@rm -rf image.bmp $(NAME)
+	@rm -rf screenshot.bmp $(NAME)
 	@rm libmlx.dylib
 	@make -C libft fclean
 

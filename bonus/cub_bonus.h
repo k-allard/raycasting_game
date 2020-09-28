@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 16:35:02 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/26 13:48:49 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/28 15:08:12 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,7 +228,6 @@ void				draw_sprites(t_all *all);
 ** UTILS
 */
 
-void				zeroing(t_all *all);
 int					is_wall(t_all *all, double y, double x);
 int					is_not_wall(t_all *all, double y, double x);
 int					pixel_get(t_all *all, int text_id, int x, int y);
@@ -236,6 +235,8 @@ void				pixel_put(t_all *all, int x, int y, int color);
 void				pixel_put_line(t_all *all, int width, int y, int color);
 void				make_screenshot(t_all *all);
 char				*safe_str_join(char *str1, const char *str2);
+int					num_pars(char *str);
+void				zeroing(t_all *all);
 
 /*
 ** EXIT

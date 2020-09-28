@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/30 21:17:00 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/25 16:12:23 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/28 13:24:08 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int					ft_tolower(int ch);
 int					ft_isalnum(int ch);
 int					ft_isalpha(int ch);
 int					ft_isascii(int ch);
+int					ft_isspace(int ch);
 int					ft_isdigit(int ch);
 int					ft_isprint(int ch);
 int					ft_atoi(char *str);

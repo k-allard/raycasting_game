@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/22 23:31:41 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/26 00:55:54 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/28 15:12:35 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,19 @@ static void	free_params(t_all *all)
 	int i;
 
 	safe_free_str(&all->p->ea);
-	safe_free_str(&all->p->line_map);
+	if (all->p->line_map)
+		safe_free_str(&all->p->line_map);
 	safe_free_str(&all->p->no);
 	safe_free_str(&all->p->s);
 	safe_free_str(&all->p->so);
 	safe_free_str(&all->p->we);
 	i = -1;
-	while (++i < all->map_h)
-		safe_free_str(&all->p->map[i]);
-	safe_free(all->p->map);
+	if (all->p->map)
+	{
+		while (++i < all->map_h)
+			safe_free_str(&all->p->map[i]);
+		safe_free(all->p->map);
+	}
 	safe_free(all->p);
 }
 
@@ -49,6 +53,8 @@ static void	destroy_mlx(t_all *all)
 	int	i;
 
 	i = -1;
+	if (!all->mlx)
+		return ;
 	while (++i <= S)
 	{
 		if (all->text[i])

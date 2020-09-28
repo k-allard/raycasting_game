@@ -6,19 +6,11 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/28 06:54:54 by kallard           #+#    #+#             */
-/*   Updated: 2020/05/18 23:16:14 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/28 13:22:50 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-static int	ft_isspace(int ch)
-{
-	if (ch == '\t' || ch == '\n' || ch == '\v' ||
-		ch == '\f' || ch == '\r' || ch == ' ')
-		return (1);
-	return (0);
-}
 
 /*
 ** Converts ASCII string to integer.
