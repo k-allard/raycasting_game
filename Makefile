@@ -22,6 +22,7 @@ SRCS_BONUS = srcs/main.c \
 			bonus/init_bonus.c \
 			srcs/file.c \
 			srcs/file_params.c \
+			srcs/file_colors.c \
 			srcs/file_map.c \
 			srcs/checks.c \
 			srcs/pixel_draw.c \

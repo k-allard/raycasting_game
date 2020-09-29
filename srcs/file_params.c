@@ -6,61 +6,36 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/22 19:41:01 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/28 19:09:17 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/29 13:44:47 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub.h"
-
-void		floor_n_c(char *line, int *rgb, char flag, t_all *all)
-{
-	int r;
-	int g;
-	int b;
-	int i;
-
-	i = 0;
-	r = num_pars(&line[i]);
-	while (line[i] != ',')
-		i++;
-	i++;
-	g = num_pars(&line[i]);
-	while (line[i] != ',')
-		i++;
-	i++;
-	b = num_pars(&line[i]);
-	if (!((r >= 0 && r <= 255) && ((g >= 0 && g <= 255)) &&
-	((b >= 0 && b <= 255))))
-		error("Floor and ceilling RGB should be in range [0; 255]", all);
-	*rgb = r;
-	*rgb = (*rgb << 8) + g;
-	*rgb = (*rgb << 8) + b;
-	if (flag == 'F')
-		all->ch->f++;
-	else if (flag == 'C')
-		all->ch->c++;
-}
 
 void		resolution_pars(char *line, t_all *all)
 {
 	int i;
 
 	i = 0;
-	while (line[i] == ' ')
+	while (ft_isspace(line[i]))
 		i++;
 	all->p->w = num_pars(&line[i]);
 	if (all->p->w <= 0)
 		error("Width is less than or equals zero", all);
-	mlx_get_screen_size(all->mlx, &(all->ch->screen_w), &(all->ch->screen_h));
-	if (all->p->w > all->ch->screen_w)
-		all->p->w = all->ch->screen_w;
 	while (line[i] >= '0' && line[i] <= '9')
 		i++;
 	all->p->h = num_pars(&line[i]);
 	if (all->p->h <= 0)
 		error("Hight is less than or equals zero", all);
-	if (all->p->h > all->ch->screen_h)
-		all->p->h = all->ch->screen_h;
+	max_screen_size(all);
+	while (ft_isspace(line[i]))
+		i++;
+	while (line[i] >= '0' && line[i] <= '9')
+		i++;
+	while (ft_isspace(line[i]))
+		i++;
+	if (line[i] != '\0')
+		error("Resolution must contain only width and height", all);
 	all->ch->r++;
 }
 

@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/25 13:19:51 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/28 19:16:39 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/28 23:31:53 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,19 @@ char	*safe_str_join(char *str1, const char *str2)
 	str_result = ft_strjoin(str1, str2);
 	free(str1);
 	return (str_result);
+}
+
+void	max_screen_size(t_all *all)
+{
+	mlx_get_screen_size(all->mlx, &(all->ch->screen_w), &(all->ch->screen_h));
+	if (all->p->w > all->ch->screen_w)
+		all->p->w = all->ch->screen_w;
+	if (all->p->h > all->ch->screen_h)
+		all->p->h = all->ch->screen_h;
+}
+
+void	skip_spaces(char **line)
+{
+	while (ft_isspace(**line))
+		(*line)++;
 }

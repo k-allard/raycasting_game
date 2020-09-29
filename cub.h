@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 16:35:02 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/28 15:08:25 by kallard          ###   ########.fr       */
+/*   Updated: 2020/09/28 23:30:06 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,6 +235,8 @@ void				make_screenshot(t_all *all);
 char				*safe_str_join(char *str1, const char *str2);
 int					num_pars(char *str);
 void				zeroing(t_all *all);
+void				max_screen_size(t_all *all);
+void				skip_spaces(char **line);
 
 /*
 ** EXIT
