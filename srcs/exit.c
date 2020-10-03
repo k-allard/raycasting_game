@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/22 23:31:41 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/28 15:12:35 by kallard          ###   ########.fr       */
+/*   Updated: 2020/10/02 23:28:18 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,13 @@ static void	free_params(t_all *all)
 		while (++i < all->map_h)
 			safe_free_str(&all->p->map[i]);
 		safe_free(all->p->map);
+	}
+	i = -1;
+	if (all->p->map_protect)
+	{
+		while (++i < all->map_h + 2)
+			safe_free_str(&all->p->map_protect[i]);
+		safe_free(all->p->map_protect);
 	}
 	safe_free(all->p);
 }

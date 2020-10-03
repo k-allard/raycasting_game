@@ -6,38 +6,11 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 13:16:58 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/29 21:23:23 by kallard          ###   ########.fr       */
+/*   Updated: 2020/10/04 01:28:39 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub.h"
-
-void	map_outerspace_clear(t_all *all)
-{
-	char	**map;
-	int		x;
-	int		y;
-
-	map = all->p->map;
-	x = 0;
-	while (x < all->map_h)
-	{
-		y = 0;
-		while (map[x][y] && map[x][y] != '1')
-		{
-			map[x][y] = ' ';
-			y++;
-		}
-		y = ft_strlen(map[x]) - 1;
-		while (y >= 0 && map[x][y] != '1')
-		{
-			map[x][y] = ' ';
-			y--;
-		}
-		x++;
-	}
-	all->p->map = map;
-}
 
 void	checkmap(t_all *all, int x, int y)
 {

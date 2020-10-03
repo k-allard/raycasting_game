@@ -6,6 +6,7 @@ SRCS = srcs/main.c \
 			srcs/file_params.c \
 			srcs/file_colors.c \
 			srcs/file_map.c \
+			srcs/map_protect.c \
 			srcs/checks.c \
 			srcs/pixel_draw.c \
 			srcs/game.c \
@@ -25,6 +26,7 @@ SRCS_BONUS = srcs/main.c \
 			srcs/file_params.c \
 			srcs/file_colors.c \
 			srcs/file_map.c \
+			srcs/map_protect.c \
 			srcs/checks.c \
 			srcs/pixel_draw.c \
 			bonus/game_bonus.c \
@@ -49,7 +51,7 @@ OBJS = $(SRCS:.c=.o)
 
 OBJS_BONUS = $(SRCS_BONUS:.c=.o)
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS =-g -Wall -Wextra -Werror
 
 %.o: %.c
 	@$(CC) $(FLAGS) -c $< -o $@

@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 00:09:50 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/25 15:43:11 by kallard          ###   ########.fr       */
+/*   Updated: 2020/10/04 00:54:52 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void		pixel_put_line(t_all *all, int width, int y, int color)
 
 	pixel_size = all->img->bpp / 8;
 	dest = all->img->addr + (y * all->img->l_sz);
-	while (--width)
+	while (--width >= 0)
 		*(unsigned int*)(dest + width * pixel_size) = color;
 }
 
@@ -46,6 +46,10 @@ int			pixel_get(t_all *all, int text_id, int x, int y)
 
 int inline	is_not_wall(t_all *all, double y, double x)
 {
+	return ((all->p->map_protect[(int)y + 1][(int)x + 1] != '1') &&
+		(all->p->map_protect[(int)y + 1][(int)x + 1] != '*') &&
+		(all->p->map_protect[(int)y + 1][(int)x + 1] != '\0') &&
+		(all->p->map_protect[(int)y + 1][(int)x + 1] != ' '));
 	return ((all->p->map[(int)y][(int)x] != '1') &&
 		(all->p->map[(int)y][(int)x] != '\0') &&
 		(all->p->map[(int)y][(int)x] != ' '));
@@ -53,6 +57,10 @@ int inline	is_not_wall(t_all *all, double y, double x)
 
 int inline	is_wall(t_all *all, double y, double x)
 {
+	return ((all->p->map_protect[(int)y + 1][(int)x + 1] == '1') ||
+		(all->p->map_protect[(int)y + 1][(int)x + 1] == '\0') ||
+		(all->p->map_protect[(int)y + 1][(int)x + 1] == '*') ||
+		(all->p->map_protect[(int)y + 1][(int)x + 1] == ' '));
 	return ((all->p->map[(int)y][(int)x] == '1') ||
 		(all->p->map[(int)y][(int)x] == '\0') ||
 		(all->p->map[(int)y][(int)x] == ' '));

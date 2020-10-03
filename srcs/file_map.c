@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/22 19:41:08 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/28 19:17:06 by kallard          ###   ########.fr       */
+/*   Updated: 2020/10/04 01:36:35 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	get_player_position(t_all *all)
 	}
 }
 
-static void	sprite_count(t_all *all)
+void		sprite_count(t_all *all)
 {
 	int		row;
 	int		count;
@@ -76,7 +76,7 @@ static void	sprite_count(t_all *all)
 	all->sprite_count = count;
 }
 
-static void	get_sprite_position(t_all *all)
+void		get_sprite_position(t_all *all)
 {
 	int		i;
 	int		row;
@@ -126,7 +126,4 @@ void		map_parsing(int fd, char *line, t_all *all)
 	safe_free_str(&all->p->line_map);
 	get_map_size(all);
 	get_player_position(all);
-	sprite_count(all);
-	init_sprite_struct(all);
-	get_sprite_position(all);
 }

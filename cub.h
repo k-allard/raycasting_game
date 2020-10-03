@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 16:35:02 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/29 21:23:23 by kallard          ###   ########.fr       */
+/*   Updated: 2020/10/04 01:39:29 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ typedef struct		s_param
 	char			pl_dir;
 	char			*line_map;
 	char			**map;
+	char			**map_protect;
 }					t_param;
 
 typedef struct		s_img
@@ -194,6 +195,8 @@ void				texture_pars(char *line, t_all *all, char *id, int i);
 void				resolution_pars(char *line, t_all *all);
 void				floor_n_c(char *line, int *rgb, char flag, t_all *all);
 void				map_parsing(int fd, char *line, t_all *all);
+void				sprite_count(t_all *all);
+void				get_sprite_position(t_all *all);
 
 /*
 ** CHECKS
@@ -203,7 +206,7 @@ void				check_filename(char *filename, t_all *all);
 void				check_params(t_all *all);
 void				check_line_map(char *line, t_all *all);
 void				checkmap(t_all *all, int x, int y);
-void				map_outerspace_clear(t_all *all);
+void				map_protect(t_all *all);
 
 /*
 ** GAME
