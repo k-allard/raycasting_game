@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 13:16:58 by kallard           #+#    #+#             */
-/*   Updated: 2020/10/04 01:28:39 by kallard          ###   ########.fr       */
+/*   Updated: 2020/10/05 19:43:08 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,22 @@ void	checkmap(t_all *all, int x, int y)
 	checkmap(all, x, y + 1);
 	checkmap(all, x - 1, y);
 	checkmap(all, x, y - 1);
+}
+
+void	check_below_map(int fd, t_all *all)
+{
+	int		row_is_present;
+	char	*line;
+
+	row_is_present = 1;
+	while (row_is_present > 0)
+	{
+		if ((row_is_present = get_next_line(fd, &line)) == (-1))
+			error("File reading error!", all);
+		if (*line != '\0')
+			error("There should be nothing below the map", all);
+		free(line);
+	}
 }
 
 void	check_line_map(char *line, t_all *all)

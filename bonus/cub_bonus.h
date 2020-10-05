@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 16:35:02 by kallard           #+#    #+#             */
-/*   Updated: 2020/10/04 01:43:02 by kallard          ###   ########.fr       */
+/*   Updated: 2020/10/05 19:42:54 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,6 +209,7 @@ void				check_params(t_all *all);
 void				check_line_map(char *line, t_all *all);
 void				checkmap(t_all *all, int x, int y);
 void				map_protect(t_all *all);
+void				check_below_map(int fd, t_all *all);
 
 /*
 ** GAME

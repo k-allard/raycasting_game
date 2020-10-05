@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/22 19:41:08 by kallard           #+#    #+#             */
-/*   Updated: 2020/10/04 01:36:35 by kallard          ###   ########.fr       */
+/*   Updated: 2020/10/05 19:42:18 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ void		map_parsing(int fd, char *line, t_all *all)
 		all->p->line_map = safe_str_join(all->p->line_map, "|");
 		free(line_new);
 	}
+	check_below_map(fd, all);
 	all->p->map = ft_split(all->p->line_map, '|');
 	safe_free_str(&all->p->line_map);
 	get_map_size(all);

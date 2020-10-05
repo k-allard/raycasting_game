@@ -6,7 +6,7 @@
 /*   By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/22 23:34:05 by kallard           #+#    #+#             */
-/*   Updated: 2020/09/25 15:43:11 by kallard          ###   ########.fr       */
+/*   Updated: 2020/10/05 22:13:18 by kallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,8 @@ void		cast_rays(t_all *all)
 	{
 		rc->x = all->plr->x;
 		rc->y = all->plr->y;
-		rc->x_step = cos(rc->angle) / 20.0;
-		rc->y_step = sin(rc->angle) / 20.0;
+		rc->x_step = cos(rc->angle) / 35.0;
+		rc->y_step = sin(rc->angle) / 35.0;
 		while (is_not_wall(all, rc->y, rc->x))
 			ray(all);
 		if (is_wall(all, rc->y, rc->x))
