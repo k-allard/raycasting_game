@@ -1,5 +1,5 @@
 # Raycasting game
-Collect all coins in the maze! :moneybag:
+Collect all coins in the maze! :moneybag:  
 ![screenshot](https://github.com/k-allard/imgs/blob/master/cub3Dscreenshot.png)
 
 ## Usage
