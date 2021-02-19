@@ -1,5 +1,6 @@
 # Raycasting game
 Collect all coins in the maze! :moneybag:
+![screenshot](https://github.com/k-allard/imgs/blob/master/cub3Dscreenshot.png)
 
 ## Usage
 
@@ -9,7 +10,5 @@ Collect all coins in the maze! :moneybag:
 ## What is does?
 
 ## Examples
-
-![screenshot](https://github.com/k-allard/imgs/blob/master/Screenshot%202020-09-26%20at%2001.22.41.png)
 
 ![screenshot](https://github.com/k-allard/imgs/blob/master/cub3D.gif)
