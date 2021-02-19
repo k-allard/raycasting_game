@@ -14,7 +14,7 @@ CFLAGS=-O3
 NAME=libmlx.dylib
 
 INC=-I.
-#OPTI=-Ounchecked
+OPTI=-Ounchecked -suppress-warnings
 
 all: $(NAME)
 
@@ -22,6 +22,8 @@ $(NAME): $(MODULE_OBJ) $(OBJ) $(C_OBJ)
 	@swiftc $(OPTI) $(INC) -o $(NAME) -emit-library $(OBJ) $(C_OBJ) -lz
 
 
+%.o: %.c
+	@cc $(CFLAGS) -c $< -o $@
 
 %.o: %.swift
 	@swiftc $(OPTI) $(INC) -parse-as-library -c $< -o $@

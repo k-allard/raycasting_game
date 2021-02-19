@@ -51,7 +51,7 @@ OBJS = $(SRCS:.c=.o)
 
 OBJS_BONUS = $(SRCS_BONUS:.c=.o)
 
-FLAGS =-g -Wall -Wextra -Werror
+FLAGS =-Wall -Wextra -Werror
 
 %.o: %.c
 	@$(CC) $(FLAGS) -c $< -o $@
@@ -62,7 +62,7 @@ $(NAME): $(OBJS) $(HEADER)
 	@echo "\x1b[33m Preparing Cub3D...\x1b[0m"
 	@make -C libft
 	@make -C mlx
-	cp mlx/libmlx.dylib libmlx.dylib
+	@cp mlx/libmlx.dylib libmlx.dylib
 	@gcc -o $(NAME) $(SRCS) libft/libft.a libmlx.dylib $(FLAGS)
 	@echo "\x1b[33m Cub3D is ready!\x1b[0m"
 	@echo "\x1b[5;32m TYPE MAKE TEST\x1b[0m"
@@ -73,11 +73,12 @@ test: all
 bonus: $(OBJS_BONUS) $(HEADER_BONUS)
 	@echo "\x1b[33m Preparing game...\x1b[0m"
 	@make -C libft
+	@echo "\x1b[33m Be patient 💖 \x1b[0m"
 	@make -C mlx
-	cp mlx/libmlx.dylib libmlx.dylib
+	@cp mlx/libmlx.dylib libmlx.dylib
+	@echo "\x1b[33m Almost there! \x1b[0m"
 	@gcc -o $(NAME) $(SRCS_BONUS) libft/libft.a libmlx.dylib $(FLAGS)
-	@echo "\x1b[33m Game is ready!\x1b[0m"
-	@echo "\x1b[5;32m TYPE MAKE PLAY\x1b[0m"
+	@echo "\x1b[32m Game is ready 🏁 \x1b[0m"
 
 play: bonus
 	@./cub3D maps/labirint.cub

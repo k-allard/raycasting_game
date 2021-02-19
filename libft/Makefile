@@ -6,7 +6,7 @@
 #    By: kallard <kallard@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/30 22:32:54 by kallard           #+#    #+#              #
-#    Updated: 2020/09/28 13:23:37 by kallard          ###   ########.fr        #
+#    Updated: 2021/02/19 18:29:22 by kallard          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,7 +73,7 @@ HEADER = libft.h
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@ar r $(NAME) $(OBJS)
+	@ar -c -r $(NAME) $(OBJS)
 	@ranlib $(NAME)
 
 clean:
